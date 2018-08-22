@@ -209,6 +209,9 @@ public class LocationMonitoringService extends Service implements LocationListen
 
 
     public void sendPost(String name, double lat,double lng, double battery, double accuracy, int status) {
+        mAPIService.savePost(name, lat, lng,battery, accuracy,status);
+
+
         mAPIService.savePost(name, lat, lng,battery, accuracy,status).enqueue(new Callback<Post>() {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
