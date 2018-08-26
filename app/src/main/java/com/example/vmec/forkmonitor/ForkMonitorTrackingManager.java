@@ -1,24 +1,29 @@
 package com.example.vmec.forkmonitor;
 
+import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
-import android.text.TextUtils;
 
 import com.example.vmec.forkmonitor.event.GattCharacteristicReadEvent;
-import com.example.vmec.forkmonitor.event.GattConnectedEvent;
+import com.example.vmec.forkmonitor.event.GattConnectionDestroyedEvent;
 import com.example.vmec.forkmonitor.event.GattDisconnectedEvent;
 import com.example.vmec.forkmonitor.event.GattServicesDiscoveredEvent;
-import com.example.vmec.forkmonitor.event.LocationPublishEvent;
+import com.example.vmec.forkmonitor.event.TrackingDataChangeEvent;
 import com.example.vmec.forkmonitor.helper.BluetoothHelper;
+import com.example.vmec.forkmonitor.preference.BooleanPreference;
+import com.example.vmec.forkmonitor.preference.StringPreference;
 import com.example.vmec.forkmonitor.utils.StringUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.Date;
+import java.io.UnsupportedEncodingException;
 
 import timber.log.Timber;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by Stofanak on 21/08/2018.
@@ -29,24 +34,21 @@ public class ForkMonitorTrackingManager {
     private Context mContext;
     private Handler mHandler;
     private BluetoothHelper mBluetoothHelper;
-    private int mUnsuccessfullStatusReadCounter = 0;
+    private StringPreference mLastCharacteristicPreference;
+    private BooleanPreference mIsBluetoothTrackingEnabled;
+    private BooleanPreference mIsLocationTrackingEnabled;
+
     private Runnable mBluetoothReadCharacteristicRunnable = new Runnable() {
         @Override public void run() {
+            Timber.d("Tracking interval fired - read bluetooth status");
             final int connectionStatus = mBluetoothHelper.getConnectionState();
             if(BluetoothHelper.STATE_DISCONNECTED == connectionStatus) {
-                Timber.d("ForkMonitorTrackingManager - read bluetooth status - trying to reconnect");
                 mBluetoothHelper.connect(mContext, Constants.BLUETOOTH_DEVICE_ADDRESS);
             } else {
-                Timber.d("ForkMonitorTrackingManager - read bluetooth status - device is not disconnected from previous session - status %d", connectionStatus);
-                if(3 == mUnsuccessfullStatusReadCounter) {
-                    mBluetoothHelper.destroyConnection();
-                    mUnsuccessfullStatusReadCounter = 0;
-                } else {
-                    mUnsuccessfullStatusReadCounter++;
-                }
+                Timber.d("Read bluetooth status - device is not disconnected from previous session - status %d", connectionStatus);
+                Timber.d("Read bluetooth status - Request DISCONNECT");
+                mBluetoothHelper.disconnect();
             }
-
-            mHandler.postDelayed(this, Constants.BLUETOOTH_CHARACTERISTIC_READ_INTERVAL_MS);
         }
     };
 
@@ -57,6 +59,11 @@ public class ForkMonitorTrackingManager {
 
     public boolean initialize(final Context context) {
         mContext = context;
+        final SharedPreferences sp = context.getSharedPreferences(Constants.PREFERENCES_FILE_NAME, MODE_PRIVATE);
+        mLastCharacteristicPreference = new StringPreference(sp, Constants.PREFERENCE_LAST_CHARACTERISTIC_MSG, StringUtils.EMPTY_STRING);
+        mIsBluetoothTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_BLUETOOTH_TRACKING_ENABLED, false);
+        mIsLocationTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_LOCATION_TRACKING_ENABLED, false);
+
         EventBus.getDefault().register(this);
         final boolean bluetoothInitStatus = mBluetoothHelper.initialize(context);
 
@@ -69,18 +76,15 @@ public class ForkMonitorTrackingManager {
         return bluetoothInitStatus;
     }
 
-    public void destroy() {
-        mBluetoothHelper.destroyConnection();
-    }
-
     public void startTracking(final Context context) {
         mBluetoothHelper.connect(context, Constants.BLUETOOTH_DEVICE_ADDRESS);
-        mHandler.postDelayed(mBluetoothReadCharacteristicRunnable, Constants.BLUETOOTH_CHARACTERISTIC_READ_INTERVAL_MS);
+        mIsBluetoothTrackingEnabled.set(true);
     }
 
     public void stopTracking() {
         mHandler.removeCallbacks(mBluetoothReadCharacteristicRunnable);
         mBluetoothHelper.disconnect();
+        mIsBluetoothTrackingEnabled.set(false);
     }
 
 //    @Subscribe(threadMode = ThreadMode.MAIN)
@@ -88,10 +92,17 @@ public class ForkMonitorTrackingManager {
 //        mBluetoothHelper.readCharacteristic(Constants.BLUETOOTH_FORK_MONITOR_SERVICE_UUID, Constants.BLUETOOTH_FORK_MONITOR_CHARACTERISTIC_UUID);
 //    }
 
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void onMessageEvent(GattDisconnectedEvent event) {
-//        mHandler.removeCallbacks(mBluetoothReadCharacteristicRunnable);
-//    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(GattDisconnectedEvent event) {
+        mHandler.removeCallbacks(mBluetoothReadCharacteristicRunnable);
+        mHandler.postDelayed(mBluetoothReadCharacteristicRunnable, Constants.BLUETOOTH_CHARACTERISTIC_READ_INTERVAL_MS);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(GattConnectionDestroyedEvent event) {
+        mHandler.removeCallbacks(mBluetoothReadCharacteristicRunnable);
+        mHandler.postDelayed(mBluetoothReadCharacteristicRunnable, Constants.BLUETOOTH_CHARACTERISTIC_READ_INTERVAL_MS);
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(GattServicesDiscoveredEvent event) {
@@ -101,11 +112,21 @@ public class ForkMonitorTrackingManager {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(GattCharacteristicReadEvent event) {
         Timber.d("ForkMonitorTrackingManager characteristic received, DISCONNECT");
-//        mBluetoothHelper.disconnect();
-        mBluetoothHelper.destroyConnection();
-        mUnsuccessfullStatusReadCounter = 0;
-        // Set next characteristic reading action
-//        mHandler.postDelayed(mBluetoothReadCharacteristicRunnable, Constants.BLUETOOTH_CHARACTERISTIC_READ_INTERVAL_MS);
+        mBluetoothHelper.disconnect();
+
+        final BluetoothGattCharacteristic characteristic = event.getCharacteristic();
+        byte[] messageBytes = characteristic.getValue();
+        String messageString = null;
+        try {
+            messageString = new String(messageBytes, "UTF-8");
+            mLastCharacteristicPreference.set(messageString);
+            Timber.d("Characteristic value: %s", messageString);
+        } catch (UnsupportedEncodingException e) {
+            mLastCharacteristicPreference.set(StringUtils.EMPTY_STRING);
+            Timber.e("Unable to convert message bytes to string");
+        }
+
+        EventBus.getDefault().post(new TrackingDataChangeEvent());
 
         //TODO: DO some action with characteristic
     }

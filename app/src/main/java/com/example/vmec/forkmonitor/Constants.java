@@ -7,9 +7,17 @@ public class Constants {
 
     //Second in millis
     public static final int SECOND_MS = 1000;
+    public static final int BLUETOOTH_MAX_REQUEST_TIMEOUT_MS = SECOND_MS * 2;
 
     public static final String BLUETOOTH_DEVICE_ADDRESS = "00:15:85:14:9C:09";
     public static final String BLUETOOTH_FORK_MONITOR_SERVICE_UUID = "0000ffe0-0000-1000-8000-00805f9b34fb";
+//    public static final String BLUETOOTH_FORK_MONITOR_SERVICE_UUID = "00001800-0000-1000-8000-00805f9b34fb";
     public static final String BLUETOOTH_FORK_MONITOR_CHARACTERISTIC_UUID = "0000ffe1-0000-1000-8000-00805f9b34fb";
-    public static final int BLUETOOTH_CHARACTERISTIC_READ_INTERVAL_MS = SECOND_MS * 20;
+//    public static final String BLUETOOTH_FORK_MONITOR_CHARACTERISTIC_UUID = "00002a00-0000-1000-8000-00805f9b34fb";
+    public static final int BLUETOOTH_CHARACTERISTIC_READ_INTERVAL_MS = SECOND_MS * 15;
+
+    public static final String PREFERENCES_FILE_NAME = "fork_monitor_pref";
+    public static final String PREFERENCE_LAST_CHARACTERISTIC_MSG = "last_bluetooth_characteristic_msg";
+    public static final String PREFERENCE_IS_BLUETOOTH_TRACKING_ENABLED = "is_bluetooth_tracking_enabled";
+    public static final String PREFERENCE_IS_LOCATION_TRACKING_ENABLED = "is_location_tracking_enabled";
 }

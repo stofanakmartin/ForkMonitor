@@ -9,10 +9,13 @@ import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 
+import com.example.vmec.forkmonitor.Constants;
 import com.example.vmec.forkmonitor.event.GattCharacteristicReadEvent;
 import com.example.vmec.forkmonitor.event.GattConnectedEvent;
+import com.example.vmec.forkmonitor.event.GattConnectionDestroyedEvent;
 import com.example.vmec.forkmonitor.event.GattDisconnectedEvent;
 import com.example.vmec.forkmonitor.event.GattServicesDiscoveredEvent;
 import com.example.vmec.forkmonitor.event.LocationPublishEvent;
@@ -42,39 +45,50 @@ public class BluetoothHelper {
     private BluetoothGatt mBluetoothGatt;
     private String mBluetoothDeviceAddress;
     private int mConnectionState = STATE_DISCONNECTED;
+    private Handler mHandler;
+
+    private Runnable mDisconnectRunnable = new Runnable() {
+        @Override public void run() {
+            Timber.d("Request timeout FORCE DISCONNECT");
+            disconnect();
+        }
+    };
+
+    private Runnable mDisconnectTimeoutRunnable = new Runnable() {
+        @Override public void run() {
+            Timber.d("Disconnect timeout DESTROY GATT CLIENT");
+            destroyConnection();
+        }
+    };
 
     // Implements callback methods for GATT events that the app cares about.  For example,
     // connection change and services discovered.
     private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+            clearRequestTimeoutAction();
             if (newState == BluetoothProfile.STATE_CONNECTED) {
                 mConnectionState = STATE_CONNECTED;
+                Timber.i("Connected to GATT server.");
                 EventBus.getDefault().post(new GattConnectedEvent());
-
-                Timber.i("BluetoothHelper connected to GATT server.");
-
-                Timber.d("BluetoothHelper service discover request");
-                mBluetoothGatt.discoverServices();
+                discoverServices();
 
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+                clearDisconnectTimeoutAction();
                 mConnectionState = STATE_DISCONNECTED;
-                mBluetoothGatt.close();
-                mBluetoothDeviceAddress = null;
-                mBluetoothGatt = null;
-                mConnectionState = STATE_DISCONNECTED;
+                Timber.i("Disconnected from GATT server.");
                 EventBus.getDefault().post(new GattDisconnectedEvent());
-                Timber.i("BluetoothHelper disconnected from GATT server.");
             }
         }
 
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+            clearRequestTimeoutAction();
             if (status == BluetoothGatt.GATT_SUCCESS) {
+                Timber.i("Discover services callback.");
                 EventBus.getDefault().post(new GattServicesDiscoveredEvent());
-                Timber.i("BluetoothHelper service discover callback.");
             } else {
-                Timber.w("BluetoothHelper onServicesDiscovered status received: %s", status);
+                Timber.w("onServicesDiscovered status received: %s", status);
             }
         }
 
@@ -82,25 +96,34 @@ public class BluetoothHelper {
         public void onCharacteristicRead(BluetoothGatt gatt,
                                          BluetoothGattCharacteristic characteristic,
                                          int status) {
+            clearRequestTimeoutAction();
             if (status == BluetoothGatt.GATT_SUCCESS) {
+                Timber.d("Gatt characteristic read callback");
                 EventBus.getDefault().post(new GattCharacteristicReadEvent(characteristic));
-                Timber.d("BluetoothHelper Gatt characteristic read callback");
             } else {
-                Timber.d("BluetoothHelper Gatt characteristic read failed");
+                Timber.d("Gatt characteristic read failed");
             }
         }
 
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt,
                                             BluetoothGattCharacteristic characteristic) {
-            Timber.d("BluetoothHelper characteristic changed");
+            clearRequestTimeoutAction();
+            Timber.d("Characteristic changed callback");
         }
     };
+
+    /**
+     * Contructor
+     */
+    public BluetoothHelper() {
+        this.mHandler = new Handler();
+    }
 
     public boolean initialize(final Context context) {
         // For API level 18 and above, get a reference to BluetoothAdapter through
         // BluetoothManager.
-        Timber.i("BluetoothHelper initialize.");
+        Timber.i("Initialize.");
         if (mBluetoothManager == null) {
             mBluetoothManager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
             if (mBluetoothManager == null) {
@@ -138,6 +161,7 @@ public class BluetoothHelper {
         if (mBluetoothDeviceAddress != null && address.equals(mBluetoothDeviceAddress)
                 && mBluetoothGatt != null) {
             Timber.d("Trying to use an existing mBluetoothGatt for connection.");
+            postRequestTimeoutAction();
             if (mBluetoothGatt.connect()) {
                 mConnectionState = STATE_CONNECTING;
                 return true;
@@ -153,11 +177,25 @@ public class BluetoothHelper {
         }
         // We want to directly connect to the device, so we are setting the autoConnect
         // parameter to false.
-        mBluetoothGatt = device.connectGatt(context, false, mGattCallback);
         Timber.d("Trying to create a new connection.");
         mBluetoothDeviceAddress = address;
         mConnectionState = STATE_CONNECTING;
+        postRequestTimeoutAction();
+        mBluetoothGatt = device.connectGatt(context, false, mGattCallback);
         return true;
+    }
+
+    /**
+     * Call bluetooth LE service discovery request
+     */
+    private void discoverServices() {
+        if (mBluetoothAdapter == null || mBluetoothGatt == null) {
+            Timber.w("discoverServices - BluetoothAdapter not initialized");
+            return;
+        }
+        Timber.d("discover services request");
+        postRequestTimeoutAction();
+        mBluetoothGatt.discoverServices();
     }
 
     /**
@@ -168,24 +206,26 @@ public class BluetoothHelper {
      */
     public void disconnect() {
         if (mBluetoothAdapter == null || mBluetoothGatt == null) {
-            Timber.w("BluetoothAdapter not initialized");
+            Timber.w("disconnect - BluetoothAdapter not initialized");
             return;
         }
-        Timber.d("BluetoothHelper - Disconnect connection.");
+        Timber.d("Disconnect connection.");
+        postDisconnectTimeoutAction();
         mBluetoothGatt.disconnect();
     }
 
     public void destroyConnection() {
         if (mBluetoothAdapter == null || mBluetoothGatt == null) {
-            Timber.w("BluetoothAdapter not initialized");
+            Timber.w("destroyConnection - BluetoothAdapter not initialized");
             return;
         }
-        Timber.d("BluetoothHelper Destroy connection.");
+        Timber.d("Destroy connection.");
         mBluetoothGatt.disconnect();
-//        mBluetoothGatt.close();
-//        mBluetoothDeviceAddress = null;
-//        mBluetoothGatt = null;
-//        mConnectionState = STATE_DISCONNECTED;
+        mBluetoothGatt.close();
+        mBluetoothDeviceAddress = null;
+        mBluetoothGatt = null;
+        mConnectionState = STATE_DISCONNECTED;
+        EventBus.getDefault().post(new GattConnectionDestroyedEvent());
     }
 
     /**
@@ -200,11 +240,11 @@ public class BluetoothHelper {
     public void readCharacteristic(final String serviceUUID, final String characteristicUUID)
             throws BluetoothNotInitializedException, BluetoothServiceNotFoundException, BluetoothCharactericticNotFoundException {
         if (mBluetoothAdapter == null || mBluetoothGatt == null) {
-            Timber.w("BluetoothAdapter not initialized");
+            Timber.w("readCharacteristic - BluetoothAdapter not initialized");
             throw new BluetoothNotInitializedException("BluetoothAdapter not initialized");
         }
 
-        Timber.d("BluetoothHelper Read characteristic request.");
+        Timber.d("Read characteristic request.");
 
         /*check if the service is available on the device*/
 //        BluetoothGattService mCustomService = mBluetoothGatt.getService(UUID.fromString("00001110-0000-1000-8000-00805f9b34fb"));
@@ -215,8 +255,9 @@ public class BluetoothHelper {
             throw new BluetoothServiceNotFoundException(msg);
         }
         /*get the read characteristic from the service*/
+        postRequestTimeoutAction();
         BluetoothGattCharacteristic mReadCharacteristic = mCustomService.getCharacteristic(UUID.fromString(characteristicUUID));
-        if(!mBluetoothGatt.readCharacteristic(mReadCharacteristic)){
+        if(!mBluetoothGatt.readCharacteristic(mReadCharacteristic)) {
             final String msg = String.format("Failed to read characteristic: %s ", characteristicUUID);
             Timber.w("Failed to read characteristic");
             throw new BluetoothServiceNotFoundException(msg);
@@ -225,5 +266,21 @@ public class BluetoothHelper {
 
     public int getConnectionState() {
         return mConnectionState;
+    }
+
+    private void postRequestTimeoutAction() {
+        mHandler.postDelayed(mDisconnectRunnable, Constants.BLUETOOTH_MAX_REQUEST_TIMEOUT_MS);
+    }
+
+    private void clearRequestTimeoutAction() {
+        mHandler.removeCallbacks(mDisconnectRunnable);
+    }
+
+    private void postDisconnectTimeoutAction() {
+        mHandler.postDelayed(mDisconnectTimeoutRunnable, Constants.BLUETOOTH_MAX_REQUEST_TIMEOUT_MS);
+    }
+
+    private void clearDisconnectTimeoutAction() {
+        mHandler.removeCallbacks(mDisconnectTimeoutRunnable);
     }
 }
