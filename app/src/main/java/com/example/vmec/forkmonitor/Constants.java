@@ -11,15 +11,16 @@ public class Constants {
 
     public static final String BLUETOOTH_DEVICE_NAME = "BT05";
     public static final String BLUETOOTH_DEVICE_ADDRESS = "00:15:85:14:9C:09";
+    public static final String BLUETOOTH_DEVICE_NAME_SERVICE_UUID = "00001800-0000-1000-8000-00805f9b34fb";
+    public static final String BLUETOOTH_DEVICE_NAME_CHARACTERISTIC_UUID = "00002a00-0000-1000-8000-00805f9b34fb";
     public static final String BLUETOOTH_FORK_MONITOR_SERVICE_UUID = "0000ffe0-0000-1000-8000-00805f9b34fb";
-    //    public static final String BLUETOOTH_FORK_MONITOR_SERVICE_UUID = "00001800-0000-1000-8000-00805f9b34fb";
     public static final String BLUETOOTH_FORK_MONITOR_CHARACTERISTIC_UUID = "0000ffe1-0000-1000-8000-00805f9b34fb";
-    //    public static final String BLUETOOTH_FORK_MONITOR_CHARACTERISTIC_UUID = "00002a00-0000-1000-8000-00805f9b34fb";
+    public static final String BLUETOOTH_CLIENT_CHARACTERISTIC_CONFIG_UUID = "00002902-0000-1000-8000-00805f9b34fb";
     public static final int BLUETOOTH_CHARACTERISTIC_READ_INTERVAL_MS = SECOND_MS * 15;
-    public static String BLUETOOTH_CLIENT_CHARACTERISTIC_CONFIG_UUID = "00002902-0000-1000-8000-00805f9b34fb";
 
     public static final String PREFERENCES_FILE_NAME = "fork_monitor_pref";
     public static final String PREFERENCE_LAST_CHARACTERISTIC_MSG = "last_bluetooth_characteristic_msg";
     public static final String PREFERENCE_IS_BLUETOOTH_TRACKING_ENABLED = "is_bluetooth_tracking_enabled";
     public static final String PREFERENCE_IS_LOCATION_TRACKING_ENABLED = "is_location_tracking_enabled";
+    public static final String PREFERENCE_BLUETOOTH_DEVICE_NAME = "bluetooth_device_name";
 }

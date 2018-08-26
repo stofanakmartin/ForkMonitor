@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.example.vmec.forkmonitor.Constants;
+import com.example.vmec.forkmonitor.event.GattCharacteristicChangeEvent;
 import com.example.vmec.forkmonitor.event.GattCharacteristicReadEvent;
 import com.example.vmec.forkmonitor.event.GattConnectedEvent;
 import com.example.vmec.forkmonitor.event.GattConnectionDestroyedEvent;
@@ -111,6 +112,13 @@ public class BluetoothHelper {
                                             BluetoothGattCharacteristic characteristic) {
             clearRequestTimeoutAction();
             Timber.d("Characteristic changed callback");
+            EventBus.getDefault().post(new GattCharacteristicChangeEvent(characteristic));
+        }
+
+        @Override public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+            super.onCharacteristicWrite(gatt, characteristic, status);
+            clearRequestTimeoutAction();
+            Timber.d("Characteristic write callback");
         }
     };
 
@@ -245,7 +253,8 @@ public class BluetoothHelper {
             throw new BluetoothNotInitializedException("BluetoothAdapter not initialized");
         }
 
-        Timber.d("Read characteristic request.");
+        Timber.d("Read characteristic request %s", characteristicUUID);
+        clearRequestTimeoutAction();
 
         /*check if the service is available on the device*/
 //        BluetoothGattService mCustomService = mBluetoothGatt.getService(UUID.fromString("00001110-0000-1000-8000-00805f9b34fb"));
@@ -256,6 +265,9 @@ public class BluetoothHelper {
             Timber.w(msg);
             throw new BluetoothServiceNotFoundException(msg);
         }
+
+        postRequestTimeoutAction();
+
         /*get the read characteristic from the service*/
         BluetoothGattCharacteristic mReadCharacteristic = mCustomService.getCharacteristic(UUID.fromString(characteristicUUID));
         if(!mBluetoothGatt.readCharacteristic(mReadCharacteristic)) {
@@ -264,7 +276,6 @@ public class BluetoothHelper {
             Timber.w("Failed to read characteristic");
             throw new BluetoothServiceNotFoundException(msg);
         }
-        postRequestTimeoutAction();
     }
 
     /**
@@ -280,12 +291,36 @@ public class BluetoothHelper {
             Timber.w("BluetoothAdapter not initialized");
             return;
         }
+        clearRequestTimeoutAction();
+        postRequestTimeoutAction();
         mBluetoothGatt.setCharacteristicNotification(characteristic, enabled);
 
         BluetoothGattDescriptor descriptor = characteristic.getDescriptor(
                 UUID.fromString(Constants.BLUETOOTH_CLIENT_CHARACTERISTIC_CONFIG_UUID));
         descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
         mBluetoothGatt.writeDescriptor(descriptor);
+    }
+
+    /**
+     * Writes value to specified characteristic
+     *
+     * @param characteristic Characteristic to act on.
+     * @param value value to write to characteristic
+     */
+    public void writeToCharacteristic(BluetoothGattCharacteristic characteristic, final String value) {
+        Timber.d("Write value to characteristic");
+        if (mBluetoothAdapter == null || mBluetoothGatt == null) {
+            Timber.w("BluetoothAdapter not initialized");
+            return;
+        }
+        clearRequestTimeoutAction();
+        postRequestTimeoutAction();
+        characteristic.setValue(value);
+        mBluetoothGatt.writeCharacteristic(characteristic);
+    }
+
+    public void requestConnectionDisconnectAfterTimeout() {
+        postRequestTimeoutAction();
     }
 
     public int getConnectionState() {
