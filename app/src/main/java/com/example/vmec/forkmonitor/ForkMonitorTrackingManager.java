@@ -154,7 +154,7 @@ public class ForkMonitorTrackingManager {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(GattCharacteristicChangeEvent event) {
         final BluetoothGattCharacteristic characteristic = event.getCharacteristic();
-        final String charMessage = getCharacteristicStringValue(characteristic);
+        final String charMessage = getCharacteristicStringValue2(characteristic);
 
         Timber.d("Characteristic change received - message: %s", charMessage);
 
