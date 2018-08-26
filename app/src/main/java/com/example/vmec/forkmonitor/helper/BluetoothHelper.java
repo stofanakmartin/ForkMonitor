@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
@@ -250,18 +251,41 @@ public class BluetoothHelper {
 //        BluetoothGattService mCustomService = mBluetoothGatt.getService(UUID.fromString("00001110-0000-1000-8000-00805f9b34fb"));
         BluetoothGattService mCustomService = mBluetoothGatt.getService(UUID.fromString(serviceUUID));
         if(mCustomService == null){
+            disconnect();
             final String msg = String.format("Custom BLE Service: %s not found", serviceUUID);
             Timber.w(msg);
             throw new BluetoothServiceNotFoundException(msg);
         }
         /*get the read characteristic from the service*/
-        postRequestTimeoutAction();
         BluetoothGattCharacteristic mReadCharacteristic = mCustomService.getCharacteristic(UUID.fromString(characteristicUUID));
         if(!mBluetoothGatt.readCharacteristic(mReadCharacteristic)) {
+            disconnect();
             final String msg = String.format("Failed to read characteristic: %s ", characteristicUUID);
             Timber.w("Failed to read characteristic");
             throw new BluetoothServiceNotFoundException(msg);
         }
+        postRequestTimeoutAction();
+    }
+
+    /**
+     * Enables or disables notification on a give characteristic.
+     *
+     * @param characteristic Characteristic to act on.
+     * @param enabled If true, enable notification.  False otherwise.
+     */
+    public void setCharacteristicNotification(BluetoothGattCharacteristic characteristic,
+                                              boolean enabled) {
+        Timber.d("Register characteristic for notifications");
+        if (mBluetoothAdapter == null || mBluetoothGatt == null) {
+            Timber.w("BluetoothAdapter not initialized");
+            return;
+        }
+        mBluetoothGatt.setCharacteristicNotification(characteristic, enabled);
+
+        BluetoothGattDescriptor descriptor = characteristic.getDescriptor(
+                UUID.fromString(Constants.BLUETOOTH_CLIENT_CHARACTERISTIC_CONFIG_UUID));
+        descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+        mBluetoothGatt.writeDescriptor(descriptor);
     }
 
     public int getConnectionState() {

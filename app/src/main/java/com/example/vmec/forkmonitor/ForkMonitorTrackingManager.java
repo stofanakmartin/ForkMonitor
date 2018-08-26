@@ -112,7 +112,7 @@ public class ForkMonitorTrackingManager {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(GattCharacteristicReadEvent event) {
         Timber.d("ForkMonitorTrackingManager characteristic received, DISCONNECT");
-        mBluetoothHelper.disconnect();
+//        mBluetoothHelper.disconnect();
 
         final BluetoothGattCharacteristic characteristic = event.getCharacteristic();
         byte[] messageBytes = characteristic.getValue();
@@ -124,6 +124,13 @@ public class ForkMonitorTrackingManager {
         } catch (UnsupportedEncodingException e) {
             mLastCharacteristicPreference.set(StringUtils.EMPTY_STRING);
             Timber.e("Unable to convert message bytes to string");
+        }
+
+        final int charaProp = characteristic.getProperties();
+
+        if ((charaProp | BluetoothGattCharacteristic.PROPERTY_NOTIFY) > 0) {
+            Timber.d("");
+            mBluetoothHelper.setCharacteristicNotification(characteristic, true);
         }
 
         EventBus.getDefault().post(new TrackingDataChangeEvent());
