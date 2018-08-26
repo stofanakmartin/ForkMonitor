@@ -7,7 +7,9 @@ import android.os.Handler;
 import android.text.TextUtils;
 
 import com.example.vmec.forkmonitor.event.GattCharacteristicChangeEvent;
+import com.example.vmec.forkmonitor.event.GattCharacteristicNotificationConfigEvent;
 import com.example.vmec.forkmonitor.event.GattCharacteristicReadEvent;
+import com.example.vmec.forkmonitor.event.GattCharacteristicWriteEvent;
 import com.example.vmec.forkmonitor.event.GattConnectionDestroyedEvent;
 import com.example.vmec.forkmonitor.event.GattDisconnectedEvent;
 import com.example.vmec.forkmonitor.event.GattServicesDiscoveredEvent;
@@ -124,12 +126,13 @@ public class ForkMonitorTrackingManager {
         final BluetoothGattCharacteristic characteristic = event.getCharacteristic();
 
         if(characteristic.getUuid().toString().equals(Constants.BLUETOOTH_DEVICE_NAME_CHARACTERISTIC_UUID)) {
-            final String deviceName = getCharacteristicStringValue(characteristic);
+            final String deviceName = getCharacteristicStringValue2(characteristic);
             mBluetoothDeviceNamePreference.set(deviceName);
             if(deviceName.equals(Constants.BLUETOOTH_DEVICE_NAME)) {
                 mBluetoothHelper.readCharacteristic(Constants.BLUETOOTH_FORK_MONITOR_SERVICE_UUID, Constants.BLUETOOTH_FORK_MONITOR_CHARACTERISTIC_UUID);
             } else {
                 Timber.e("Bluetooth device name does not match. Current device name: %s", deviceName);
+                mBluetoothHelper.disconnect();
             }
         } else if(characteristic.getUuid().toString().equals(Constants.BLUETOOTH_FORK_MONITOR_CHARACTERISTIC_UUID)) {
             final int characteristicProperties = characteristic.getProperties();
@@ -138,12 +141,11 @@ public class ForkMonitorTrackingManager {
                     && (characteristicProperties | BluetoothGattCharacteristic.PROPERTY_WRITE) > 0) {
                 mDeviceStatusCharacteristic = characteristic;
                 mBluetoothHelper.setCharacteristicNotification(characteristic, true);
-                mBluetoothHelper.writeToCharacteristic(characteristic, "start");
             } else {
                 Timber.e("Bluetooth characteristic does not support NOTIFICATION or WRITE feature");
+                mBluetoothHelper.disconnect();
             }
         }
-//        mBluetoothHelper.disconnect();
         EventBus.getDefault().post(new TrackingDataChangeEvent());
 
         //TODO: DO some action with characteristic
@@ -151,10 +153,10 @@ public class ForkMonitorTrackingManager {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(GattCharacteristicChangeEvent event) {
-        Timber.d("Characteristic change received");
-
         final BluetoothGattCharacteristic characteristic = event.getCharacteristic();
-        final String charMessage = getCharacteristicStringValue2(characteristic);
+        final String charMessage = getCharacteristicStringValue(characteristic);
+
+        Timber.d("Characteristic change received - message: %s", charMessage);
 
         if (TextUtils.isEmpty(charMessage)) {
             mLastCharacteristicPreference.set(StringUtils.EMPTY_STRING);
@@ -181,25 +183,32 @@ public class ForkMonitorTrackingManager {
         //TODO: DO some action with characteristic
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(GattCharacteristicNotificationConfigEvent event) {
+        Timber.d("Characteristic notification configuration callback received");
+
+        if(mDeviceStatusCharacteristic == null) {
+            Timber.e("Device status characteristic not initialized");
+            return;
+        }
+        mBluetoothHelper.writeToCharacteristic(mDeviceStatusCharacteristic, "start");
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(GattCharacteristicWriteEvent event) {
+        Timber.d("Characteristic write callback received");
+
+        // Set timeout - when no more request are going to be received in specified period
+        // of time the connection is going to be closed
+        mBluetoothHelper.requestConnectionDisconnectAfterTimeout();
+    }
+
     private void setNextCharacteristicReadingAction() {
         mHandler.postDelayed(mBluetoothReadCharacteristicRunnable, Constants.BLUETOOTH_CHARACTERISTIC_READ_INTERVAL_MS);
     }
 
     // TODO: MOVE TO UTILS
     public String getCharacteristicStringValue(final BluetoothGattCharacteristic characteristic) {
-        byte[] messageBytes = characteristic.getValue();
-        String messageString = null;
-        try {
-            messageString = new String(messageBytes, "UTF-8");
-            Timber.d("Characteristic value: %s", messageString);
-        } catch (UnsupportedEncodingException e) {
-            Timber.e("Unable to convert message bytes to string");
-        }
-        return messageString;
-    }
-
-    // TODO: MOVE TO UTILS
-    public String getCharacteristicStringValue2(final BluetoothGattCharacteristic characteristic) {
         final byte[] data = characteristic.getValue();
         if (data != null && data.length > 0) {
             final StringBuilder stringBuilder = new StringBuilder(data.length);
@@ -209,5 +218,17 @@ public class ForkMonitorTrackingManager {
             return stringBuilder.toString();
         }
         return null;
+    }
+
+    public String getCharacteristicStringValue2(final BluetoothGattCharacteristic characteristic) {
+        byte[] messageBytes = characteristic.getValue();
+        String messageString = null;
+        try {
+            messageString = new String(messageBytes, "UTF-8");
+            Timber.d("Characteristic value: %s", messageString);
+        } catch (UnsupportedEncodingException e) {
+            Timber.e("Unable to convert message bytes to string");
+        }
+        return messageString;
     }
 }

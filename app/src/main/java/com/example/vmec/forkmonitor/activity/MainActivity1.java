@@ -61,11 +61,13 @@ public class MainActivity1 extends AppCompatActivity {
     private BooleanPreference mIsBluetoothTrackingEnabled;
     private BooleanPreference mIsLocationTrackingEnabled;
     private StringPreference mLastCharacteristicPreference;
+    private StringPreference mBluetoothDeviceNamePreference;
 
     @BindView(R.id.txt_bluetooth_tracking_status) TextView mBluetoothTrackingStatusView;
     @BindView(R.id.txt_location_tracking_status) TextView mLocationTrackingStatusView;
     @BindView(R.id.txt_bluetooth_connection_status) TextView mBluetoothConnectionStatus;
     @BindView(R.id.txt_bluetooth_last_characteristic_msg) TextView mBluetoothLastCharacteristicMsgView;
+    @BindView(R.id.txt_bluetooth_device_name) TextView mBluetoothDeviceNameView;
     @BindView(R.id.txt_location_history) EditText mLocationHistoryView;
 
     @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,6 +80,7 @@ public class MainActivity1 extends AppCompatActivity {
         mIsBluetoothTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_BLUETOOTH_TRACKING_ENABLED, false);
         mIsLocationTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_LOCATION_TRACKING_ENABLED, false);
         mLastCharacteristicPreference = new StringPreference(sp, Constants.PREFERENCE_LAST_CHARACTERISTIC_MSG, StringUtils.EMPTY_STRING);
+        mBluetoothDeviceNamePreference = new StringPreference(sp, Constants.PREFERENCE_BLUETOOTH_DEVICE_NAME, StringUtils.EMPTY_STRING);
 
         checkPermissions();
 
@@ -201,5 +204,6 @@ public class MainActivity1 extends AppCompatActivity {
         } else {
             mBluetoothLastCharacteristicMsgView.setText(lastCharacteristicMsg);
         }
+        mBluetoothDeviceNameView.setText(mBluetoothDeviceNamePreference.get());
     }
 }

@@ -11,16 +11,16 @@ import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
 
 import com.example.vmec.forkmonitor.Constants;
 import com.example.vmec.forkmonitor.event.GattCharacteristicChangeEvent;
 import com.example.vmec.forkmonitor.event.GattCharacteristicReadEvent;
+import com.example.vmec.forkmonitor.event.GattCharacteristicWriteEvent;
 import com.example.vmec.forkmonitor.event.GattConnectedEvent;
 import com.example.vmec.forkmonitor.event.GattConnectionDestroyedEvent;
 import com.example.vmec.forkmonitor.event.GattDisconnectedEvent;
 import com.example.vmec.forkmonitor.event.GattServicesDiscoveredEvent;
-import com.example.vmec.forkmonitor.event.LocationPublishEvent;
+import com.example.vmec.forkmonitor.event.GattCharacteristicNotificationConfigEvent;
 import com.example.vmec.forkmonitor.exception.BluetoothCharactericticNotFoundException;
 import com.example.vmec.forkmonitor.exception.BluetoothNotInitializedException;
 import com.example.vmec.forkmonitor.exception.BluetoothServiceNotFoundException;
@@ -118,7 +118,21 @@ public class BluetoothHelper {
         @Override public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicWrite(gatt, characteristic, status);
             clearRequestTimeoutAction();
-            Timber.d("Characteristic write callback");
+            Timber.d("Characteristic write callback - status: %d", status);
+            EventBus.getDefault().post(new GattCharacteristicWriteEvent(characteristic, status));
+        }
+
+        @Override public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+            super.onDescriptorWrite(gatt, descriptor, status);
+            clearRequestTimeoutAction();
+            Timber.d("Descriptor write callback - status: %d", status);
+            if (status == BluetoothGatt.GATT_SUCCESS) {
+                // Characteristic notification configuration callback
+                if (descriptor.getUuid().toString().equals(Constants.BLUETOOTH_CLIENT_CHARACTERISTIC_CONFIG_UUID)) {
+                    Timber.d("Characteristic notification config callback - success");
+                    EventBus.getDefault().post(new GattCharacteristicNotificationConfigEvent(status));
+                }
+            }
         }
     };
 
@@ -223,7 +237,7 @@ public class BluetoothHelper {
         mBluetoothGatt.disconnect();
     }
 
-    public void destroyConnection() {
+    private void destroyConnection() {
         if (mBluetoothAdapter == null || mBluetoothGatt == null) {
             Timber.w("destroyConnection - BluetoothAdapter not initialized");
             return;
@@ -256,8 +270,6 @@ public class BluetoothHelper {
         Timber.d("Read characteristic request %s", characteristicUUID);
         clearRequestTimeoutAction();
 
-        /*check if the service is available on the device*/
-//        BluetoothGattService mCustomService = mBluetoothGatt.getService(UUID.fromString("00001110-0000-1000-8000-00805f9b34fb"));
         BluetoothGattService mCustomService = mBluetoothGatt.getService(UUID.fromString(serviceUUID));
         if(mCustomService == null){
             disconnect();
@@ -291,7 +303,6 @@ public class BluetoothHelper {
             Timber.w("BluetoothAdapter not initialized");
             return;
         }
-        clearRequestTimeoutAction();
         postRequestTimeoutAction();
         mBluetoothGatt.setCharacteristicNotification(characteristic, enabled);
 
@@ -313,10 +324,11 @@ public class BluetoothHelper {
             Timber.w("BluetoothAdapter not initialized");
             return;
         }
-        clearRequestTimeoutAction();
         postRequestTimeoutAction();
         characteristic.setValue(value);
-        mBluetoothGatt.writeCharacteristic(characteristic);
+        final boolean writeResult = mBluetoothGatt.writeCharacteristic(characteristic);
+
+        Timber.d("Characteristic write result %s", String.valueOf(writeResult));
     }
 
     public void requestConnectionDisconnectAfterTimeout() {
