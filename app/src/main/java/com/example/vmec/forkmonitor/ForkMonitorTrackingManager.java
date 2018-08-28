@@ -53,7 +53,7 @@ public class ForkMonitorTrackingManager {
                 mBluetoothHelper.connect(mContext, Constants.BLUETOOTH_DEVICE_ADDRESS);
             } else if (BluetoothHelper.STATE_CONNECTED == connectionStatus) {
                 Timber.d("Read bluetooth device status");
-                mBluetoothHelper.writeToCharacteristic(mDeviceStatusCharacteristic, "start");
+                mBluetoothHelper.writeToCharacteristic(mDeviceStatusCharacteristic, Constants.BLUETOOTH_DEVICE_COMMUNICATION_START_MSG);
             }
         }
     };
@@ -162,12 +162,12 @@ public class ForkMonitorTrackingManager {
             mLastCharacteristicPreference.set(StringUtils.EMPTY_STRING);
             Timber.w("Received empty message or no data");
         } else {
-            if(charMessage.toLowerCase().contains("end")) {
+            if(charMessage.toLowerCase().contains(Constants.BLUETOOTH_DEVICE_COMMUNICATION_END_MSG)) {
                 final String finalMessage = mTmpCharacteristicMsgBuffer + charMessage;
                 mTmpCharacteristicMsgBuffer = StringUtils.EMPTY_STRING;
                 mLastCharacteristicPreference.set(finalMessage);
 
-                mBluetoothHelper.writeToCharacteristic(characteristic, "end");
+                mBluetoothHelper.writeToCharacteristic(characteristic, Constants.BLUETOOTH_DEVICE_COMMUNICATION_END_MSG);
                 setNextCharacteristicReadingAction();
             } else {
                 // Append characteristic value to tmp buffer
@@ -191,16 +191,20 @@ public class ForkMonitorTrackingManager {
             Timber.e("Device status characteristic not initialized");
             return;
         }
-        mBluetoothHelper.writeToCharacteristic(mDeviceStatusCharacteristic, "start");
+        mBluetoothHelper.writeToCharacteristic(mDeviceStatusCharacteristic, Constants.BLUETOOTH_DEVICE_COMMUNICATION_START_MSG);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(GattCharacteristicWriteEvent event) {
         Timber.d("Characteristic write callback received");
 
-        // Set timeout - when no more request are going to be received in specified period
-        // of time the connection is going to be closed
-        mBluetoothHelper.requestConnectionDisconnectAfterTimeout();
+        final BluetoothGattCharacteristic characteristic = event.getCharacteristic();
+        final String writtenValue = new String(characteristic.getValue());
+        if(writtenValue.equals(Constants.BLUETOOTH_DEVICE_COMMUNICATION_START_MSG)) {
+            // Set timeout - when no more request are going to be received in specified period
+            // of time the connection is going to be closed
+            mBluetoothHelper.requestConnectionDisconnectAfterTimeout();
+        }
     }
 
     private void setNextCharacteristicReadingAction() {

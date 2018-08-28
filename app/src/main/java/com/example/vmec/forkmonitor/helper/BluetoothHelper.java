@@ -272,9 +272,9 @@ public class BluetoothHelper {
 
         BluetoothGattService mCustomService = mBluetoothGatt.getService(UUID.fromString(serviceUUID));
         if(mCustomService == null){
-            disconnect();
             final String msg = String.format("Custom BLE Service: %s not found", serviceUUID);
             Timber.w(msg);
+            disconnect();
             throw new BluetoothServiceNotFoundException(msg);
         }
 
@@ -283,9 +283,9 @@ public class BluetoothHelper {
         /*get the read characteristic from the service*/
         BluetoothGattCharacteristic mReadCharacteristic = mCustomService.getCharacteristic(UUID.fromString(characteristicUUID));
         if(!mBluetoothGatt.readCharacteristic(mReadCharacteristic)) {
-            disconnect();
             final String msg = String.format("Failed to read characteristic: %s ", characteristicUUID);
             Timber.w("Failed to read characteristic");
+            disconnect();
             throw new BluetoothServiceNotFoundException(msg);
         }
     }
@@ -319,7 +319,7 @@ public class BluetoothHelper {
      * @param value value to write to characteristic
      */
     public void writeToCharacteristic(BluetoothGattCharacteristic characteristic, final String value) {
-        Timber.d("Write value to characteristic");
+        Timber.d("Write value to characteristic: %s", value);
         if (mBluetoothAdapter == null || mBluetoothGatt == null) {
             Timber.w("BluetoothAdapter not initialized");
             return;

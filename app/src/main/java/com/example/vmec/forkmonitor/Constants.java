@@ -16,6 +16,10 @@ public class Constants {
     public static final String BLUETOOTH_FORK_MONITOR_SERVICE_UUID = "0000ffe0-0000-1000-8000-00805f9b34fb";
     public static final String BLUETOOTH_FORK_MONITOR_CHARACTERISTIC_UUID = "0000ffe1-0000-1000-8000-00805f9b34fb";
     public static final String BLUETOOTH_CLIENT_CHARACTERISTIC_CONFIG_UUID = "00002902-0000-1000-8000-00805f9b34fb";
+
+    public static final String BLUETOOTH_DEVICE_COMMUNICATION_START_MSG = "sssta";
+    public static final String BLUETOOTH_DEVICE_COMMUNICATION_END_MSG = "end";
+
     public static final int BLUETOOTH_CHARACTERISTIC_READ_INTERVAL_MS = SECOND_MS * 15;
 
     public static final String PREFERENCES_FILE_NAME = "fork_monitor_pref";
