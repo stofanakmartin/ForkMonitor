@@ -2,4 +2,12 @@
     <string name="app_name">ForkMonitor</string>
 
     <string name="tracking_service_notification_title">@string/app_name</string>
+
+    <string name="main_btn_tracking_enable">Enable tracking</string>
+    <string name="main_btn_tracking_disable">Disable tracking</string>
+    <string name="bluetooth_status_connected">Connected</string>
+    <string name="bluetooth_status_disconnected">Disconnected</string>
+    <string name="truck_status_loaded">Loaded</string>
+    <string name="truck_status_unloaded">Unloaded</string>
+    <string name="truck_status_unknown">Unknown</string>
 </resources>

@@ -8,9 +8,11 @@ import com.example.vmec.forkmonitor.data.model.Post;
 import com.example.vmec.forkmonitor.data.remote.APIService;
 import com.example.vmec.forkmonitor.data.remote.ApiUtils;
 import com.example.vmec.forkmonitor.event.LocationPublishEvent;
-import com.example.vmec.forkmonitor.event.TruckLoadedStatusChangeEvent;
+import com.example.vmec.forkmonitor.event.TrackingDataChangeEvent;
+import com.example.vmec.forkmonitor.event.TruckLoadedStateChangeEvent;
 import com.example.vmec.forkmonitor.helper.LocationHelper;
 import com.example.vmec.forkmonitor.helper.LocationPolygonHelper;
+import com.example.vmec.forkmonitor.preference.BooleanPreference;
 import com.example.vmec.forkmonitor.preference.IntPreference;
 
 import org.greenrobot.eventbus.EventBus;
@@ -35,10 +37,12 @@ public class TrackingManager {
     private APIService mAPIService;
 //    private IntPreference mTruckLoadedStatePreference;
     private IntPreference mTruckStatusPreference;
+    private BooleanPreference mIsLocationTrackingEnabled;
+    private BooleanPreference mIsBluetoothTrackingEnabled;
 
     public TrackingManager(final Context context) {
         final SharedPreferences sp = context.getSharedPreferences(Constants.PREFERENCES_FILE_NAME, MODE_PRIVATE);
-        mLocationHelper = new LocationHelper();
+        mLocationHelper = new LocationHelper(context);
         mBluetoothTrackingManager = new BluetoothTrackingManager(context);
         mBluetoothTrackingManager.initialize(context);
 
@@ -46,19 +50,24 @@ public class TrackingManager {
         mLocationPolygonHelper = new LocationPolygonHelper(context);
 //        mTruckLoadedStatePreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_LOADED_STATE, Constants.TRUCK_STATUS_NOT_INITIALIZED);
         mTruckStatusPreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_STATUS, Constants.TRUCK_STATUS_NOT_INITIALIZED);
-
+        mIsLocationTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_LOCATION_TRACKING_ENABLED, false);
+        mIsBluetoothTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_BLUETOOTH_TRACKING_ENABLED, false);
+        mIsLocationTrackingEnabled.set(false);
+        mIsBluetoothTrackingEnabled.set(false);
     }
 
     public void startTracking(final Context context) {
         mLocationHelper.startTrackingLocation(context);
         mBluetoothTrackingManager.startTracking(context);
         EventBus.getDefault().register(this);
+        EventBus.getDefault().post(new TrackingDataChangeEvent());
     }
 
     public void stopTracking() {
         mLocationHelper.stopTrackingLocation();
         mBluetoothTrackingManager.stopTracking();
         EventBus.getDefault().unregister(this);
+        EventBus.getDefault().post(new TrackingDataChangeEvent());
     }
 
     public void sendPost(String name, double lat,double lng, double battery, double accuracy, int status) {
@@ -96,13 +105,14 @@ public class TrackingManager {
             final int truckStatus = mTruckStatusPreference.get();
             sendPost(android.os.Build.SERIAL, location.getLatitude(), location.getLongitude(), 30, location.getAccuracy(), truckStatus);  //TODO bateriu posielat
         }
+        EventBus.getDefault().post(new TrackingDataChangeEvent());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(TruckLoadedStatusChangeEvent event) {
+    public void onMessageEvent(TruckLoadedStateChangeEvent event) {
         final Location lastLocation = mLocationHelper.getLastLocation();
         if(lastLocation != null) {
-            sendPost(android.os.Build.SERIAL, lastLocation.getLatitude(), lastLocation.getLongitude(), 30, lastLocation.getAccuracy(), event.getTruckLoadedStatus());  //TODO bateriu posielat
+            sendPost(android.os.Build.SERIAL, lastLocation.getLatitude(), lastLocation.getLongitude(), 30, lastLocation.getAccuracy(), event.getTruckLoadedState());  //TODO bateriu posielat
         }
     }
 }

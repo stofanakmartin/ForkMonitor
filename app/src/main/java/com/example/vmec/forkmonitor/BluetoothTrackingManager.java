@@ -10,11 +10,12 @@ import com.example.vmec.forkmonitor.event.GattCharacteristicChangeEvent;
 import com.example.vmec.forkmonitor.event.GattCharacteristicNotificationConfigEvent;
 import com.example.vmec.forkmonitor.event.GattCharacteristicReadEvent;
 import com.example.vmec.forkmonitor.event.GattCharacteristicWriteEvent;
+import com.example.vmec.forkmonitor.event.GattConnectedEvent;
 import com.example.vmec.forkmonitor.event.GattConnectionDestroyedEvent;
 import com.example.vmec.forkmonitor.event.GattDisconnectedEvent;
 import com.example.vmec.forkmonitor.event.GattServicesDiscoveredEvent;
 import com.example.vmec.forkmonitor.event.TrackingDataChangeEvent;
-import com.example.vmec.forkmonitor.event.TruckLoadedStatusChangeEvent;
+import com.example.vmec.forkmonitor.event.TruckLoadedStateChangeEvent;
 import com.example.vmec.forkmonitor.helper.BluetoothHelper;
 import com.example.vmec.forkmonitor.preference.BooleanPreference;
 import com.example.vmec.forkmonitor.preference.IntPreference;
@@ -39,10 +40,10 @@ public class BluetoothTrackingManager {
     private Context mContext;
     private Handler mHandler;
     private BluetoothHelper mBluetoothHelper;
-    private StringPreference mLastCharacteristicPreference;
+    private StringPreference mLastCharacteristicMsgPreference;
     private StringPreference mBluetoothDeviceNamePreference;
     private BooleanPreference mIsBluetoothTrackingEnabled;
-    private BooleanPreference mIsLocationTrackingEnabled;
+    private BooleanPreference mIsBluetoothDeviceConnectedPreference;
     private IntPreference mTruckLoadedStatePreference;
     private IntPreference mTruckStatusPreference;
     private String mTmpCharacteristicMsgBuffer = StringUtils.EMPTY_STRING;
@@ -70,12 +71,13 @@ public class BluetoothTrackingManager {
     public boolean initialize(final Context context) {
         mContext = context;
         final SharedPreferences sp = context.getSharedPreferences(Constants.PREFERENCES_FILE_NAME, MODE_PRIVATE);
-        mLastCharacteristicPreference = new StringPreference(sp, Constants.PREFERENCE_LAST_CHARACTERISTIC_MSG, StringUtils.EMPTY_STRING);
+        mLastCharacteristicMsgPreference = new StringPreference(sp, Constants.PREFERENCE_LAST_CHARACTERISTIC_MSG, StringUtils.EMPTY_STRING);
         mIsBluetoothTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_BLUETOOTH_TRACKING_ENABLED, false);
-        mIsLocationTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_LOCATION_TRACKING_ENABLED, false);
         mBluetoothDeviceNamePreference = new StringPreference(sp, Constants.PREFERENCE_BLUETOOTH_DEVICE_NAME, StringUtils.EMPTY_STRING);
         mTruckLoadedStatePreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_LOADED_STATE, Constants.TRUCK_STATUS_NOT_INITIALIZED);
         mTruckStatusPreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_STATUS, Constants.TRUCK_STATUS_NOT_INITIALIZED);
+        mIsBluetoothDeviceConnectedPreference = new BooleanPreference(sp, Constants.PREFERENCE_IS_BLUETOOTH_DEVICE_CONNECTED, false);
+        mIsBluetoothDeviceConnectedPreference.set(false);
 
         final boolean bluetoothInitStatus = mBluetoothHelper.initialize(context);
 
@@ -98,6 +100,7 @@ public class BluetoothTrackingManager {
         mHandler.removeCallbacks(mBluetoothReadCharacteristicRunnable);
         mBluetoothHelper.disconnect();
         mIsBluetoothTrackingEnabled.set(false);
+        mIsBluetoothDeviceConnectedPreference.set(false);
 
         //TODO: IS IT NOT EARLY?
         EventBus.getDefault().unregister(this);
@@ -141,14 +144,15 @@ public class BluetoothTrackingManager {
         Timber.d("Characteristic change received - message: %s", charMessage);
 
         if (TextUtils.isEmpty(charMessage)) {
-            mLastCharacteristicPreference.set(StringUtils.EMPTY_STRING);
+            mLastCharacteristicMsgPreference.set(StringUtils.EMPTY_STRING);
             Timber.w("Received empty message or no data");
         } else {
             if(charMessage.toLowerCase().contains(Constants.BLUETOOTH_DEVICE_COMMUNICATION_END_MSG)) {
                 final String finalMessage = mTmpCharacteristicMsgBuffer + charMessage;
-                evaluateDeviceValue(finalMessage);
+                final String finalMsgCleared = finalMessage.replace(Constants.BLUETOOTH_DEVICE_COMMUNICATION_END_MSG, StringUtils.EMPTY_STRING);
+                evaluateDeviceValue(finalMsgCleared);
                 mTmpCharacteristicMsgBuffer = StringUtils.EMPTY_STRING;
-                mLastCharacteristicPreference.set(finalMessage);
+                mLastCharacteristicMsgPreference.set(finalMsgCleared);
                 mBluetoothHelper.writeToCharacteristic(characteristic, Constants.BLUETOOTH_DEVICE_COMMUNICATION_END_MSG);
                 setNextCharacteristicReadingAction();
             } else {
@@ -169,9 +173,8 @@ public class BluetoothTrackingManager {
             return;
         }
 
-        final String bluetoothValue = deviceStatus.replace(Constants.BLUETOOTH_DEVICE_COMMUNICATION_END_MSG, StringUtils.EMPTY_STRING);
         try {
-            final int ultrasoundValue = Integer.parseInt(bluetoothValue);
+            final int ultrasoundValue = Integer.parseInt(deviceStatus);
             final int lastTruckLoadedState = mTruckLoadedStatePreference.get();
             int newTruckStatus = mTruckStatusPreference.get();
             int newTruckLoadedState = lastTruckLoadedState;
@@ -193,7 +196,7 @@ public class BluetoothTrackingManager {
 
             if(lastTruckLoadedState != newTruckLoadedState) {
                 mTruckLoadedStatePreference.set(newTruckLoadedState);
-                EventBus.getDefault().post(new TruckLoadedStatusChangeEvent(newTruckLoadedState));
+                EventBus.getDefault().post(new TruckLoadedStateChangeEvent(newTruckLoadedState));
             }
         } catch(NumberFormatException ex) {
             Timber.w("Bluetooth ultrasound value is not a number");
@@ -201,10 +204,18 @@ public class BluetoothTrackingManager {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(GattConnectedEvent event) {
+        mIsBluetoothDeviceConnectedPreference.set(true);
+        EventBus.getDefault().post(new TrackingDataChangeEvent());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(GattDisconnectedEvent event) {
         mHandler.removeCallbacks(mBluetoothReadCharacteristicRunnable);
         mDeviceStatusCharacteristic = null;
         setNextCharacteristicReadingAction();
+        mIsBluetoothDeviceConnectedPreference.set(false);
+        EventBus.getDefault().post(new TrackingDataChangeEvent());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -212,6 +223,8 @@ public class BluetoothTrackingManager {
         mHandler.removeCallbacks(mBluetoothReadCharacteristicRunnable);
         mDeviceStatusCharacteristic = null;
         setNextCharacteristicReadingAction();
+        mIsBluetoothDeviceConnectedPreference.set(false);
+        EventBus.getDefault().post(new TrackingDataChangeEvent());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_btn_tracking_enable">Zapnout sledovani</string>
+    <string name="main_btn_tracking_disable">Vypnout sledovani</string>
+    <string name="bluetooth_status_connected">Pripojeny</string>
+    <string name="bluetooth_status_disconnected">Odpojeny</string>
+    <string name="truck_status_loaded">Naloženo</string>
+    <string name="truck_status_unloaded">Vyloženo</string>
+    <string name="truck_status_unknown">Neznámý</string>
+</resources>

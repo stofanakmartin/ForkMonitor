@@ -28,6 +28,7 @@ import com.example.vmec.forkmonitor.event.GattCharacteristicReadEvent;
 import com.example.vmec.forkmonitor.event.LocationPublishEvent;
 import com.example.vmec.forkmonitor.event.TrackingDataChangeEvent;
 import com.example.vmec.forkmonitor.preference.BooleanPreference;
+import com.example.vmec.forkmonitor.preference.IntPreference;
 import com.example.vmec.forkmonitor.preference.StringPreference;
 import com.example.vmec.forkmonitor.service.TrackingService;
 import com.example.vmec.forkmonitor.utils.DeviceUtils;
@@ -64,6 +65,9 @@ public class MainActivity1 extends AppCompatActivity {
     private BooleanPreference mIsLocationTrackingEnabled;
     private StringPreference mLastCharacteristicPreference;
     private StringPreference mBluetoothDeviceNamePreference;
+    private BooleanPreference mIsBluetoothDeviceConnectedPreference;
+    private IntPreference mTruckLoadedStatePreference;
+    private IntPreference mTruckStatusPreference;
 
     @BindView(R.id.txt_bluetooth_tracking_status) TextView mBluetoothTrackingStatusView;
     @BindView(R.id.txt_location_tracking_status) TextView mLocationTrackingStatusView;
@@ -71,6 +75,8 @@ public class MainActivity1 extends AppCompatActivity {
     @BindView(R.id.txt_bluetooth_last_characteristic_msg) TextView mBluetoothLastCharacteristicMsgView;
     @BindView(R.id.txt_bluetooth_device_name) TextView mBluetoothDeviceNameView;
     @BindView(R.id.txt_location_history) EditText mLocationHistoryView;
+    @BindView(R.id.txt_truck_status) TextView mTruckStatusView;
+    @BindView(R.id.txt_truck_loaded_state) TextView mTruckLoadedStateView;
 
     @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +89,9 @@ public class MainActivity1 extends AppCompatActivity {
         mIsLocationTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_LOCATION_TRACKING_ENABLED, false);
         mLastCharacteristicPreference = new StringPreference(sp, Constants.PREFERENCE_LAST_CHARACTERISTIC_MSG, StringUtils.EMPTY_STRING);
         mBluetoothDeviceNamePreference = new StringPreference(sp, Constants.PREFERENCE_BLUETOOTH_DEVICE_NAME, StringUtils.EMPTY_STRING);
+        mIsBluetoothDeviceConnectedPreference = new BooleanPreference(sp, Constants.PREFERENCE_IS_BLUETOOTH_DEVICE_CONNECTED, false);
+        mTruckLoadedStatePreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_LOADED_STATE, Constants.TRUCK_STATUS_NOT_INITIALIZED);
+        mTruckStatusPreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_STATUS, Constants.TRUCK_STATUS_NOT_INITIALIZED);
 
         checkPermissions();
 
@@ -103,6 +112,11 @@ public class MainActivity1 extends AppCompatActivity {
         EventBus.getDefault().register(this);
     }
 
+    @Override protected void onResume() {
+        super.onResume();
+        updateUI();
+    }
+
     @Override protected void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
@@ -115,10 +129,6 @@ public class MainActivity1 extends AppCompatActivity {
             startTrackingService();
         }
     }
-
-//    private void startLocationTracking() {
-//        mLocationManager.startTrackingLocation(this);
-//    }
 
     private void startTrackingService() {
         final Intent trackingIntent = new Intent(this, TrackingService.class);
@@ -187,6 +197,11 @@ public class MainActivity1 extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @OnClick(R.id.btn_tracking_toggle)
+    public void onTrackingToggleClick() {
+
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(LocationPublishEvent event) {
         if(TextUtils.isEmpty(mLocationHistoryLog)) {
@@ -194,15 +209,25 @@ public class MainActivity1 extends AppCompatActivity {
         }
 
         final Date currentDate = new Date();
-        mLocationHistoryLog = "[" + currentDate.toString() + "] - " + event.getLocation().toString()
-                                + "\n\n"
-                                + mLocationHistoryLog ;
-
+        final StringBuilder builder = new StringBuilder();
+        builder.append("[").append(currentDate.toString()).append("] - ")
+                .append(event.getLocation().getLatitude())
+                .append(", ")
+                .append(event.getLocation().getLongitude())
+                .append(", acc: ")
+                .append(event.getLocation().getAccuracy())
+                .append("\n\n")
+                .append(mLocationHistoryLog);
+        mLocationHistoryLog = builder.toString();
         mLocationHistoryView.setText(mLocationHistoryLog);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(TrackingDataChangeEvent event) {
+        updateUI();
+    }
+
+    private void updateUI() {
         mBluetoothTrackingStatusView.setText(mIsBluetoothTrackingEnabled.get() ? "Enabled" : "Disabled");
         mLocationTrackingStatusView.setText(mIsLocationTrackingEnabled.get() ? "Enabled" : "Disabled");
         final String lastCharacteristicMsg = mLastCharacteristicPreference.get().trim();
@@ -213,5 +238,33 @@ public class MainActivity1 extends AppCompatActivity {
             mBluetoothLastCharacteristicMsgView.setText(lastCharacteristicMsg);
         }
         mBluetoothDeviceNameView.setText(mBluetoothDeviceNamePreference.get());
+
+        if(mIsBluetoothDeviceConnectedPreference.get()) {
+            mBluetoothConnectionStatus.setText(R.string.bluetooth_status_connected);
+        } else {
+            mBluetoothConnectionStatus.setText(R.string.bluetooth_status_disconnected);
+        }
+
+        final int truckLoadedState = mTruckLoadedStatePreference.get();
+        final int truckStatus = mTruckStatusPreference.get();
+
+        setTruckStateTextToView(truckStatus, mTruckStatusView);
+        setTruckStateTextToView(truckLoadedState, mTruckLoadedStateView);
+    }
+
+    private void setTruckStateTextToView(final int truckStatus, final TextView view) {
+        switch (truckStatus) {
+            case Constants.TRUCK_STATUS_LOADED:
+                view.setText(R.string.truck_status_loaded);
+                break;
+            case Constants.TRUCK_STATUS_UNLOADED:
+                view.setText(R.string.truck_status_unloaded);
+                break;
+            case Constants.TRUCK_STATUS_ERROR_VALUE:
+                view.setText(R.string.truck_status_unknown);
+                break;
+            default:
+                view.setText(R.string.truck_status_unknown);
+        }
     }
 }

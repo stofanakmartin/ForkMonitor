@@ -27,6 +27,7 @@ public class Constants {
     public static final String PREFERENCE_LAST_TRUCK_STATUS = "last_truck_status";
     public static final String PREFERENCE_LAST_CHARACTERISTIC_MSG = "last_bluetooth_characteristic_msg";
     public static final String PREFERENCE_IS_BLUETOOTH_TRACKING_ENABLED = "is_bluetooth_tracking_enabled";
+    public static final String PREFERENCE_IS_BLUETOOTH_DEVICE_CONNECTED = "is_bluetooth_device_connected";
     public static final String PREFERENCE_IS_LOCATION_TRACKING_ENABLED = "is_location_tracking_enabled";
     public static final String PREFERENCE_BLUETOOTH_DEVICE_NAME = "bluetooth_device_name";
 

@@ -3,6 +3,7 @@ package com.example.vmec.forkmonitor.helper;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -10,7 +11,9 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 
+import com.example.vmec.forkmonitor.Constants;
 import com.example.vmec.forkmonitor.event.LocationPublishEvent;
+import com.example.vmec.forkmonitor.preference.BooleanPreference;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -23,6 +26,8 @@ import java.util.List;
 
 import timber.log.Timber;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * Created by Stofanak on 13/08/2018.
  */
@@ -32,6 +37,12 @@ public class LocationHelper {
     private LocationRequest mLocationRequest;
     private LocationCallback mLocationCallback;
     private Location mLastLocation;
+    private BooleanPreference mIsLocationTrackingEnabled;
+
+    public LocationHelper(final Context context) {
+        final SharedPreferences sp = context.getSharedPreferences(Constants.PREFERENCES_FILE_NAME, MODE_PRIVATE);
+        mIsLocationTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_LOCATION_TRACKING_ENABLED, false);
+    }
 
     public void startTrackingLocation(final Context context) {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
@@ -43,10 +54,12 @@ public class LocationHelper {
         }
 
         mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, null /* Looper */);
+        mIsLocationTrackingEnabled.set(true);
     }
 
     public void stopTrackingLocation() {
         mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+        mIsLocationTrackingEnabled.set(false);
     }
 
     public Location getLastLocation() {

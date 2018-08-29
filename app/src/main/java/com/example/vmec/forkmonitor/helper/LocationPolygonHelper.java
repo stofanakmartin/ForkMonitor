@@ -31,16 +31,12 @@ public class LocationPolygonHelper {
 //    private final double homeLat =  48.151970;//49.164961
 //    private final double homeLng =  17.109212;//17.503828
     // Napajedla Fatra
-//    private double homeLat = 49.164962;
-//    private double homeLng = 17.503829;
-    private double homeLat = 48.1478244;
-    private double homeLng = 17.0606898;
+    private double homeLat = 49.164962;
+    private double homeLng = 17.503829;
 
-//    private static final double CORNER_LAT =  49.164962;//49.164961
-//    private static final double CORNER_LNG =  17.503829;//17.503828
+    private static final double CORNER_LAT =  49.164962;//49.164961
+    private static final double CORNER_LNG =  17.503829;//17.503828
 //    48.1478244,17.0606898
-    private static final double CORNER_LAT =  48.1478244;//49.164961
-    private static final double CORNER_LNG =  17.0606898;//17.503828
     private static final double MAP_X = 458.2235;
     private static final double MAP_Y = 1080.9670;
     private static final double SCREEN_X = 1896;//1106;
@@ -123,8 +119,8 @@ public class LocationPolygonHelper {
         double deltaLatitude = pLat - relativeLat;
         double deltaLongitude = pLng - relativeLng;
         double latitudeCircumference = 40075160 * Math.cos(asRadians(relativeLat));
-        double resultY = deltaLongitude * latitudeCircumference / 360;
-        double resultX = deltaLatitude * 40008000 / 360;
+        double resultX = deltaLongitude * latitudeCircumference / 360;
+        double resultY = deltaLatitude * 40008000 / 360;
         double resultDist = Math.sqrt((resultX * resultX) + (resultY * resultY));
 
         Timber.d("latLngToXYPoint X: %f Y: %f", resultX, resultY);
