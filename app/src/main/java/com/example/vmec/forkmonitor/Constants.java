@@ -23,8 +23,30 @@ public class Constants {
     public static final int BLUETOOTH_CHARACTERISTIC_READ_INTERVAL_MS = SECOND_MS * 15;
 
     public static final String PREFERENCES_FILE_NAME = "fork_monitor_pref";
+    public static final String PREFERENCE_LAST_TRUCK_LOADED_STATE = "last_truck_loaded_state";
+    public static final String PREFERENCE_LAST_TRUCK_STATUS = "last_truck_status";
     public static final String PREFERENCE_LAST_CHARACTERISTIC_MSG = "last_bluetooth_characteristic_msg";
     public static final String PREFERENCE_IS_BLUETOOTH_TRACKING_ENABLED = "is_bluetooth_tracking_enabled";
     public static final String PREFERENCE_IS_LOCATION_TRACKING_ENABLED = "is_location_tracking_enabled";
     public static final String PREFERENCE_BLUETOOTH_DEVICE_NAME = "bluetooth_device_name";
+
+    public static final int LOCATION_ACCURACY_TOLERANCE = 100;
+    public static final int ULTRASOUND_LOADED_UNLOADED_THRESHOLD_VALUE = 100;
+    public static final int ULTRASOUND_NOT_READ_VALUE = 1015;
+
+    public static final int TRUCK_STATUS_NOT_INITIALIZED = -1;
+    public static final int TRUCK_STATUS_LOADED = 1;
+    public static final int TRUCK_STATUS_UNLOADED = 2;
+    public static final int TRUCK_STATUS_ERROR_VALUE = 3;
+    public static final int STATUS_CHARGING = 4;
+    public static final int STATUS_SERVICE = 5;
+    public static final int STATUS_IDLE = 6;
+
+    /*status==
+     * 1-nalozeny
+     * 2-vylozeny
+     * 3-nabija
+     * 4-servis
+     * 5-necinnost
+     * */
 }

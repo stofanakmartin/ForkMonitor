@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 
 import android.graphics.Color;
+import android.location.Location;
 import android.os.BatteryManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +21,14 @@ import android.widget.TextView;
 import com.example.vmec.forkmonitor.data.model.Post;
 import com.example.vmec.forkmonitor.data.remote.APIService;
 import com.example.vmec.forkmonitor.data.remote.ApiUtils;
+import com.example.vmec.forkmonitor.event.LocationPublishEvent;
+import com.example.vmec.forkmonitor.utils.StringUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -167,44 +177,60 @@ public class DrawActivity extends Activity {
 
 
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(
-                new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context context, Intent intent) {
-                        mLat = intent.getDoubleExtra(LocationMonitoringService.EXTRA_LATITUDE,-1000);
-                        mLng = intent.getDoubleExtra(LocationMonitoringService.EXTRA_LONGITUDE,-1000);
-                        mAcc = intent.getFloatExtra(LocationMonitoringService.EXTRA_ACCURACY,-1000);
-                        String log = intent.getStringExtra(LocationMonitoringService.EXTRA_LOG);
-                        mBatt = intent.getIntExtra(LocationMonitoringService.EXTRA_BATTERY,-1000);
-                        //if (latitude != null && longitude != null) {
-
-                            Log.d("Foreground", "== location != null");
-                        mPixelGrid.evaluateLocation(mLat,mLng,mAcc);//    latLngToXYPoint(homeLat,homeLng,lat,lng);
-                        logField.setText(log);
-                        latituteField.setText(String.valueOf(mLat));
-                        longitudeField.setText(String.valueOf(mLng));
-                        accuracyGPSField.setText(String.valueOf(mAcc));
-
-
-
-
-                        //}
-                    }
-                }, new IntentFilter(LocationMonitoringService.ACTION_LOCATION_BROADCAST)
-        );
+//        LocalBroadcastManager.getInstance(this).registerReceiver(
+//                new BroadcastReceiver() {
+//                    @Override
+//                    public void onReceive(Context context, Intent intent) {
+//                        mLat = intent.getDoubleExtra(LocationMonitoringService.EXTRA_LATITUDE,-1000);
+//                        mLng = intent.getDoubleExtra(LocationMonitoringService.EXTRA_LONGITUDE,-1000);
+//                        mAcc = intent.getFloatExtra(LocationMonitoringService.EXTRA_ACCURACY,-1000);
+//                        String log = intent.getStringExtra(LocationMonitoringService.EXTRA_LOG);
+//                        mBatt = intent.getIntExtra(LocationMonitoringService.EXTRA_BATTERY,-1000);
+//                        //if (latitude != null && longitude != null) {
+//
+//                            Log.d("Foreground", "== location != null");
+//                        mPixelGrid.evaluateLocation(mLat,mLng,mAcc);//    latLngToXYPoint(homeLat,homeLng,lat,lng);
+//                        logField.setText(log);
+//                        latituteField.setText(String.valueOf(mLat));
+//                        longitudeField.setText(String.valueOf(mLng));
+//                        accuracyGPSField.setText(String.valueOf(mAcc));
+//
+//
+//
+//
+//                        //}
+//                    }
+//                }, new IntentFilter(LocationMonitoringService.ACTION_LOCATION_BROADCAST)
+//        );
 
         Log.d("Foreground", "starting service");
-        Intent intent = new Intent(this, LocationMonitoringService.class);
-        startService(intent);
+//        Intent intent = new Intent(this, LocationMonitoringService.class);
+//        startService(intent);
         mAlreadyStartedService = true;
     }
 
+    private void onLocationChanged(final Location location) {
+        mPixelGrid.evaluateLocation(location.getLatitude(), location.getLongitude(), 12.0f);//    latLngToXYPoint(homeLat,homeLng,lat,lng);
 
+        latituteField.setText(String.valueOf(mLat));
+        longitudeField.setText(String.valueOf(mLng));
+        accuracyGPSField.setText(String.valueOf(mAcc));
+    }
 
     private void expandClick()  {
         isLayoutVisible = !isLayoutVisible;
         mPixelGrid.setLayoutVisible(isLayoutVisible);
         mPixelGrid.invalidate();
+    }
+
+    @Override protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -219,6 +245,11 @@ public class DrawActivity extends Activity {
 
 
         super.onDestroy();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(LocationPublishEvent event) {
+        onLocationChanged(event.getLocation());
     }
 
     private BroadcastReceiver batteryLevelReceiver = new BroadcastReceiver() {

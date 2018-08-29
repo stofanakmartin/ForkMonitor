@@ -14,16 +14,17 @@ import com.example.vmec.forkmonitor.event.GattConnectionDestroyedEvent;
 import com.example.vmec.forkmonitor.event.GattDisconnectedEvent;
 import com.example.vmec.forkmonitor.event.GattServicesDiscoveredEvent;
 import com.example.vmec.forkmonitor.event.TrackingDataChangeEvent;
+import com.example.vmec.forkmonitor.event.TruckLoadedStatusChangeEvent;
 import com.example.vmec.forkmonitor.helper.BluetoothHelper;
 import com.example.vmec.forkmonitor.preference.BooleanPreference;
+import com.example.vmec.forkmonitor.preference.IntPreference;
 import com.example.vmec.forkmonitor.preference.StringPreference;
+import com.example.vmec.forkmonitor.utils.BluetoothUtils;
 import com.example.vmec.forkmonitor.utils.StringUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.io.UnsupportedEncodingException;
 
 import timber.log.Timber;
 
@@ -32,7 +33,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * Created by Stofanak on 21/08/2018.
  */
-public class ForkMonitorTrackingManager {
+public class BluetoothTrackingManager {
 
     //TODO: REMOVE reference to context
     private Context mContext;
@@ -42,8 +43,11 @@ public class ForkMonitorTrackingManager {
     private StringPreference mBluetoothDeviceNamePreference;
     private BooleanPreference mIsBluetoothTrackingEnabled;
     private BooleanPreference mIsLocationTrackingEnabled;
+    private IntPreference mTruckLoadedStatePreference;
+    private IntPreference mTruckStatusPreference;
     private String mTmpCharacteristicMsgBuffer = StringUtils.EMPTY_STRING;
     private BluetoothGattCharacteristic mDeviceStatusCharacteristic;
+
 
     private Runnable mBluetoothReadCharacteristicRunnable = new Runnable() {
         @Override public void run() {
@@ -58,7 +62,7 @@ public class ForkMonitorTrackingManager {
         }
     };
 
-    public ForkMonitorTrackingManager() {
+    public BluetoothTrackingManager(final Context context) {
         mHandler = new Handler();
         mBluetoothHelper = new BluetoothHelper();
     }
@@ -70,8 +74,9 @@ public class ForkMonitorTrackingManager {
         mIsBluetoothTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_BLUETOOTH_TRACKING_ENABLED, false);
         mIsLocationTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_LOCATION_TRACKING_ENABLED, false);
         mBluetoothDeviceNamePreference = new StringPreference(sp, Constants.PREFERENCE_BLUETOOTH_DEVICE_NAME, StringUtils.EMPTY_STRING);
+        mTruckLoadedStatePreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_LOADED_STATE, Constants.TRUCK_STATUS_NOT_INITIALIZED);
+        mTruckStatusPreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_STATUS, Constants.TRUCK_STATUS_NOT_INITIALIZED);
 
-        EventBus.getDefault().register(this);
         final boolean bluetoothInitStatus = mBluetoothHelper.initialize(context);
 
         if(bluetoothInitStatus) {
@@ -84,6 +89,7 @@ public class ForkMonitorTrackingManager {
     }
 
     public void startTracking(final Context context) {
+        EventBus.getDefault().register(this);
         mBluetoothHelper.connect(context, Constants.BLUETOOTH_DEVICE_ADDRESS);
         mIsBluetoothTrackingEnabled.set(true);
     }
@@ -92,12 +98,107 @@ public class ForkMonitorTrackingManager {
         mHandler.removeCallbacks(mBluetoothReadCharacteristicRunnable);
         mBluetoothHelper.disconnect();
         mIsBluetoothTrackingEnabled.set(false);
+
+        //TODO: IS IT NOT EARLY?
+        EventBus.getDefault().unregister(this);
     }
 
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void onMessageEvent(GattConnectedEvent event) {
-//        mBluetoothHelper.readCharacteristic(Constants.BLUETOOTH_FORK_MONITOR_SERVICE_UUID, Constants.BLUETOOTH_FORK_MONITOR_CHARACTERISTIC_UUID);
-//    }
+    private void setNextCharacteristicReadingAction() {
+        mHandler.postDelayed(mBluetoothReadCharacteristicRunnable, Constants.BLUETOOTH_CHARACTERISTIC_READ_INTERVAL_MS);
+    }
+
+    private void onCharacteristicRead(GattCharacteristicReadEvent event) {
+        final BluetoothGattCharacteristic characteristic = event.getCharacteristic();
+
+        if(characteristic.getUuid().toString().equals(Constants.BLUETOOTH_DEVICE_NAME_CHARACTERISTIC_UUID)) {
+            final String deviceName = BluetoothUtils.getCharacteristicStringValue(characteristic);
+            mBluetoothDeviceNamePreference.set(deviceName);
+            if(deviceName.equals(Constants.BLUETOOTH_DEVICE_NAME)) {
+                mBluetoothHelper.readCharacteristic(Constants.BLUETOOTH_FORK_MONITOR_SERVICE_UUID, Constants.BLUETOOTH_FORK_MONITOR_CHARACTERISTIC_UUID);
+            } else {
+                Timber.e("Bluetooth device name does not match. Current device name: %s", deviceName);
+                mBluetoothHelper.disconnect();
+            }
+        } else if(characteristic.getUuid().toString().equals(Constants.BLUETOOTH_FORK_MONITOR_CHARACTERISTIC_UUID)) {
+            final int characteristicProperties = characteristic.getProperties();
+
+            if ((characteristicProperties | BluetoothGattCharacteristic.PROPERTY_NOTIFY) > 0
+                    && (characteristicProperties | BluetoothGattCharacteristic.PROPERTY_WRITE) > 0) {
+                mDeviceStatusCharacteristic = characteristic;
+                mBluetoothHelper.setCharacteristicNotification(characteristic, true);
+            } else {
+                Timber.e("Bluetooth characteristic does not support NOTIFICATION or WRITE feature");
+                mBluetoothHelper.disconnect();
+            }
+        }
+        EventBus.getDefault().post(new TrackingDataChangeEvent());
+    }
+
+    private void onCharacteristicChange(GattCharacteristicChangeEvent event) {
+        final BluetoothGattCharacteristic characteristic = event.getCharacteristic();
+        final String charMessage = BluetoothUtils.getCharacteristicStringValue(characteristic);
+
+        Timber.d("Characteristic change received - message: %s", charMessage);
+
+        if (TextUtils.isEmpty(charMessage)) {
+            mLastCharacteristicPreference.set(StringUtils.EMPTY_STRING);
+            Timber.w("Received empty message or no data");
+        } else {
+            if(charMessage.toLowerCase().contains(Constants.BLUETOOTH_DEVICE_COMMUNICATION_END_MSG)) {
+                final String finalMessage = mTmpCharacteristicMsgBuffer + charMessage;
+                evaluateDeviceValue(finalMessage);
+                mTmpCharacteristicMsgBuffer = StringUtils.EMPTY_STRING;
+                mLastCharacteristicPreference.set(finalMessage);
+                mBluetoothHelper.writeToCharacteristic(characteristic, Constants.BLUETOOTH_DEVICE_COMMUNICATION_END_MSG);
+                setNextCharacteristicReadingAction();
+            } else {
+                // Append characteristic value to tmp buffer
+                mTmpCharacteristicMsgBuffer += charMessage;
+                // Set timeout - when no more request are going to be received in specified period
+                // of time the connection is going to be closed
+                mBluetoothHelper.requestConnectionDisconnectAfterTimeout();
+            }
+        }
+
+        EventBus.getDefault().post(new TrackingDataChangeEvent());
+    }
+
+    private void evaluateDeviceValue(final String deviceStatus) {
+        if(TextUtils.isEmpty(deviceStatus)) {
+            Timber.w("Empty device status message - nothing to process");
+            return;
+        }
+
+        final String bluetoothValue = deviceStatus.replace(Constants.BLUETOOTH_DEVICE_COMMUNICATION_END_MSG, StringUtils.EMPTY_STRING);
+        try {
+            final int ultrasoundValue = Integer.parseInt(bluetoothValue);
+            final int lastTruckLoadedState = mTruckLoadedStatePreference.get();
+            int newTruckStatus = mTruckStatusPreference.get();
+            int newTruckLoadedState = lastTruckLoadedState;
+
+            if(ultrasoundValue == Constants.ULTRASOUND_NOT_READ_VALUE) {
+                // N/A
+                newTruckStatus = Constants.TRUCK_STATUS_ERROR_VALUE;
+            } else if (ultrasoundValue >= Constants.ULTRASOUND_LOADED_UNLOADED_THRESHOLD_VALUE) {
+                // UNLOADED
+                newTruckLoadedState = Constants.TRUCK_STATUS_UNLOADED;
+                newTruckStatus = Constants.TRUCK_STATUS_UNLOADED;
+            } else {
+                // LOADED
+                newTruckLoadedState = Constants.TRUCK_STATUS_LOADED;
+                newTruckStatus = Constants.TRUCK_STATUS_LOADED;
+            }
+
+            mTruckStatusPreference.set(newTruckStatus);
+
+            if(lastTruckLoadedState != newTruckLoadedState) {
+                mTruckLoadedStatePreference.set(newTruckLoadedState);
+                EventBus.getDefault().post(new TruckLoadedStatusChangeEvent(newTruckLoadedState));
+            }
+        } catch(NumberFormatException ex) {
+            Timber.w("Bluetooth ultrasound value is not a number");
+        }
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(GattDisconnectedEvent event) {
@@ -121,66 +222,14 @@ public class ForkMonitorTrackingManager {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(GattCharacteristicReadEvent event) {
-        Timber.d("Characteristic read received");
-
-        final BluetoothGattCharacteristic characteristic = event.getCharacteristic();
-
-        if(characteristic.getUuid().toString().equals(Constants.BLUETOOTH_DEVICE_NAME_CHARACTERISTIC_UUID)) {
-            final String deviceName = getCharacteristicStringValue2(characteristic);
-            mBluetoothDeviceNamePreference.set(deviceName);
-            if(deviceName.equals(Constants.BLUETOOTH_DEVICE_NAME)) {
-                mBluetoothHelper.readCharacteristic(Constants.BLUETOOTH_FORK_MONITOR_SERVICE_UUID, Constants.BLUETOOTH_FORK_MONITOR_CHARACTERISTIC_UUID);
-            } else {
-                Timber.e("Bluetooth device name does not match. Current device name: %s", deviceName);
-                mBluetoothHelper.disconnect();
-            }
-        } else if(characteristic.getUuid().toString().equals(Constants.BLUETOOTH_FORK_MONITOR_CHARACTERISTIC_UUID)) {
-            final int characteristicProperties = characteristic.getProperties();
-
-            if ((characteristicProperties | BluetoothGattCharacteristic.PROPERTY_NOTIFY) > 0
-                    && (characteristicProperties | BluetoothGattCharacteristic.PROPERTY_WRITE) > 0) {
-                mDeviceStatusCharacteristic = characteristic;
-                mBluetoothHelper.setCharacteristicNotification(characteristic, true);
-            } else {
-                Timber.e("Bluetooth characteristic does not support NOTIFICATION or WRITE feature");
-                mBluetoothHelper.disconnect();
-            }
-        }
-        EventBus.getDefault().post(new TrackingDataChangeEvent());
-
-        //TODO: DO some action with characteristic
+        Timber.d("Characteristic read event");
+        onCharacteristicRead(event);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(GattCharacteristicChangeEvent event) {
-        final BluetoothGattCharacteristic characteristic = event.getCharacteristic();
-        final String charMessage = getCharacteristicStringValue2(characteristic);
-
-        Timber.d("Characteristic change received - message: %s", charMessage);
-
-        if (TextUtils.isEmpty(charMessage)) {
-            mLastCharacteristicPreference.set(StringUtils.EMPTY_STRING);
-            Timber.w("Received empty message or no data");
-        } else {
-            if(charMessage.toLowerCase().contains(Constants.BLUETOOTH_DEVICE_COMMUNICATION_END_MSG)) {
-                final String finalMessage = mTmpCharacteristicMsgBuffer + charMessage;
-                mTmpCharacteristicMsgBuffer = StringUtils.EMPTY_STRING;
-                mLastCharacteristicPreference.set(finalMessage);
-
-                mBluetoothHelper.writeToCharacteristic(characteristic, Constants.BLUETOOTH_DEVICE_COMMUNICATION_END_MSG);
-                setNextCharacteristicReadingAction();
-            } else {
-                // Append characteristic value to tmp buffer
-                mTmpCharacteristicMsgBuffer += charMessage;
-                // Set timeout - when no more request are going to be received in specified period
-                // of time the connection is going to be closed
-                mBluetoothHelper.requestConnectionDisconnectAfterTimeout();
-            }
-        }
-
-        EventBus.getDefault().post(new TrackingDataChangeEvent());
-
-        //TODO: DO some action with characteristic
+        Timber.d("Characteristic change event");
+        onCharacteristicChange(event);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -205,34 +254,5 @@ public class ForkMonitorTrackingManager {
             // of time the connection is going to be closed
             mBluetoothHelper.requestConnectionDisconnectAfterTimeout();
         }
-    }
-
-    private void setNextCharacteristicReadingAction() {
-        mHandler.postDelayed(mBluetoothReadCharacteristicRunnable, Constants.BLUETOOTH_CHARACTERISTIC_READ_INTERVAL_MS);
-    }
-
-    // TODO: MOVE TO UTILS
-    public String getCharacteristicStringValue(final BluetoothGattCharacteristic characteristic) {
-        final byte[] data = characteristic.getValue();
-        if (data != null && data.length > 0) {
-            final StringBuilder stringBuilder = new StringBuilder(data.length);
-            for(byte byteChar : data) {
-                stringBuilder.append(String.format("%02X ", byteChar));
-            }
-            return stringBuilder.toString();
-        }
-        return null;
-    }
-
-    public String getCharacteristicStringValue2(final BluetoothGattCharacteristic characteristic) {
-        byte[] messageBytes = characteristic.getValue();
-        String messageString = null;
-        try {
-            messageString = new String(messageBytes, "UTF-8");
-            Timber.d("Characteristic value: %s", messageString);
-        } catch (UnsupportedEncodingException e) {
-            Timber.e("Unable to convert message bytes to string");
-        }
-        return messageString;
     }
 }

@@ -1,6 +1,11 @@
 package com.example.vmec.forkmonitor.utils;
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothGattCharacteristic;
+
+import java.io.UnsupportedEncodingException;
+
+import timber.log.Timber;
 
 /**
  * Created by Stofanak on 18/08/2018.
@@ -18,5 +23,17 @@ public class BluetoothUtils {
             }
         }
         return true;
+    }
+
+    public static String getCharacteristicStringValue(final BluetoothGattCharacteristic characteristic) {
+        byte[] messageBytes = characteristic.getValue();
+        String messageString = null;
+        try {
+            messageString = new String(messageBytes, "UTF-8");
+            Timber.d("Characteristic value: %s", messageString);
+        } catch (UnsupportedEncodingException e) {
+            Timber.e("Unable to convert message bytes to string");
+        }
+        return messageString;
     }
 }

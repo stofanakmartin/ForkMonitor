@@ -19,6 +19,8 @@ import com.google.android.gms.location.LocationServices;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.List;
+
 import timber.log.Timber;
 
 /**
@@ -26,10 +28,10 @@ import timber.log.Timber;
  */
 public class LocationHelper {
 
-    private LocationManager locationManager;
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationRequest mLocationRequest;
     private LocationCallback mLocationCallback;
+    private Location mLastLocation;
 
     public void startTrackingLocation(final Context context) {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
@@ -45,6 +47,10 @@ public class LocationHelper {
 
     public void stopTrackingLocation() {
         mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+    }
+
+    public Location getLastLocation() {
+        return mLastLocation;
     }
 
     private LocationRequest createLocationRequest() {
@@ -63,10 +69,12 @@ public class LocationHelper {
                     Timber.d("Location callback - result null");
                     return;
                 }
-                for (Location location : locationResult.getLocations()) {
+                final List<Location> locations = locationResult.getLocations();
+                Timber.d("LocationCallback number of location results: %d", locations.size());
+                for (Location location : locations) {
+                    mLastLocation = location;
                     EventBus.getDefault().post(new LocationPublishEvent(location));
-                    Timber.d("LocationHelper locationResult callback - result: %s", location.toString());
-                    // Update UI with location data
+                    Timber.d("LocationCallback callback - result: %s", location.toString());
                 }
             };
         };

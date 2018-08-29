@@ -7,7 +7,8 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.support.annotation.Nullable;
 
-import com.example.vmec.forkmonitor.ForkMonitorTrackingManager;
+import com.example.vmec.forkmonitor.BluetoothTrackingManager;
+import com.example.vmec.forkmonitor.TrackingManager;
 import com.example.vmec.forkmonitor.helper.LocationHelper;
 import com.example.vmec.forkmonitor.helper.NotificationHelper;
 import com.example.vmec.forkmonitor.helper.WakeLockHelper;
@@ -19,9 +20,10 @@ import timber.log.Timber;
  */
 public class TrackingService extends Service {
 
-    private LocationHelper mLocationManager;
+//    private LocationHelper mLocationManager;
     private NotificationHelper mNotificationManager;
-    private ForkMonitorTrackingManager mTrackingManager;
+//    private BluetoothTrackingManager mTrackingManager;
+    private TrackingManager mTrackingManager;
 
     @Nullable @Override public IBinder onBind(Intent intent) {
         return null;
@@ -42,18 +44,20 @@ public class TrackingService extends Service {
 
         startForegroundService();
 
-        mLocationManager = new LocationHelper();
+        mTrackingManager = new TrackingManager(this);
+//        mLocationManager = new LocationHelper();
         //TODO: Temporarily disabled
 //        mLocationManager.startTrackingLocation(this);
-        mTrackingManager = new ForkMonitorTrackingManager();
-        mTrackingManager.initialize(this);
+//        mTrackingManager = new BluetoothTrackingManager(this);
+//        mTrackingManager.initialize(this);
+//        mTrackingManager.startTracking(this);
         mTrackingManager.startTracking(this);
     }
 
     @Override public void onDestroy() {
         super.onDestroy();
         Timber.d("Tracking manager destroyed.");
-        mLocationManager.stopTrackingLocation();
+//        mLocationManager.stopTrackingLocation();
         mTrackingManager.stopTracking();
         releaseWakelock();
     }

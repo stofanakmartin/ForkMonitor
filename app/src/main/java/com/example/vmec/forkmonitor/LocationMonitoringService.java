@@ -36,7 +36,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
+import timber.log.Timber;
 
 public class LocationMonitoringService extends Service implements LocationListener {
 
@@ -169,6 +169,8 @@ public class LocationMonitoringService extends Service implements LocationListen
 
 
         else if (evaualtionCode > 0) str ="Rovnaka bunka: " + String.valueOf(evaualtionCode) + "x"+" S:"+String.valueOf(counterS)+" F:"+String.valueOf(counterF);
+
+        Timber.d(str);
 
         if (location != null) {
             //Log.d(TAG, "== location != null");

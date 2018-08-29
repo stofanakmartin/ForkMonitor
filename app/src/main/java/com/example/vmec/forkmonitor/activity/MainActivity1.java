@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.vmec.forkmonitor.Constants;
+import com.example.vmec.forkmonitor.DrawActivity;
 import com.example.vmec.forkmonitor.R;
 import com.example.vmec.forkmonitor.event.GattCharacteristicReadEvent;
 import com.example.vmec.forkmonitor.event.LocationPublishEvent;
@@ -42,6 +43,7 @@ import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import timber.log.Timber;
 
 import static android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS;
@@ -177,6 +179,12 @@ public class MainActivity1 extends AppCompatActivity {
                 .setCancelable(false)
                 .create()
                 .show();
+    }
+
+    @OnClick(R.id.btn_show_map)
+    public void onShowMapClick() {
+        final Intent intent = new Intent(this, DrawActivity.class);
+        startActivity(intent);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
