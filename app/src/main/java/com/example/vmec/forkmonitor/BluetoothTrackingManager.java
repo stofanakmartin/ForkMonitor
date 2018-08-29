@@ -36,7 +36,7 @@ import static android.content.Context.MODE_PRIVATE;
  */
 public class BluetoothTrackingManager {
 
-    //TODO: REMOVE reference to context
+    //TODO: TRY TO REMOVE reference to context
     private Context mContext;
     private Handler mHandler;
     private BluetoothHelper mBluetoothHelper;
@@ -69,7 +69,6 @@ public class BluetoothTrackingManager {
     }
 
     public boolean initialize(final Context context) {
-        mContext = context;
         final SharedPreferences sp = context.getSharedPreferences(Constants.PREFERENCES_FILE_NAME, MODE_PRIVATE);
         mLastCharacteristicMsgPreference = new StringPreference(sp, Constants.PREFERENCE_LAST_CHARACTERISTIC_MSG, StringUtils.EMPTY_STRING);
         mIsBluetoothTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_BLUETOOTH_TRACKING_ENABLED, false);
@@ -91,12 +90,14 @@ public class BluetoothTrackingManager {
     }
 
     public void startTracking(final Context context) {
+        mContext = context;
         EventBus.getDefault().register(this);
         mBluetoothHelper.connect(context, Constants.BLUETOOTH_DEVICE_ADDRESS);
         mIsBluetoothTrackingEnabled.set(true);
     }
 
     public void stopTracking() {
+        mContext = null;
         mHandler.removeCallbacks(mBluetoothReadCharacteristicRunnable);
         mBluetoothHelper.disconnect();
         mIsBluetoothTrackingEnabled.set(false);
@@ -194,12 +195,19 @@ public class BluetoothTrackingManager {
 
             mTruckStatusPreference.set(newTruckStatus);
 
-            if(lastTruckLoadedState != newTruckLoadedState) {
-                mTruckLoadedStatePreference.set(newTruckLoadedState);
-                EventBus.getDefault().post(new TruckLoadedStateChangeEvent(newTruckLoadedState));
-            }
+            //TODO: TEMPORARY docasne sa posiela na server kazda hodnota charakteristiky z bluetooth
+//            if(lastTruckLoadedState != newTruckLoadedState) {
+//                mTruckLoadedStatePreference.set(newTruckLoadedState);
+//                EventBus.getDefault().post(new TruckLoadedStateChangeEvent(newTruckLoadedState));
+//            }
+            mTruckLoadedStatePreference.set(newTruckLoadedState);
+            EventBus.getDefault().post(new TruckLoadedStateChangeEvent(ultrasoundValue));
         } catch(NumberFormatException ex) {
             Timber.w("Bluetooth ultrasound value is not a number");
+            // N/A
+            final int newTruckStatus = Constants.TRUCK_STATUS_ERROR_VALUE;
+            mTruckStatusPreference.set(newTruckStatus);
+            EventBus.getDefault().post(new TruckLoadedStateChangeEvent(newTruckStatus));
         }
     }
 

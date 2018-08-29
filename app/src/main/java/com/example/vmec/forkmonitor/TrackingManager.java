@@ -3,6 +3,7 @@ package com.example.vmec.forkmonitor;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
+import android.text.TextUtils;
 
 import com.example.vmec.forkmonitor.data.model.Post;
 import com.example.vmec.forkmonitor.data.remote.APIService;
@@ -14,6 +15,8 @@ import com.example.vmec.forkmonitor.helper.LocationHelper;
 import com.example.vmec.forkmonitor.helper.LocationPolygonHelper;
 import com.example.vmec.forkmonitor.preference.BooleanPreference;
 import com.example.vmec.forkmonitor.preference.IntPreference;
+import com.example.vmec.forkmonitor.preference.StringPreference;
+import com.example.vmec.forkmonitor.utils.StringUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -39,6 +42,7 @@ public class TrackingManager {
     private IntPreference mTruckStatusPreference;
     private BooleanPreference mIsLocationTrackingEnabled;
     private BooleanPreference mIsBluetoothTrackingEnabled;
+    private StringPreference mLastCharacteristicMsgPreference;
 
     public TrackingManager(final Context context) {
         final SharedPreferences sp = context.getSharedPreferences(Constants.PREFERENCES_FILE_NAME, MODE_PRIVATE);
@@ -49,6 +53,7 @@ public class TrackingManager {
         mAPIService = ApiUtils.getAPIService();
         mLocationPolygonHelper = new LocationPolygonHelper(context);
 //        mTruckLoadedStatePreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_LOADED_STATE, Constants.TRUCK_STATUS_NOT_INITIALIZED);
+        mLastCharacteristicMsgPreference = new StringPreference(sp, Constants.PREFERENCE_LAST_CHARACTERISTIC_MSG, StringUtils.EMPTY_STRING);
         mTruckStatusPreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_STATUS, Constants.TRUCK_STATUS_NOT_INITIALIZED);
         mIsLocationTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_LOCATION_TRACKING_ENABLED, false);
         mIsBluetoothTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_BLUETOOTH_TRACKING_ENABLED, false);
@@ -103,7 +108,18 @@ public class TrackingManager {
 
         if(locationPolygonStatus == 0) {
             final int truckStatus = mTruckStatusPreference.get();
-            sendPost(android.os.Build.SERIAL, location.getLatitude(), location.getLongitude(), 30, location.getAccuracy(), truckStatus);  //TODO bateriu posielat
+            // TODO bateriu posielat
+            // TODO: TEMPORARY docasne sa posiela na server hodnota charakteristiky z bluetooth
+//            sendPost(android.os.Build.SERIAL, location.getLatitude(), location.getLongitude(), 30, location.getAccuracy(), mLastCharacteristicMsgPreference.get());
+            try {
+                int characteristicValue = -1;
+                if(!TextUtils.isEmpty(mLastCharacteristicMsgPreference.get())) {
+                    characteristicValue = Integer.parseInt(mLastCharacteristicMsgPreference.get());
+                }
+                sendPost(android.os.Build.SERIAL, location.getLatitude(), location.getLongitude(), 30, location.getAccuracy(), characteristicValue);
+            } catch (NumberFormatException e) {
+                Timber.w("Cannot convert last characteristic message to integer");
+            }
         }
         EventBus.getDefault().post(new TrackingDataChangeEvent());
     }
@@ -112,7 +128,10 @@ public class TrackingManager {
     public void onMessageEvent(TruckLoadedStateChangeEvent event) {
         final Location lastLocation = mLocationHelper.getLastLocation();
         if(lastLocation != null) {
-            sendPost(android.os.Build.SERIAL, lastLocation.getLatitude(), lastLocation.getLongitude(), 30, lastLocation.getAccuracy(), event.getTruckLoadedState());  //TODO bateriu posielat
+            // TODO bateriu posielat
+            // TODO: TEMPORARY docasne sa posiela na server hodnota charakteristiky z bluetooth
+//            sendPost(android.os.Build.SERIAL, lastLocation.getLatitude(), lastLocation.getLongitude(), 30, lastLocation.getAccuracy(), event.getTruckLoadedState());
+            sendPost(android.os.Build.SERIAL, lastLocation.getLatitude(), lastLocation.getLongitude(), 30, lastLocation.getAccuracy(), event.getTruckLoadedState());
         }
     }
 }

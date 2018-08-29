@@ -199,7 +199,7 @@ public class MainActivity1 extends AppCompatActivity {
 
     @OnClick(R.id.btn_tracking_toggle)
     public void onTrackingToggleClick() {
-
+//        EventBus.getDefault().post(new TrackingEnableChangeEvent());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
