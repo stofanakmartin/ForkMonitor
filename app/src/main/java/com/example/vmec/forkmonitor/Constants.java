@@ -20,7 +20,7 @@ public class Constants {
     public static final String BLUETOOTH_DEVICE_COMMUNICATION_START_MSG = "sssta";
     public static final String BLUETOOTH_DEVICE_COMMUNICATION_END_MSG = "end";
 
-    public static final int BLUETOOTH_CHARACTERISTIC_READ_INTERVAL_MS = SECOND_MS * 15;
+    public static final int BLUETOOTH_CHARACTERISTIC_READ_INTERVAL_MS = SECOND_MS * 8;
 
     public static final String PREFERENCES_FILE_NAME = "fork_monitor_pref";
     public static final String PREFERENCE_LAST_TRUCK_LOADED_STATE = "last_truck_loaded_state";

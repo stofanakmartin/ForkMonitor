@@ -154,7 +154,8 @@ public class BluetoothTrackingManager {
                 evaluateDeviceValue(finalMsgCleared);
                 mTmpCharacteristicMsgBuffer = StringUtils.EMPTY_STRING;
                 mLastCharacteristicMsgPreference.set(finalMsgCleared);
-                mBluetoothHelper.writeToCharacteristic(characteristic, Constants.BLUETOOTH_DEVICE_COMMUNICATION_END_MSG);
+                //TODO: TEMPORARILY DISABLED WRITING END TO CHARACTERISTIC
+//                mBluetoothHelper.writeToCharacteristic(characteristic, Constants.BLUETOOTH_DEVICE_COMMUNICATION_END_MSG);
                 setNextCharacteristicReadingAction();
             } else {
                 // Append characteristic value to tmp buffer
