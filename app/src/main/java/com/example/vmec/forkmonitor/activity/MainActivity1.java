@@ -84,6 +84,9 @@ public class MainActivity1 extends AppCompatActivity {
         ButterKnife.bind(this);
         mLocationHistoryView.setKeyListener(null);
 
+        final String appName = StringUtils.getString(this, R.string.app_name);
+        setTitle(String.format("%s: %s", appName, Constants.BLUETOOTH_DEVICE_NAME));
+
         final SharedPreferences sp = getSharedPreferences(Constants.PREFERENCES_FILE_NAME, MODE_PRIVATE);
         mIsBluetoothTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_BLUETOOTH_TRACKING_ENABLED, false);
         mIsLocationTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_LOCATION_TRACKING_ENABLED, false);
@@ -92,6 +95,9 @@ public class MainActivity1 extends AppCompatActivity {
         mIsBluetoothDeviceConnectedPreference = new BooleanPreference(sp, Constants.PREFERENCE_IS_BLUETOOTH_DEVICE_CONNECTED, false);
         mTruckLoadedStatePreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_LOADED_STATE, Constants.TRUCK_STATUS_NOT_INITIALIZED);
         mTruckStatusPreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_STATUS, Constants.TRUCK_STATUS_NOT_INITIALIZED);
+        mIsBluetoothDeviceConnectedPreference.set(false);
+        mTruckLoadedStatePreference.set(Constants.TRUCK_STATUS_NOT_INITIALIZED);
+        mTruckStatusPreference.set(Constants.TRUCK_STATUS_NOT_INITIALIZED);
 
         checkPermissions();
 

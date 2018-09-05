@@ -80,7 +80,6 @@ public class BluetoothTrackingManager {
         mTruckStatusPreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_STATUS, Constants.TRUCK_STATUS_NOT_INITIALIZED);
         mIsBluetoothDeviceConnectedPreference = new BooleanPreference(sp, Constants.PREFERENCE_IS_BLUETOOTH_DEVICE_CONNECTED, false);
         mBluetoothDeviceBatteryLevelPreference = new IntPreference(sp, Constants.PREFERENCE_BLUETOOTH_BATTERY_LEVEL, 0);
-        mIsBluetoothDeviceConnectedPreference.set(false);
 
         final boolean bluetoothInitStatus = mBluetoothHelper.initialize(context);
 
