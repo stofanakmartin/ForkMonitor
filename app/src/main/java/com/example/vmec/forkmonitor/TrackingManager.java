@@ -43,6 +43,7 @@ public class TrackingManager {
     private BooleanPreference mIsLocationTrackingEnabled;
     private BooleanPreference mIsBluetoothTrackingEnabled;
     private StringPreference mLastCharacteristicMsgPreference;
+    private IntPreference mBluetoothDeviceBatteryLevelPreference;
 
     public TrackingManager(final Context context) {
         final SharedPreferences sp = context.getSharedPreferences(Constants.PREFERENCES_FILE_NAME, MODE_PRIVATE);
@@ -57,6 +58,7 @@ public class TrackingManager {
         mTruckStatusPreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_STATUS, Constants.TRUCK_STATUS_NOT_INITIALIZED);
         mIsLocationTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_LOCATION_TRACKING_ENABLED, false);
         mIsBluetoothTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_BLUETOOTH_TRACKING_ENABLED, false);
+        mBluetoothDeviceBatteryLevelPreference = new IntPreference(sp, Constants.PREFERENCE_BLUETOOTH_BATTERY_LEVEL, 0);
         mIsLocationTrackingEnabled.set(false);
         mIsBluetoothTrackingEnabled.set(false);
     }
@@ -131,7 +133,16 @@ public class TrackingManager {
             // TODO bateriu posielat
             // TODO: TEMPORARY docasne sa posiela na server hodnota charakteristiky z bluetooth
 //            sendPost(android.os.Build.SERIAL, lastLocation.getLatitude(), lastLocation.getLongitude(), 30, lastLocation.getAccuracy(), event.getTruckLoadedState());
-            sendPost(android.os.Build.SERIAL, lastLocation.getLatitude(), lastLocation.getLongitude(), 30, lastLocation.getAccuracy(), event.getTruckLoadedState());
+
+
+            final String valueToSend = String.valueOf(event.getTruckLoadedState()) + String.valueOf(mBluetoothDeviceBatteryLevelPreference.get());
+            try {
+                final int value = Integer.parseInt(valueToSend);
+                sendPost(android.os.Build.SERIAL, lastLocation.getLatitude(), lastLocation.getLongitude(), 30, lastLocation.getAccuracy(), value);
+            } catch (NumberFormatException e) {
+                sendPost(android.os.Build.SERIAL, lastLocation.getLatitude(), lastLocation.getLongitude(), 30, lastLocation.getAccuracy(), -1);
+                Timber.e("Failed to parse last bluetooth device status to integer. Message: %s", valueToSend);
+            }
         }
     }
 }

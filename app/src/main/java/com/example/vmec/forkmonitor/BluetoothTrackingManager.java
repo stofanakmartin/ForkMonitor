@@ -46,6 +46,7 @@ public class BluetoothTrackingManager {
     private BooleanPreference mIsBluetoothDeviceConnectedPreference;
     private IntPreference mTruckLoadedStatePreference;
     private IntPreference mTruckStatusPreference;
+    private IntPreference mBluetoothDeviceBatteryLevelPreference;
     private String mTmpCharacteristicMsgBuffer = StringUtils.EMPTY_STRING;
     private BluetoothGattCharacteristic mDeviceStatusCharacteristic;
 
@@ -76,6 +77,7 @@ public class BluetoothTrackingManager {
         mTruckLoadedStatePreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_LOADED_STATE, Constants.TRUCK_STATUS_NOT_INITIALIZED);
         mTruckStatusPreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_STATUS, Constants.TRUCK_STATUS_NOT_INITIALIZED);
         mIsBluetoothDeviceConnectedPreference = new BooleanPreference(sp, Constants.PREFERENCE_IS_BLUETOOTH_DEVICE_CONNECTED, false);
+        mBluetoothDeviceBatteryLevelPreference = new IntPreference(sp, Constants.PREFERENCE_BLUETOOTH_BATTERY_LEVEL, 0);
         mIsBluetoothDeviceConnectedPreference.set(false);
 
         final boolean bluetoothInitStatus = mBluetoothHelper.initialize(context);
@@ -175,8 +177,25 @@ public class BluetoothTrackingManager {
             return;
         }
 
+        // TODO: REFACTOR
+
         try {
-            final int ultrasoundValue = Integer.parseInt(deviceStatus);
+            final String[] status = deviceStatus.split("||");
+            if(status.length != 2) {
+                Timber.w("Bluetooth status is not in expected format: ultrasound_value||battery_level");
+                final int newTruckStatus = Constants.TRUCK_STATUS_ERROR_VALUE;
+                mTruckStatusPreference.set(newTruckStatus);
+                EventBus.getDefault().post(new TruckLoadedStateChangeEvent(newTruckStatus));
+            }
+            // status[0] - ultrasound distance
+            // status[1] - arduino powerbank battery level
+            final String ultrasoundStatus = status[0];
+            int ultrasoundValue = -1;
+            if(!ultrasoundStatus.equalsIgnoreCase("fail")) {
+                ultrasoundValue = Integer.parseInt(status[0]);
+            }
+            final int batteryValue = Integer.parseInt(status[1]);
+            mBluetoothDeviceBatteryLevelPreference.set(batteryValue);
             final int lastTruckLoadedState = mTruckLoadedStatePreference.get();
             int newTruckStatus = mTruckStatusPreference.get();
             int newTruckLoadedState = lastTruckLoadedState;
