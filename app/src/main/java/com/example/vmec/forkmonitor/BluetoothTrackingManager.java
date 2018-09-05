@@ -27,6 +27,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.regex.Pattern;
+
 import timber.log.Timber;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -180,7 +182,7 @@ public class BluetoothTrackingManager {
         // TODO: REFACTOR
 
         try {
-            final String[] status = deviceStatus.split("||");
+            final String[] status = deviceStatus.split(Pattern.quote("||"));
             if(status.length != 2) {
                 Timber.w("Bluetooth status is not in expected format: ultrasound_value||battery_level");
                 final int newTruckStatus = Constants.TRUCK_STATUS_ERROR_VALUE;
