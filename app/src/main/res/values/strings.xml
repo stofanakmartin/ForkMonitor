@@ -10,4 +10,6 @@
     <string name="truck_status_loaded">Loaded</string>
     <string name="truck_status_unloaded">Unloaded</string>
     <string name="truck_status_unknown">Unknown</string>
+
+    <string name="notification_info_title_battery_level">Battery level</string>
 </resources>

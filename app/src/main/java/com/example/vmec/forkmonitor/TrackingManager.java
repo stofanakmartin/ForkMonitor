@@ -1,8 +1,15 @@
 package com.example.vmec.forkmonitor;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.location.Location;
+import android.support.v4.app.NotificationManagerCompat;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 
 import com.example.vmec.forkmonitor.data.model.Post;
@@ -13,6 +20,7 @@ import com.example.vmec.forkmonitor.event.TrackingDataChangeEvent;
 import com.example.vmec.forkmonitor.event.TruckLoadedStateChangeEvent;
 import com.example.vmec.forkmonitor.helper.LocationHelper;
 import com.example.vmec.forkmonitor.helper.LocationPolygonHelper;
+import com.example.vmec.forkmonitor.helper.NotificationHelper;
 import com.example.vmec.forkmonitor.preference.BooleanPreference;
 import com.example.vmec.forkmonitor.preference.IntPreference;
 import com.example.vmec.forkmonitor.preference.StringPreference;
@@ -43,13 +51,37 @@ public class TrackingManager {
     private BooleanPreference mIsLocationTrackingEnabled;
     private BooleanPreference mIsBluetoothTrackingEnabled;
     private StringPreference mLastCharacteristicMsgPreference;
+    private IntPreference mUltrasoundValuePreference;
     private IntPreference mBluetoothDeviceBatteryLevelPreference;
+    private NotificationHelper mNotificationHelper;
+    NotificationManagerCompat mNotificationManager;
+    private int mBatteryLevel = -1;
+
+    private BroadcastReceiver batteryLevelReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context ctxt, Intent intent) {
+            int rawlevel = intent.getIntExtra("level", -1);
+            int scale = intent.getIntExtra("scale", -1);
+            int level = -1;
+            if (rawlevel >= 0 && scale > 0) {
+                level = (rawlevel * 100) / scale;
+            }
+            mBatteryLevel = level;
+
+//            if(mBatteryLevel < Constants.PHONE_LOW_BATTERY_LEVEL_VALUE) {
+//                final Notification notification = mNotificationHelper.getInfoNotification(ctxt, ctxt.getString(R.string.notification_info_title_battery_level), new SpannableStringBuilder("plug in charger"), NotificationHelper.NOTIFICATION_INFO_TYPE_ERROR);
+//                mNotificationManager.notify(1, notification);
+//            }
+        }
+    };
 
     public TrackingManager(final Context context) {
         final SharedPreferences sp = context.getSharedPreferences(Constants.PREFERENCES_FILE_NAME, MODE_PRIVATE);
         mLocationHelper = new LocationHelper(context);
         mBluetoothTrackingManager = new BluetoothTrackingManager(context);
         mBluetoothTrackingManager.initialize(context);
+        mNotificationHelper = new NotificationHelper();
+        mNotificationManager = NotificationManagerCompat.from(context);
 
         mAPIService = ApiUtils.getAPIService();
         mLocationPolygonHelper = new LocationPolygonHelper(context);
@@ -58,9 +90,12 @@ public class TrackingManager {
         mTruckStatusPreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_STATUS, Constants.TRUCK_STATUS_NOT_INITIALIZED);
         mIsLocationTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_LOCATION_TRACKING_ENABLED, false);
         mIsBluetoothTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_BLUETOOTH_TRACKING_ENABLED, false);
-        mBluetoothDeviceBatteryLevelPreference = new IntPreference(sp, Constants.PREFERENCE_BLUETOOTH_BATTERY_LEVEL, 0);
+        mBluetoothDeviceBatteryLevelPreference = new IntPreference(sp, Constants.PREFERENCE_BLUETOOTH_BATTERY_LEVEL, -1);
+        mUltrasoundValuePreference = new IntPreference(sp, Constants.PREFERENCE_ULTRASOUND_VALUE, -1);
         mIsLocationTrackingEnabled.set(false);
         mIsBluetoothTrackingEnabled.set(false);
+
+        context.registerReceiver(this.batteryLevelReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
     }
 
     public void startTracking(final Context context) {
@@ -110,15 +145,17 @@ public class TrackingManager {
 
         if(locationPolygonStatus == 0) {
             final int truckStatus = mTruckStatusPreference.get();
-            // TODO bateriu posielat
             // TODO: TEMPORARY docasne sa posiela na server hodnota charakteristiky z bluetooth
 //            sendPost(android.os.Build.SERIAL, location.getLatitude(), location.getLongitude(), 30, location.getAccuracy(), mLastCharacteristicMsgPreference.get());
+
+            String valueToSend = String.valueOf(mUltrasoundValuePreference.get()) + String.valueOf(mBluetoothDeviceBatteryLevelPreference.get());
+            if(mBluetoothDeviceBatteryLevelPreference.get() == -1 && mUltrasoundValuePreference.get() == -1) {
+                valueToSend = "-1";
+            }
+
             try {
-                int characteristicValue = -1;
-                if(!TextUtils.isEmpty(mLastCharacteristicMsgPreference.get())) {
-                    characteristicValue = Integer.parseInt(mLastCharacteristicMsgPreference.get());
-                }
-                sendPost(android.os.Build.SERIAL, location.getLatitude(), location.getLongitude(), 30, location.getAccuracy(), characteristicValue);
+                final int value = Integer.parseInt(valueToSend);
+                sendPost(android.os.Build.SERIAL, location.getLatitude(), location.getLongitude(), mBatteryLevel, location.getAccuracy(), value);
             } catch (NumberFormatException e) {
                 Timber.w("Cannot convert last characteristic message to integer");
             }
@@ -135,12 +172,15 @@ public class TrackingManager {
 //            sendPost(android.os.Build.SERIAL, lastLocation.getLatitude(), lastLocation.getLongitude(), 30, lastLocation.getAccuracy(), event.getTruckLoadedState());
 
 
-            final String valueToSend = String.valueOf(event.getTruckLoadedState()) + String.valueOf(mBluetoothDeviceBatteryLevelPreference.get());
+            String valueToSend = String.valueOf(mUltrasoundValuePreference.get()) + String.valueOf(mBluetoothDeviceBatteryLevelPreference.get());
+            if(mBluetoothDeviceBatteryLevelPreference.get() == -1 && mUltrasoundValuePreference.get() == -1) {
+                valueToSend = "-1";
+            }
             try {
                 final int value = Integer.parseInt(valueToSend);
-                sendPost(android.os.Build.SERIAL, lastLocation.getLatitude(), lastLocation.getLongitude(), 30, lastLocation.getAccuracy(), value);
+                sendPost(android.os.Build.SERIAL, lastLocation.getLatitude(), lastLocation.getLongitude(), mBatteryLevel, lastLocation.getAccuracy(), value);
             } catch (NumberFormatException e) {
-                sendPost(android.os.Build.SERIAL, lastLocation.getLatitude(), lastLocation.getLongitude(), 30, lastLocation.getAccuracy(), -1);
+                sendPost(android.os.Build.SERIAL, lastLocation.getLatitude(), lastLocation.getLongitude(), mBatteryLevel, lastLocation.getAccuracy(), -1);
                 Timber.e("Failed to parse last bluetooth device status to integer. Message: %s", valueToSend);
             }
         }

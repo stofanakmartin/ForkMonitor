@@ -49,6 +49,7 @@ public class BluetoothTrackingManager {
     private IntPreference mTruckLoadedStatePreference;
     private IntPreference mTruckStatusPreference;
     private IntPreference mBluetoothDeviceBatteryLevelPreference;
+    private IntPreference mUltrasoundValuePreference;
     private String mTmpCharacteristicMsgBuffer = StringUtils.EMPTY_STRING;
     private BluetoothGattCharacteristic mDeviceStatusCharacteristic;
 
@@ -80,6 +81,7 @@ public class BluetoothTrackingManager {
         mTruckStatusPreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_STATUS, Constants.TRUCK_STATUS_NOT_INITIALIZED);
         mIsBluetoothDeviceConnectedPreference = new BooleanPreference(sp, Constants.PREFERENCE_IS_BLUETOOTH_DEVICE_CONNECTED, false);
         mBluetoothDeviceBatteryLevelPreference = new IntPreference(sp, Constants.PREFERENCE_BLUETOOTH_BATTERY_LEVEL, 0);
+        mUltrasoundValuePreference = new IntPreference(sp, Constants.PREFERENCE_ULTRASOUND_VALUE, -1);
 
         final boolean bluetoothInitStatus = mBluetoothHelper.initialize(context);
 
@@ -194,6 +196,9 @@ public class BluetoothTrackingManager {
             int ultrasoundValue = -1;
             if(!ultrasoundStatus.equalsIgnoreCase("fail")) {
                 ultrasoundValue = Integer.parseInt(status[0]);
+                mUltrasoundValuePreference.set(ultrasoundValue);
+            } else {
+                mUltrasoundValuePreference.set(-1);
             }
             final int batteryValue = Integer.parseInt(status[1]);
             mBluetoothDeviceBatteryLevelPreference.set(batteryValue);

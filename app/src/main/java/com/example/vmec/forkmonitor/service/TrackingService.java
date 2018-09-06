@@ -7,9 +7,7 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.support.annotation.Nullable;
 
-import com.example.vmec.forkmonitor.BluetoothTrackingManager;
 import com.example.vmec.forkmonitor.TrackingManager;
-import com.example.vmec.forkmonitor.helper.LocationHelper;
 import com.example.vmec.forkmonitor.helper.NotificationHelper;
 import com.example.vmec.forkmonitor.helper.WakeLockHelper;
 
@@ -63,7 +61,7 @@ public class TrackingService extends Service {
     }
 
     private void startForegroundService() {
-        final Notification notification = mNotificationManager.getNotification(this);
+        final Notification notification = mNotificationManager.getServiceNotification(this);
         startForeground(NotificationHelper.NOTIFICATION_ID, notification);
     }
 
