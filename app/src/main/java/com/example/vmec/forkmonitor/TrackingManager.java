@@ -145,11 +145,11 @@ public class TrackingManager {
 
         if(locationPolygonStatus == 0) {
             final int truckStatus = mTruckStatusPreference.get();
-            // TODO: TEMPORARY docasne sa posiela na server hodnota charakteristiky z bluetooth
+            // TODO: TEMPORARY docasne sa posiela na server status = 1 - zmena location
 //            sendPost(android.os.Build.SERIAL, location.getLatitude(), location.getLongitude(), 30, location.getAccuracy(), mLastCharacteristicMsgPreference.get());
 
             sendPost(android.os.Build.SERIAL, location.getLatitude(), location.getLongitude(),
-                    mBatteryLevel, location.getAccuracy(), mTruckStatusPreference.get(), mUltrasoundValuePreference.get(),
+                    mBatteryLevel, location.getAccuracy(), 1, mUltrasoundValuePreference.get(),
                     mBluetoothDeviceBatteryLevelPreference.get());
         }
         EventBus.getDefault().post(new TrackingDataChangeEvent());
@@ -160,11 +160,11 @@ public class TrackingManager {
         final Location lastLocation = mLocationHelper.getLastLocation();
         if(lastLocation != null) {
             // TODO bateriu posielat
-            // TODO: TEMPORARY docasne sa posiela na server hodnota charakteristiky z bluetooth
+            // TODO: TEMPORARY docasne sa posiela na server status = 2 - zmena bluetooth
 //            sendPost(android.os.Build.SERIAL, lastLocation.getLatitude(), lastLocation.getLongitude(), 30, lastLocation.getAccuracy(), event.getTruckLoadedState());
 
             sendPost(android.os.Build.SERIAL, lastLocation.getLatitude(), lastLocation.getLongitude(),
-                    mBatteryLevel, lastLocation.getAccuracy(), mTruckStatusPreference.get(), mUltrasoundValuePreference.get(),
+                    mBatteryLevel, lastLocation.getAccuracy(), 2, mUltrasoundValuePreference.get(),
                     mBluetoothDeviceBatteryLevelPreference.get());
         }
     }
