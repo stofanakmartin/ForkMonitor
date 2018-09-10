@@ -31,6 +31,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Location history"
+        android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_show_map"
         />
@@ -75,7 +76,7 @@
         android:layout_marginTop="8dp"
         android:text="Bluetooth last characteristic"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/txt_label_bluetooth_connection_status"
         />
 
     <TextView
@@ -86,7 +87,7 @@
         android:layout_marginTop="8dp"
         android:text="Bluetooth tracking status"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_tracking_toggle"
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
         />
 
     <TextView
@@ -96,7 +97,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_bluetooth_device_name"
+        app:layout_constraintTop_toBottomOf="@+id/txt_bluetooth_connection_status"
         />
 
     <TextView
@@ -106,7 +107,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_tracking_toggle"
+        app:layout_constraintTop_toBottomOf="@+id/txt_bluetooth_hw_address"
         />
 
     <TextView
@@ -125,9 +126,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Bluetooth device name"
+        android:text="@string/ble_device_name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_label_bluetooth_connection_status"
+        app:layout_constraintTop_toBottomOf="@+id/txt_truck_loaded_state"
         />
 
     <TextView
@@ -137,7 +138,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_bluetooth_connection_status"
+        app:layout_constraintTop_toBottomOf="@+id/txt_truck_loaded_state"
         />
 
     <Button
@@ -163,7 +164,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Show map"
+        android:text="@string/btn_show_map"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
@@ -176,7 +177,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -194,5 +195,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_truck_status"
         tools:text="Nalozeny"
+        />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/ble_hw_address"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        />
+
+    <TextView
+        android:id="@+id/txt_bluetooth_hw_address"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_bluetooth_device_name"
         />
 </android.support.constraint.ConstraintLayout>

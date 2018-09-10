@@ -308,22 +308,22 @@ public class DrawActivity extends Activity {
     };
 
     public void sendPost(String name, double lat,double lng, double battery, double accuracy, int status) {
-        mAPIService.savePost(name, lat, lng,battery, accuracy,status).enqueue(new Callback<Post>() {
-            @Override
-            public void onResponse(Call<Post> call, Response<Post> response) {
-                if(response.isSuccessful()) {
-                    Log.d("rest", "success");
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Post> call, Throwable t) {
-                //Log.e("rest", "Unable to submit post to API.");
-                Log.d("rest", "fail");
-
-            }
-        });
+//        mAPIService.savePost(name, lat, lng,battery, accuracy,status).enqueue(new Callback<Post>() {
+//            @Override
+//            public void onResponse(Call<Post> call, Response<Post> response) {
+//                if(response.isSuccessful()) {
+//                    Log.d("rest", "success");
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Post> call, Throwable t) {
+//                //Log.e("rest", "Unable to submit post to API.");
+//                Log.d("rest", "fail");
+//
+//            }
+//        });
     }
 
 }

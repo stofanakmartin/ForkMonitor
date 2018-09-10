@@ -8,7 +8,7 @@
     <string name="truck_status_unloaded">Vyloženo</string>
     <string name="truck_status_unknown">Neznámý</string>
     <string name="status_bluetooth_name_not_match">Názov bluetooth zariadenia sa nezhoduje</string>
-    <string name="status_bluetooth_config_failed">Bluetooth konfigurace zlyhala</string>
+    <string name="status_bluetooth_config_failed">Bluetooth konfigurácia zlyhala</string>
     <string name="enabled">Zapnuté</string>
     <string name="disabled">Vypnuté</string>
     <string name="btn_show_map">Mapa</string>

@@ -43,19 +43,12 @@ public class TrackingService extends Service {
         startForegroundService();
 
         mTrackingManager = new TrackingManager(this);
-//        mLocationManager = new LocationHelper();
-        //TODO: Temporarily disabled
-//        mLocationManager.startTrackingLocation(this);
-//        mTrackingManager = new BluetoothTrackingManager(this);
-//        mTrackingManager.initialize(this);
-//        mTrackingManager.startTracking(this);
         mTrackingManager.startTracking(this);
     }
 
     @Override public void onDestroy() {
         super.onDestroy();
         Timber.d("Tracking manager destroyed.");
-//        mLocationManager.stopTrackingLocation();
         mTrackingManager.stopTracking();
         releaseWakelock();
     }

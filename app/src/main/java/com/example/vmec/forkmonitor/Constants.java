@@ -9,8 +9,6 @@ public class Constants {
     public static final int SECOND_MS = 1000;
     public static final int BLUETOOTH_MAX_REQUEST_TIMEOUT_MS = SECOND_MS * 4;
 
-    public static final String BLUETOOTH_DEVICE_NAME = "BLE02";
-    public static final String BLUETOOTH_DEVICE_ADDRESS = "00:15:85:14:9C:09";
     public static final String BLUETOOTH_DEVICE_NAME_SERVICE_UUID = "00001800-0000-1000-8000-00805f9b34fb";
     public static final String BLUETOOTH_DEVICE_NAME_CHARACTERISTIC_UUID = "00002a00-0000-1000-8000-00805f9b34fb";
     public static final String BLUETOOTH_FORK_MONITOR_SERVICE_UUID = "0000ffe0-0000-1000-8000-00805f9b34fb";
@@ -22,6 +20,8 @@ public class Constants {
 
     public static final int BLUETOOTH_CHARACTERISTIC_READ_INTERVAL_MS = SECOND_MS * 10;
 
+    public static final String PREFERENCE_DEVICE_CONFIG_BLE_HW_ADDRESS = "device_config_ble_hw_address";
+    public static final String PREFERENCE_DEVICE_CONFIG_BLE_NAME = "device_config_ble_name";
     public static final String PREFERENCES_FILE_NAME = "fork_monitor_pref";
     public static final String PREFERENCE_LAST_TRUCK_LOADED_STATE = "last_truck_loaded_state";
     public static final String PREFERENCE_LAST_TRUCK_STATUS = "last_truck_status";
@@ -33,10 +33,10 @@ public class Constants {
     public static final String PREFERENCE_BLUETOOTH_BATTERY_LEVEL = "bluetooth_device_name";
     public static final String PREFERENCE_ULTRASOUND_VALUE = "ultrasound_value";
 
-    public static final int LOCATION_ACCURACY_TOLERANCE = 100;
+    public static final int LOCATION_ACCURACY_TOLERANCE = 20;
     public static final int ULTRASOUND_LOADED_UNLOADED_THRESHOLD_VALUE = 100;
     public static final int ULTRASOUND_NOT_READ_VALUE = 1015;
-    public static final int PHONE_LOW_BATTERY_LEVEL_VALUE = 50;
+    public static final int PHONE_LOW_BATTERY_LEVEL_VALUE = 30;
 
     public static final int TRUCK_STATUS_NOT_INITIALIZED = -1;
     public static final int TRUCK_STATUS_LOADED = 1;
@@ -45,6 +45,8 @@ public class Constants {
     public static final int STATUS_CHARGING = 4;
     public static final int STATUS_SERVICE = 5;
     public static final int STATUS_IDLE = 6;
+    public static final int STATUS_BLUETOOTH_DEVICE_NOT_MATCH = 7;
+    public static final int STATUS_BLUETOOTH_CONFIG_FAILED = 8;
 
     /*status==
      * 1-nalozeny

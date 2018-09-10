@@ -87,9 +87,9 @@ public class NotificationHelper {
             builder.setChannelId(notificationChannelId);
         } else {
             if(notificationInfoType == NOTIFICATION_INFO_TYPE_SUCCESS) {
-                builder.setLights(0xff00ff00, 300, 100);
+                builder.setLights(Color.GREEN, 2000, 100);
             } else {
-                builder.setLights(0xffff0000, 300, 100);
+                builder.setLights(Color.RED, 2000, 100);
             }
         }
 

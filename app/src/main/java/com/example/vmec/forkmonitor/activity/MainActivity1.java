@@ -1,7 +1,6 @@
 package com.example.vmec.forkmonitor.activity;
 
 import android.Manifest;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,9 +21,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.vmec.forkmonitor.Constants;
+import com.example.vmec.forkmonitor.DeviceConfigManager;
 import com.example.vmec.forkmonitor.DrawActivity;
 import com.example.vmec.forkmonitor.R;
-import com.example.vmec.forkmonitor.event.GattCharacteristicReadEvent;
+import com.example.vmec.forkmonitor.data.model.DeviceConfig;
+import com.example.vmec.forkmonitor.event.BLEConfigStatus;
 import com.example.vmec.forkmonitor.event.LocationPublishEvent;
 import com.example.vmec.forkmonitor.event.TrackingDataChangeEvent;
 import com.example.vmec.forkmonitor.preference.BooleanPreference;
@@ -32,15 +33,20 @@ import com.example.vmec.forkmonitor.preference.IntPreference;
 import com.example.vmec.forkmonitor.preference.StringPreference;
 import com.example.vmec.forkmonitor.service.TrackingService;
 import com.example.vmec.forkmonitor.utils.DeviceUtils;
+import com.example.vmec.forkmonitor.utils.JsonUtils;
 import com.example.vmec.forkmonitor.utils.PermissionUtils;
 import com.example.vmec.forkmonitor.utils.StringUtils;
-import com.example.vmec.forkmonitor.viewmodel.MainActivityViewModel;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,12 +74,15 @@ public class MainActivity1 extends AppCompatActivity {
     private BooleanPreference mIsBluetoothDeviceConnectedPreference;
     private IntPreference mTruckLoadedStatePreference;
     private IntPreference mTruckStatusPreference;
+    private StringPreference mBleHwAddressPreference;
+    private StringPreference mBleNamePreference;
 
     @BindView(R.id.txt_bluetooth_tracking_status) TextView mBluetoothTrackingStatusView;
     @BindView(R.id.txt_location_tracking_status) TextView mLocationTrackingStatusView;
     @BindView(R.id.txt_bluetooth_connection_status) TextView mBluetoothConnectionStatus;
     @BindView(R.id.txt_bluetooth_last_characteristic_msg) TextView mBluetoothLastCharacteristicMsgView;
     @BindView(R.id.txt_bluetooth_device_name) TextView mBluetoothDeviceNameView;
+    @BindView(R.id.txt_bluetooth_hw_address) TextView mBluetoothHwAddressView;
     @BindView(R.id.txt_location_history) EditText mLocationHistoryView;
     @BindView(R.id.txt_truck_status) TextView mTruckStatusView;
     @BindView(R.id.txt_truck_loaded_state) TextView mTruckLoadedStateView;
@@ -84,20 +93,26 @@ public class MainActivity1 extends AppCompatActivity {
         ButterKnife.bind(this);
         mLocationHistoryView.setKeyListener(null);
 
-        final String appName = StringUtils.getString(this, R.string.app_name);
-        setTitle(String.format("%s: %s", appName, Constants.BLUETOOTH_DEVICE_NAME));
-
         final SharedPreferences sp = getSharedPreferences(Constants.PREFERENCES_FILE_NAME, MODE_PRIVATE);
         mIsBluetoothTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_BLUETOOTH_TRACKING_ENABLED, false);
         mIsLocationTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_LOCATION_TRACKING_ENABLED, false);
         mLastCharacteristicPreference = new StringPreference(sp, Constants.PREFERENCE_LAST_CHARACTERISTIC_MSG, StringUtils.EMPTY_STRING);
-        mBluetoothDeviceNamePreference = new StringPreference(sp, Constants.PREFERENCE_BLUETOOTH_DEVICE_NAME, StringUtils.EMPTY_STRING);
         mIsBluetoothDeviceConnectedPreference = new BooleanPreference(sp, Constants.PREFERENCE_IS_BLUETOOTH_DEVICE_CONNECTED, false);
         mTruckLoadedStatePreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_LOADED_STATE, Constants.TRUCK_STATUS_NOT_INITIALIZED);
         mTruckStatusPreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_STATUS, Constants.TRUCK_STATUS_NOT_INITIALIZED);
+        mBleHwAddressPreference = new StringPreference(sp, Constants.PREFERENCE_DEVICE_CONFIG_BLE_HW_ADDRESS, StringUtils.EMPTY_STRING);
+        mBleNamePreference = new StringPreference(sp, Constants.PREFERENCE_DEVICE_CONFIG_BLE_NAME, StringUtils.EMPTY_STRING);
         mIsBluetoothDeviceConnectedPreference.set(false);
         mTruckLoadedStatePreference.set(Constants.TRUCK_STATUS_NOT_INITIALIZED);
         mTruckStatusPreference.set(Constants.TRUCK_STATUS_NOT_INITIALIZED);
+        mIsBluetoothTrackingEnabled.set(false);
+        mIsLocationTrackingEnabled.set(false);
+        mLastCharacteristicPreference.set(StringUtils.EMPTY_STRING);
+
+        final DeviceConfigManager dcm = new DeviceConfigManager(this);
+        dcm.initBluetoothConfiguration(this);
+
+        setActivityTitle();
 
         checkPermissions();
 
@@ -132,13 +147,18 @@ public class MainActivity1 extends AppCompatActivity {
         if(!PermissionUtils.hasPermissions(this, REQUIRED_PERMISSIONS)){
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, ALL_PERMISSION_REQUEST_CODE);
         } else {
-            startTrackingService();
+            tryStartTracking();
         }
     }
 
     private void startTrackingService() {
         final Intent trackingIntent = new Intent(this, TrackingService.class);
         startService(trackingIntent);
+    }
+
+    private void setActivityTitle() {
+        final String appName = StringUtils.getString(this, R.string.app_name);
+        setTitle(String.format("%s: %s", appName, mBleNamePreference.get()));
     }
 
     @Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -233,17 +253,21 @@ public class MainActivity1 extends AppCompatActivity {
         updateUI();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(BLEConfigStatus event) {
+        if(event.isSuccessfull()) {
+            setActivityTitle();
+
+        }
+        updateUI();
+    }
+
     private void updateUI() {
-        mBluetoothTrackingStatusView.setText(mIsBluetoothTrackingEnabled.get() ? "Enabled" : "Disabled");
-        mLocationTrackingStatusView.setText(mIsLocationTrackingEnabled.get() ? "Enabled" : "Disabled");
+        mBluetoothTrackingStatusView.setText(mIsBluetoothTrackingEnabled.get() ? R.string.enabled : R.string.disabled);
+        mLocationTrackingStatusView.setText(mIsLocationTrackingEnabled.get() ? R.string.enabled : R.string.disabled);
         final String lastCharacteristicMsg = mLastCharacteristicPreference.get().trim();
 
-        if(TextUtils.isEmpty(lastCharacteristicMsg)) {
-            mBluetoothLastCharacteristicMsgView.setText("Empty string");
-        } else {
-            mBluetoothLastCharacteristicMsgView.setText(lastCharacteristicMsg);
-        }
-        mBluetoothDeviceNameView.setText(mBluetoothDeviceNamePreference.get());
+        mBluetoothLastCharacteristicMsgView.setText(lastCharacteristicMsg);
 
         if(mIsBluetoothDeviceConnectedPreference.get()) {
             mBluetoothConnectionStatus.setText(R.string.bluetooth_status_connected);
@@ -251,11 +275,31 @@ public class MainActivity1 extends AppCompatActivity {
             mBluetoothConnectionStatus.setText(R.string.bluetooth_status_disconnected);
         }
 
+        if(TextUtils.isEmpty(mBleNamePreference.get())) {
+            mBluetoothDeviceNameView.setText(R.string.error);
+        } else {
+            mBluetoothDeviceNameView.setText(mBleNamePreference.get());
+        }
+
+        if(TextUtils.isEmpty(mBleHwAddressPreference.get())) {
+            mBluetoothHwAddressView.setText(R.string.error);
+        } else {
+            mBluetoothHwAddressView.setText(mBleHwAddressPreference.get());
+        }
+
         final int truckLoadedState = mTruckLoadedStatePreference.get();
         final int truckStatus = mTruckStatusPreference.get();
 
         setTruckStateTextToView(truckStatus, mTruckStatusView);
         setTruckStateTextToView(truckLoadedState, mTruckLoadedStateView);
+    }
+
+    private void tryStartTracking() {
+        if(TextUtils.isEmpty(mBleNamePreference.get()) || TextUtils.isEmpty(mBleHwAddressPreference.get())) {
+            Timber.e("Bluetooth config failed, cannot start tracking");
+        } else {
+            startTrackingService();
+        }
     }
 
     private void setTruckStateTextToView(final int truckStatus, final TextView view) {
@@ -268,6 +312,12 @@ public class MainActivity1 extends AppCompatActivity {
                 break;
             case Constants.TRUCK_STATUS_ERROR_VALUE:
                 view.setText(R.string.truck_status_unknown);
+                break;
+            case Constants.STATUS_BLUETOOTH_DEVICE_NOT_MATCH:
+                view.setText(R.string.status_bluetooth_name_not_match);
+                break;
+            case Constants.STATUS_BLUETOOTH_CONFIG_FAILED:
+                view.setText(R.string.status_bluetooth_config_failed);
                 break;
             default:
                 view.setText(R.string.truck_status_unknown);

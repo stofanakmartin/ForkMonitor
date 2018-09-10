@@ -10,6 +10,14 @@
     <string name="truck_status_loaded">Loaded</string>
     <string name="truck_status_unloaded">Unloaded</string>
     <string name="truck_status_unknown">Unknown</string>
+    <string name="status_bluetooth_name_not_match">Bluetooth name not match</string>
+    <string name="status_bluetooth_config_failed">Bluetooth config not found</string>
+    <string name="enabled">Enabled</string>
+    <string name="disabled">Disabled</string>
+    <string name="btn_show_map">Show map</string>
+    <string name="ble_hw_address">Bluetooth hw adress</string>
+    <string name="ble_device_name">Bluetooth device name</string>
+    <string name="error">Error</string>
 
     <string name="notification_info_title_battery_level">Battery level</string>
 </resources>

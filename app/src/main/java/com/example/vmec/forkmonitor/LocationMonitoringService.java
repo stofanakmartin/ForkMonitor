@@ -211,27 +211,27 @@ public class LocationMonitoringService extends Service implements LocationListen
 
 
     public void sendPost(String name, double lat,double lng, double battery, double accuracy, int status) {
-        mAPIService.savePost(name, lat, lng,battery, accuracy,status);
-
-
-        mAPIService.savePost(name, lat, lng,battery, accuracy,status).enqueue(new Callback<Post>() {
-            @Override
-            public void onResponse(Call<Post> call, Response<Post> response) {
-                if(response.isSuccessful()) {
-                    counterS +=1;
-                    //Log.d("rest", "success");
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Post> call, Throwable t) {
-                //Log.e("rest", "Unable to submit post to API.");
-                counterF +=1;
-                //Log.d("rest", "fail");
-
-            }
-        });
+//        mAPIService.savePost(name, lat, lng,battery, accuracy,status);
+//
+//
+//        mAPIService.savePost(name, lat, lng,battery, accuracy,status).enqueue(new Callback<Post>() {
+//            @Override
+//            public void onResponse(Call<Post> call, Response<Post> response) {
+//                if(response.isSuccessful()) {
+//                    counterS +=1;
+//                    //Log.d("rest", "success");
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Post> call, Throwable t) {
+//                //Log.e("rest", "Unable to submit post to API.");
+//                counterF +=1;
+//                //Log.d("rest", "fail");
+//
+//            }
+//        });
     }
 
     private BroadcastReceiver batteryLevelReceiver = new BroadcastReceiver() {

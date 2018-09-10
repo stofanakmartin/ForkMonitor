@@ -68,10 +68,10 @@ public class TrackingManager {
             }
             mBatteryLevel = level;
 
-//            if(mBatteryLevel < Constants.PHONE_LOW_BATTERY_LEVEL_VALUE) {
-//                final Notification notification = mNotificationHelper.getInfoNotification(ctxt, ctxt.getString(R.string.notification_info_title_battery_level), new SpannableStringBuilder("plug in charger"), NotificationHelper.NOTIFICATION_INFO_TYPE_ERROR);
-//                mNotificationManager.notify(1, notification);
-//            }
+            if(mBatteryLevel < Constants.PHONE_LOW_BATTERY_LEVEL_VALUE) {
+                final Notification notification = mNotificationHelper.getInfoNotification(ctxt, ctxt.getString(R.string.notification_info_title_battery_level), new SpannableStringBuilder("plug in charger"), NotificationHelper.NOTIFICATION_INFO_TYPE_ERROR);
+                mNotificationManager.notify(1, notification);
+            }
         }
     };
 
@@ -112,11 +112,11 @@ public class TrackingManager {
         EventBus.getDefault().post(new TrackingDataChangeEvent());
     }
 
-    public void sendPost(String name, double lat,double lng, double battery, double accuracy, int status) {
+    public void sendPost(String name, double lat,double lng, double battery, double accuracy,
+                         int status, int ultrasoundDistance, int arduinoBatteryLevel) {
         Timber.d("Send status request to server");
-        mAPIService.savePost(name, lat, lng,battery, accuracy,status);
 
-        mAPIService.savePost(name, lat, lng,battery, accuracy,status).enqueue(new Callback<Post>() {
+        mAPIService.savePost(name, lat, lng,battery, accuracy, status, ultrasoundDistance, arduinoBatteryLevel).enqueue(new Callback<Post>() {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
                 Timber.d("Send post response");
@@ -148,17 +148,9 @@ public class TrackingManager {
             // TODO: TEMPORARY docasne sa posiela na server hodnota charakteristiky z bluetooth
 //            sendPost(android.os.Build.SERIAL, location.getLatitude(), location.getLongitude(), 30, location.getAccuracy(), mLastCharacteristicMsgPreference.get());
 
-            String valueToSend = String.valueOf(mUltrasoundValuePreference.get()) + String.valueOf(mBluetoothDeviceBatteryLevelPreference.get());
-            if(mBluetoothDeviceBatteryLevelPreference.get() == -1 && mUltrasoundValuePreference.get() == -1) {
-                valueToSend = "-1";
-            }
-
-            try {
-                final int value = Integer.parseInt(valueToSend);
-                sendPost(android.os.Build.SERIAL, location.getLatitude(), location.getLongitude(), mBatteryLevel, location.getAccuracy(), value);
-            } catch (NumberFormatException e) {
-                Timber.w("Cannot convert last characteristic message to integer");
-            }
+            sendPost(android.os.Build.SERIAL, location.getLatitude(), location.getLongitude(),
+                    mBatteryLevel, location.getAccuracy(), mTruckStatusPreference.get(), mUltrasoundValuePreference.get(),
+                    mBluetoothDeviceBatteryLevelPreference.get());
         }
         EventBus.getDefault().post(new TrackingDataChangeEvent());
     }
@@ -171,18 +163,9 @@ public class TrackingManager {
             // TODO: TEMPORARY docasne sa posiela na server hodnota charakteristiky z bluetooth
 //            sendPost(android.os.Build.SERIAL, lastLocation.getLatitude(), lastLocation.getLongitude(), 30, lastLocation.getAccuracy(), event.getTruckLoadedState());
 
-
-            String valueToSend = String.valueOf(mUltrasoundValuePreference.get()) + String.valueOf(mBluetoothDeviceBatteryLevelPreference.get());
-            if(mBluetoothDeviceBatteryLevelPreference.get() == -1 && mUltrasoundValuePreference.get() == -1) {
-                valueToSend = "-1";
-            }
-            try {
-                final int value = Integer.parseInt(valueToSend);
-                sendPost(android.os.Build.SERIAL, lastLocation.getLatitude(), lastLocation.getLongitude(), mBatteryLevel, lastLocation.getAccuracy(), value);
-            } catch (NumberFormatException e) {
-                sendPost(android.os.Build.SERIAL, lastLocation.getLatitude(), lastLocation.getLongitude(), mBatteryLevel, lastLocation.getAccuracy(), -1);
-                Timber.e("Failed to parse last bluetooth device status to integer. Message: %s", valueToSend);
-            }
+            sendPost(android.os.Build.SERIAL, lastLocation.getLatitude(), lastLocation.getLongitude(),
+                    mBatteryLevel, lastLocation.getAccuracy(), mTruckStatusPreference.get(), mUltrasoundValuePreference.get(),
+                    mBluetoothDeviceBatteryLevelPreference.get());
         }
     }
 }
