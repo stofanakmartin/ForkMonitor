@@ -30,7 +30,6 @@ public class BluetoothUtils {
         String messageString = null;
         try {
             messageString = new String(messageBytes, "UTF-8");
-            Timber.d("Characteristic value: %s", messageString);
         } catch (UnsupportedEncodingException e) {
             Timber.e("Unable to convert message bytes to string");
         }

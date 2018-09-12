@@ -15,13 +15,13 @@ import android.os.Handler;
 
 import com.example.vmec.forkmonitor.Constants;
 import com.example.vmec.forkmonitor.event.GattCharacteristicChangeEvent;
+import com.example.vmec.forkmonitor.event.GattCharacteristicNotificationConfigEvent;
 import com.example.vmec.forkmonitor.event.GattCharacteristicReadEvent;
 import com.example.vmec.forkmonitor.event.GattCharacteristicWriteEvent;
 import com.example.vmec.forkmonitor.event.GattConnectedEvent;
 import com.example.vmec.forkmonitor.event.GattConnectionDestroyedEvent;
 import com.example.vmec.forkmonitor.event.GattDisconnectedEvent;
 import com.example.vmec.forkmonitor.event.GattServicesDiscoveredEvent;
-import com.example.vmec.forkmonitor.event.GattCharacteristicNotificationConfigEvent;
 import com.example.vmec.forkmonitor.exception.BluetoothCharactericticNotFoundException;
 import com.example.vmec.forkmonitor.exception.BluetoothNotInitializedException;
 import com.example.vmec.forkmonitor.exception.BluetoothServiceNotFoundException;
@@ -31,6 +31,7 @@ import com.example.vmec.forkmonitor.utils.StringUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.Locale;
 import java.util.UUID;
 
 import timber.log.Timber;
@@ -42,7 +43,7 @@ import static android.content.Context.MODE_PRIVATE;
  *
  * TODO: Check invalid bluetooth address
  */
-public class BluetoothHelper {
+public class BluetoothHelper2 {
 
     public static final int STATE_DISCONNECTED = 0;
     public static final int STATE_CONNECTING = 1;
@@ -51,22 +52,20 @@ public class BluetoothHelper {
     private BluetoothManager mBluetoothManager;
     private BluetoothAdapter mBluetoothAdapter;
     private BluetoothGatt mBluetoothGatt;
-    private String mBluetoothDeviceAddress;
     private int mConnectionState = STATE_DISCONNECTED;
     private Handler mHandler;
-    private StringPreference mBleCommHistoryPreference;
 
     private Runnable mDisconnectRunnable = new Runnable() {
         @Override public void run() {
-            Timber.d("Request timeout FORCE DISCONNECT");
-            disconnect();
+            Timber.d("BLE - request timeout - CLOSE connection");
+            closeConnection();
         }
     };
 
-    private Runnable mDisconnectTimeoutRunnable = new Runnable() {
+    private Runnable mCloseConnectionTimeoutRunnable = new Runnable() {
         @Override public void run() {
-            Timber.d("Disconnect timeout DESTROY GATT CLIENT");
-            destroyConnection();
+            Timber.d("BLE - Close connection timeout DESTROY GATT CLIENT");
+            onConnectionClosed();
         }
     };
 
@@ -75,33 +74,32 @@ public class BluetoothHelper {
     private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+            super.onConnectionStateChange(gatt, status, newState);
             clearRequestTimeoutAction();
             if (newState == BluetoothProfile.STATE_CONNECTED) {
                 mConnectionState = STATE_CONNECTED;
-                Timber.i("Connected to GATT server.");
-                mBleCommHistoryPreference.append("Connected to GATT server");
+                Timber.i("BLE - Connected");
                 EventBus.getDefault().post(new GattConnectedEvent());
                 discoverServices();
 
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                clearDisconnectTimeoutAction();
-                mConnectionState = STATE_DISCONNECTED;
-                Timber.i("Disconnected from GATT server.");
-                mBleCommHistoryPreference.append("Disconnected from GATT server");
-                EventBus.getDefault().post(new GattDisconnectedEvent());
+                Timber.i("BLE - Disconnected");
+                clearRequestTimeoutAction();
+                clearCloseConnectionTimeoutAction();
+                onConnectionClosed();
             }
         }
 
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+            super.onServicesDiscovered(gatt, status);
             clearRequestTimeoutAction();
             if (status == BluetoothGatt.GATT_SUCCESS) {
-                Timber.i("Discover services callback.");
-                mBleCommHistoryPreference.append("Discover services callback - success");
+                Timber.i("BLE - Discover services callback - success");
                 EventBus.getDefault().post(new GattServicesDiscoveredEvent());
             } else {
-                Timber.w("onServicesDiscovered status received: %s", status);
-                mBleCommHistoryPreference.append("Discover services callback - failed");
+                Timber.w("BLE - Discover services callback - failed: %d", status);
+                closeConnection();
             }
         }
 
@@ -109,47 +107,53 @@ public class BluetoothHelper {
         public void onCharacteristicRead(BluetoothGatt gatt,
                                          BluetoothGattCharacteristic characteristic,
                                          int status) {
+            super.onCharacteristicRead(gatt, characteristic, status);
             clearRequestTimeoutAction();
             if (status == BluetoothGatt.GATT_SUCCESS) {
-                Timber.d("Gatt characteristic read callback");
                 final String charMessage = BluetoothUtils.getCharacteristicStringValue(characteristic);
-                mBleCommHistoryPreference.append(String.format("Characteristic read callback - success: %s", charMessage));
+                Timber.d("BLE - Characteristic read: %s", charMessage);
                 EventBus.getDefault().post(new GattCharacteristicReadEvent(characteristic, charMessage));
             } else {
-                Timber.d("Gatt characteristic read failed");
-                mBleCommHistoryPreference.append("Characteristic read callback - failed");
+                Timber.w("BLE - Characteristic read callback failed");
+                closeConnection();
             }
         }
 
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt,
                                             BluetoothGattCharacteristic characteristic) {
+            super.onCharacteristicChanged(gatt, characteristic);
             clearRequestTimeoutAction();
-            Timber.d("Characteristic changed callback");
             final String charMessage = BluetoothUtils.getCharacteristicStringValue(characteristic);
-            mBleCommHistoryPreference.append(String.format("Characteristic changed callback: %s", charMessage));
+            Timber.d("BLE - Characteristic change: %s", charMessage);
             EventBus.getDefault().post(new GattCharacteristicChangeEvent(characteristic, charMessage));
         }
 
         @Override public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicWrite(gatt, characteristic, status);
             clearRequestTimeoutAction();
-            final String msg = String.format("Characteristic write callback - status: %d", status);
-            Timber.d(msg);
-            mBleCommHistoryPreference.append(msg);
-            EventBus.getDefault().post(new GattCharacteristicWriteEvent(characteristic, status));
+            if (status == BluetoothGatt.GATT_SUCCESS) {
+                Timber.d("Characteristic write callback success");
+                EventBus.getDefault().post(new GattCharacteristicWriteEvent(characteristic, status));
+            } else {
+                Timber.w("BLE - Characteristic write callback failed");
+                closeConnection();
+            }
         }
 
         @Override public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
             super.onDescriptorWrite(gatt, descriptor, status);
             clearRequestTimeoutAction();
-            Timber.d("Descriptor write callback - status: %d", status);
+            Timber.d("BLE - Descriptor write callback - status: %d", status);
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 // Characteristic notification configuration callback
                 if (descriptor.getUuid().toString().equals(Constants.BLUETOOTH_CLIENT_CHARACTERISTIC_CONFIG_UUID)) {
-                    Timber.d("Characteristic notification config callback - success");
+                    Timber.d("BLE - Set characteristic notification callback - success");
                     EventBus.getDefault().post(new GattCharacteristicNotificationConfigEvent(status));
                 }
+            } else {
+                Timber.w("BLE - Set characteristic notification callback failed");
+                closeConnection();
             }
         }
     };
@@ -157,29 +161,26 @@ public class BluetoothHelper {
     /**
      * Contructor
      */
-    public BluetoothHelper() {
+    public BluetoothHelper2() {
         this.mHandler = new Handler();
     }
 
     public boolean initialize(final Context context) {
         final SharedPreferences sp = context.getSharedPreferences(Constants.PREFERENCES_FILE_NAME, MODE_PRIVATE);
-        mBleCommHistoryPreference = new StringPreference(sp, Constants.PREFERENCE_BLE_COMMUNICATION_HISTORY, StringUtils.EMPTY_STRING);
         // For API level 18 and above, get a reference to BluetoothAdapter through
         // BluetoothManager.
-        Timber.i("Initialize.");
+        Timber.i("BLE - Initialize.");
         if (mBluetoothManager == null) {
             mBluetoothManager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
             if (mBluetoothManager == null) {
-                Timber.e("Unable to initialize BluetoothManager.");
-                mBleCommHistoryPreference.append("Unable to initialize BluetoothManager");
+                Timber.e("BLE - Unable to initialize BluetoothManager.");
                 return false;
             }
         }
 
         mBluetoothAdapter = mBluetoothManager.getAdapter();
         if (mBluetoothAdapter == null) {
-            Timber.e("Unable to obtain a BluetoothAdapter.");
-            mBleCommHistoryPreference.append("Unable to obtain a BluetoothAdapter");
+            Timber.e("BLE - Unable to obtain a BluetoothAdapter.");
             return false;
         }
 
@@ -198,39 +199,22 @@ public class BluetoothHelper {
      */
     public boolean connect(final Context context, final String address) {
         if (mBluetoothAdapter == null || address == null) {
-            Timber.w("BluetoothAdapter not initialized or unspecified address.");
-            mBleCommHistoryPreference.append("BluetoothAdapter not initialized");
+            Timber.w("BLE - BluetoothAdapter not initialized or unspecified address");
             return false;
-        }
-
-        // Previously connected device.  Try to reconnect.
-        if (mBluetoothDeviceAddress != null && address.equals(mBluetoothDeviceAddress)
-                && mBluetoothGatt != null) {
-            Timber.d("Trying to use an existing mBluetoothGatt for connection.");
-            mBleCommHistoryPreference.append("Trying to use an existing connection");
-            postRequestTimeoutAction();
-            if (mBluetoothGatt.connect()) {
-                mConnectionState = STATE_CONNECTING;
-                return true;
-            } else {
-                return false;
-            }
         }
 
         final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
         if (device == null) {
-            Timber.w("Device not found.  Unable to connect.");
-            mBleCommHistoryPreference.append("Device not found.  Unable to connect.");
+            Timber.w("BLE - Device not found.  Unable to connect");
             return false;
         }
         // We want to directly connect to the device, so we are setting the autoConnect
         // parameter to false.
-        Timber.d("Trying to create a new connection.");
-        mBleCommHistoryPreference.append("Trying to create a new connection.");
-        mBluetoothDeviceAddress = address;
+        Timber.d("BLE - Connect request");
         mConnectionState = STATE_CONNECTING;
         postRequestTimeoutAction();
         mBluetoothGatt = device.connectGatt(context, false, mGattCallback);
+        Timber.w("BLE - connect - mBluetoothGatt is initialized: %s", String.valueOf(mBluetoothGatt != null));
         return true;
     }
 
@@ -238,49 +222,36 @@ public class BluetoothHelper {
      * Call bluetooth LE service discovery request
      */
     private void discoverServices() {
-        if (mBluetoothAdapter == null || mBluetoothGatt == null) {
-            Timber.w("discoverServices - BluetoothAdapter not initialized");
-            mBleCommHistoryPreference.append("discoverServices - BluetoothAdapter not initialized");
+        if (mBluetoothAdapter == null) {
+            Timber.w("BLE - discoverServices - BluetoothAdapter not initialized");
             return;
         }
-        Timber.d("discover services request");
-        mBleCommHistoryPreference.append("discoverServices - request");
+        if (mBluetoothGatt == null) {
+            Timber.w("BLE - discoverServices - mBluetoothGatt not initialized");
+            return;
+        }
+        Timber.d("BLE - Discover services request");
         postRequestTimeoutAction();
         mBluetoothGatt.discoverServices();
     }
 
-    /**
-     * Disconnects an existing connection or cancel a pending connection. The disconnection result
-     * is reported asynchronously through the
-     * {@code BluetoothGattCallback#onConnectionStateChange(android.bluetooth.BluetoothGatt, int, int)}
-     * callback.
-     */
-    public void disconnect() {
+
+
+    public void closeConnection() {
         if (mBluetoothAdapter == null || mBluetoothGatt == null) {
-            Timber.w("disconnect - BluetoothAdapter not initialized");
-            mBleCommHistoryPreference.append("disconnect - BluetoothAdapter not initialized");
+            Timber.w("BLE - closeConnection - BluetoothAdapter not initialized");
             return;
         }
-        Timber.d("Disconnect request.");
-        mBleCommHistoryPreference.append("Disconnect request");
-        postDisconnectTimeoutAction();
-        mBluetoothGatt.disconnect();
+        Timber.d("BLE - close connection.");
+        clearRequestTimeoutAction();
+        postCloseConnectionTimeoutAction();
+        mBluetoothGatt.close();
     }
 
-    public void destroyConnection() {
-        if (mBluetoothAdapter == null || mBluetoothGatt == null) {
-            Timber.w("destroyConnection - BluetoothAdapter not initialized");
-            mBleCommHistoryPreference.append("destroyConnection - BluetoothAdapter not initialized");
-            return;
-        }
-        Timber.d("Destroy connection.");
-        mBleCommHistoryPreference.append("Destroy connection.");
-//        mBluetoothGatt.disconnect();
-        mBluetoothGatt.close();
-        mBluetoothDeviceAddress = null;
+    private void onConnectionClosed() {
         mBluetoothGatt = null;
         mConnectionState = STATE_DISCONNECTED;
-        EventBus.getDefault().post(new GattConnectionDestroyedEvent());
+        EventBus.getDefault().post(new GattDisconnectedEvent());
     }
 
     /**
@@ -295,21 +266,18 @@ public class BluetoothHelper {
     public void readCharacteristic(final String serviceUUID, final String characteristicUUID)
             throws BluetoothNotInitializedException, BluetoothServiceNotFoundException, BluetoothCharactericticNotFoundException {
         if (mBluetoothAdapter == null || mBluetoothGatt == null) {
-            Timber.w("readCharacteristic - BluetoothAdapter not initialized");
-            mBleCommHistoryPreference.append("readCharacteristic - BluetoothAdapter not initialized");
+            Timber.w("BLE - readCharacteristic - BluetoothAdapter not initialized");
             throw new BluetoothNotInitializedException("BluetoothAdapter not initialized");
         }
 
-        Timber.d("Read characteristic request %s", characteristicUUID);
-        mBleCommHistoryPreference.append("readCharacteristic - request");
+        Timber.d("BLE - read characteristic request %s", characteristicUUID);
         clearRequestTimeoutAction();
 
         BluetoothGattService mCustomService = mBluetoothGatt.getService(UUID.fromString(serviceUUID));
         if(mCustomService == null){
-            final String msg = String.format("Custom BLE Service: %s not found", serviceUUID);
-            mBleCommHistoryPreference.append(msg);
+            final String msg = String.format("BLE - custom service: %s not found", serviceUUID);
             Timber.w(msg);
-            disconnect();
+            closeConnection();
             throw new BluetoothServiceNotFoundException(msg);
         }
 
@@ -318,10 +286,9 @@ public class BluetoothHelper {
         /*get the read characteristic from the service*/
         BluetoothGattCharacteristic mReadCharacteristic = mCustomService.getCharacteristic(UUID.fromString(characteristicUUID));
         if(!mBluetoothGatt.readCharacteristic(mReadCharacteristic)) {
-            final String msg = String.format("Failed to read characteristic: %s ", characteristicUUID);
-            Timber.w("Failed to read characteristic");
-            mBleCommHistoryPreference.append(msg);
-            disconnect();
+            final String msg = String.format("BLE - Failed to read characteristic: %s ", characteristicUUID);
+            Timber.w(msg);
+            closeConnection();
             throw new BluetoothServiceNotFoundException(msg);
         }
     }
@@ -358,15 +325,14 @@ public class BluetoothHelper {
         Timber.d("Write value to characteristic: %s", value);
         if (mBluetoothAdapter == null || mBluetoothGatt == null) {
             Timber.w("writeToCharacteristic - BluetoothAdapter not initialized");
-            mBleCommHistoryPreference.append("writeToCharacteristic - BluetoothAdapter not initialized");
             return;
         }
+
         postRequestTimeoutAction();
         characteristic.setValue(value);
         final boolean writeResult = mBluetoothGatt.writeCharacteristic(characteristic);
 
-        Timber.d("Characteristic write result %s", String.valueOf(writeResult));
-        mBleCommHistoryPreference.append(String.format("Characteristic write result %s", String.valueOf(writeResult)));
+        Timber.d("Characteristic write request - value: '%s' - result: %s", value, String.valueOf(writeResult));
     }
 
     public void requestConnectionDisconnectAfterTimeout() {
@@ -385,11 +351,11 @@ public class BluetoothHelper {
         mHandler.removeCallbacks(mDisconnectRunnable);
     }
 
-    private void postDisconnectTimeoutAction() {
-        mHandler.postDelayed(mDisconnectTimeoutRunnable, Constants.BLUETOOTH_MAX_REQUEST_TIMEOUT_MS);
+    private void postCloseConnectionTimeoutAction() {
+        mHandler.postDelayed(mCloseConnectionTimeoutRunnable, Constants.BLUETOOTH_MAX_REQUEST_TIMEOUT_MS);
     }
 
-    private void clearDisconnectTimeoutAction() {
-        mHandler.removeCallbacks(mDisconnectTimeoutRunnable);
+    private void clearCloseConnectionTimeoutAction() {
+        mHandler.removeCallbacks(mCloseConnectionTimeoutRunnable);
     }
 }

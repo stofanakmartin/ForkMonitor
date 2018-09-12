@@ -24,7 +24,6 @@ import com.example.vmec.forkmonitor.Constants;
 import com.example.vmec.forkmonitor.DeviceConfigManager;
 import com.example.vmec.forkmonitor.DrawActivity;
 import com.example.vmec.forkmonitor.R;
-import com.example.vmec.forkmonitor.data.model.DeviceConfig;
 import com.example.vmec.forkmonitor.event.BLEConfigStatus;
 import com.example.vmec.forkmonitor.event.LocationPublishEvent;
 import com.example.vmec.forkmonitor.event.TrackingDataChangeEvent;
@@ -33,20 +32,14 @@ import com.example.vmec.forkmonitor.preference.IntPreference;
 import com.example.vmec.forkmonitor.preference.StringPreference;
 import com.example.vmec.forkmonitor.service.TrackingService;
 import com.example.vmec.forkmonitor.utils.DeviceUtils;
-import com.example.vmec.forkmonitor.utils.JsonUtils;
 import com.example.vmec.forkmonitor.utils.PermissionUtils;
 import com.example.vmec.forkmonitor.utils.StringUtils;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -70,7 +63,6 @@ public class MainActivity1 extends AppCompatActivity {
     private BooleanPreference mIsBluetoothTrackingEnabled;
     private BooleanPreference mIsLocationTrackingEnabled;
     private StringPreference mLastCharacteristicPreference;
-    private StringPreference mBluetoothDeviceNamePreference;
     private BooleanPreference mIsBluetoothDeviceConnectedPreference;
     private IntPreference mTruckLoadedStatePreference;
     private IntPreference mTruckStatusPreference;
@@ -99,14 +91,12 @@ public class MainActivity1 extends AppCompatActivity {
         mLastCharacteristicPreference = new StringPreference(sp, Constants.PREFERENCE_LAST_CHARACTERISTIC_MSG, StringUtils.EMPTY_STRING);
         mIsBluetoothDeviceConnectedPreference = new BooleanPreference(sp, Constants.PREFERENCE_IS_BLUETOOTH_DEVICE_CONNECTED, false);
         mTruckLoadedStatePreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_LOADED_STATE, Constants.TRUCK_STATUS_NOT_INITIALIZED);
-        mTruckStatusPreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_STATUS, Constants.TRUCK_STATUS_NOT_INITIALIZED);
+        mTruckStatusPreference = new IntPreference(sp, Constants.PREFERENCE_LAST_STATUS, Constants.TRUCK_STATUS_NOT_INITIALIZED);
         mBleHwAddressPreference = new StringPreference(sp, Constants.PREFERENCE_DEVICE_CONFIG_BLE_HW_ADDRESS, StringUtils.EMPTY_STRING);
         mBleNamePreference = new StringPreference(sp, Constants.PREFERENCE_DEVICE_CONFIG_BLE_NAME, StringUtils.EMPTY_STRING);
         mIsBluetoothDeviceConnectedPreference.set(false);
         mTruckLoadedStatePreference.set(Constants.TRUCK_STATUS_NOT_INITIALIZED);
         mTruckStatusPreference.set(Constants.TRUCK_STATUS_NOT_INITIALIZED);
-        mIsBluetoothTrackingEnabled.set(false);
-        mIsLocationTrackingEnabled.set(false);
         mLastCharacteristicPreference.set(StringUtils.EMPTY_STRING);
 
         final DeviceConfigManager dcm = new DeviceConfigManager(this);
@@ -228,6 +218,12 @@ public class MainActivity1 extends AppCompatActivity {
 //        EventBus.getDefault().post(new TrackingEnableChangeEvent());
     }
 
+    @OnClick(R.id.btn_ble_communication)
+    public void onBleHistoryClick() {
+        final Intent intent = new Intent(this, DrawActivity.class);
+        startActivity(intent);
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(LocationPublishEvent event) {
         if(TextUtils.isEmpty(mLocationHistoryLog)) {
@@ -310,8 +306,11 @@ public class MainActivity1 extends AppCompatActivity {
             case Constants.TRUCK_STATUS_UNLOADED:
                 view.setText(R.string.truck_status_unloaded);
                 break;
-            case Constants.TRUCK_STATUS_ERROR_VALUE:
-                view.setText(R.string.truck_status_unknown);
+            case Constants.TRUCK_STATUS_BLE_READ_FAILED:
+                view.setText(R.string.truck_status_ble_read_failed);
+                break;
+            case Constants.STATUS_BLE_ULTRASOUND_FAIL:
+                view.setText(R.string.status_ble_ultrasound_fail);
                 break;
             case Constants.STATUS_BLUETOOTH_DEVICE_NOT_MATCH:
                 view.setText(R.string.status_bluetooth_name_not_match);

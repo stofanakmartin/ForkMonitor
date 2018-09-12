@@ -1,4 +1,4 @@
-package com.example.vmec.forkmonitor;
+package com.example.vmec.forkmonitor.helper;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.text.TextUtils;
 
+import com.example.vmec.forkmonitor.Constants;
+import com.example.vmec.forkmonitor.event.BLEDataReceivedEvent;
 import com.example.vmec.forkmonitor.event.GattCharacteristicChangeEvent;
 import com.example.vmec.forkmonitor.event.GattCharacteristicNotificationConfigEvent;
 import com.example.vmec.forkmonitor.event.GattCharacteristicReadEvent;
@@ -15,8 +17,6 @@ import com.example.vmec.forkmonitor.event.GattConnectionDestroyedEvent;
 import com.example.vmec.forkmonitor.event.GattDisconnectedEvent;
 import com.example.vmec.forkmonitor.event.GattServicesDiscoveredEvent;
 import com.example.vmec.forkmonitor.event.TrackingDataChangeEvent;
-import com.example.vmec.forkmonitor.event.TruckLoadedStateChangeEvent;
-import com.example.vmec.forkmonitor.helper.BluetoothHelper;
 import com.example.vmec.forkmonitor.preference.BooleanPreference;
 import com.example.vmec.forkmonitor.preference.IntPreference;
 import com.example.vmec.forkmonitor.preference.StringPreference;
@@ -36,7 +36,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * Created by Stofanak on 21/08/2018.
  */
-public class BluetoothTrackingManager {
+public class BluetoothTrackingHelper {
 
     //TODO: TRY TO REMOVE reference to context
     private Context mContext;
@@ -45,20 +45,22 @@ public class BluetoothTrackingManager {
     private StringPreference mLastCharacteristicMsgPreference;
     private BooleanPreference mIsBluetoothTrackingEnabled;
     private BooleanPreference mIsBluetoothDeviceConnectedPreference;
-    private IntPreference mTruckLoadedStatePreference;
+//    private IntPreference mTruckLoadedStatePreference;
     private IntPreference mTruckStatusPreference;
-    private IntPreference mBluetoothDeviceBatteryLevelPreference;
-    private IntPreference mUltrasoundValuePreference;
+//    private IntPreference mBluetoothDeviceBatteryLevelPreference;
+//    private IntPreference mUltrasoundValuePreference;
     private StringPreference mBleNamePreference;
     private StringPreference mBleHwAddressPreference;
     private String mTmpCharacteristicMsgBuffer = StringUtils.EMPTY_STRING;
     private BluetoothGattCharacteristic mDeviceStatusCharacteristic;
+    private boolean mIsBluetoothReadSuccessfully = false;
 
 
     private Runnable mBluetoothReadCharacteristicRunnable = new Runnable() {
         @Override public void run() {
             Timber.d("Tracking interval fired - read bluetooth status");
             final int connectionStatus = mBluetoothHelper.getConnectionState();
+            mIsBluetoothReadSuccessfully = false;
             if(BluetoothHelper.STATE_DISCONNECTED == connectionStatus) {
                 mBluetoothHelper.connect(mContext, mBleHwAddressPreference.get());
             } else if (BluetoothHelper.STATE_CONNECTED == connectionStatus) {
@@ -68,7 +70,7 @@ public class BluetoothTrackingManager {
         }
     };
 
-    public BluetoothTrackingManager(final Context context) {
+    public BluetoothTrackingHelper(final Context context) {
         mHandler = new Handler();
         mBluetoothHelper = new BluetoothHelper();
     }
@@ -77,11 +79,11 @@ public class BluetoothTrackingManager {
         final SharedPreferences sp = context.getSharedPreferences(Constants.PREFERENCES_FILE_NAME, MODE_PRIVATE);
         mLastCharacteristicMsgPreference = new StringPreference(sp, Constants.PREFERENCE_LAST_CHARACTERISTIC_MSG, StringUtils.EMPTY_STRING);
         mIsBluetoothTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_BLUETOOTH_TRACKING_ENABLED, false);
-        mTruckLoadedStatePreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_LOADED_STATE, Constants.TRUCK_STATUS_NOT_INITIALIZED);
-        mTruckStatusPreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_STATUS, Constants.TRUCK_STATUS_NOT_INITIALIZED);
+//        mTruckLoadedStatePreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_LOADED_STATE, Constants.TRUCK_STATUS_NOT_INITIALIZED);
+        mTruckStatusPreference = new IntPreference(sp, Constants.PREFERENCE_LAST_STATUS, Constants.TRUCK_STATUS_NOT_INITIALIZED);
         mIsBluetoothDeviceConnectedPreference = new BooleanPreference(sp, Constants.PREFERENCE_IS_BLUETOOTH_DEVICE_CONNECTED, false);
-        mBluetoothDeviceBatteryLevelPreference = new IntPreference(sp, Constants.PREFERENCE_BLUETOOTH_BATTERY_LEVEL, 0);
-        mUltrasoundValuePreference = new IntPreference(sp, Constants.PREFERENCE_ULTRASOUND_VALUE, -1);
+//        mBluetoothDeviceBatteryLevelPreference = new IntPreference(sp, Constants.PREFERENCE_BLUETOOTH_BATTERY_LEVEL, 0);
+//        mUltrasoundValuePreference = new IntPreference(sp, Constants.PREFERENCE_ULTRASOUND_VALUE, -1);
         mBleHwAddressPreference = new StringPreference(sp, Constants.PREFERENCE_DEVICE_CONFIG_BLE_HW_ADDRESS, StringUtils.EMPTY_STRING);
         mBleNamePreference = new StringPreference(sp, Constants.PREFERENCE_DEVICE_CONFIG_BLE_NAME, StringUtils.EMPTY_STRING);
 
@@ -106,7 +108,7 @@ public class BluetoothTrackingManager {
     public void stopTracking() {
         mContext = null;
         mHandler.removeCallbacks(mBluetoothReadCharacteristicRunnable);
-        mBluetoothHelper.disconnect();
+        mBluetoothHelper.destroyConnection();
         mIsBluetoothTrackingEnabled.set(false);
         mIsBluetoothDeviceConnectedPreference.set(false);
 
@@ -158,6 +160,7 @@ public class BluetoothTrackingManager {
             Timber.w("Received empty message or no data");
         } else {
             if(charMessage.toLowerCase().contains(Constants.BLUETOOTH_DEVICE_COMMUNICATION_END_MSG)) {
+                mIsBluetoothReadSuccessfully = true;
                 final String finalMessage = mTmpCharacteristicMsgBuffer + charMessage;
                 final String finalMsgCleared = finalMessage.replace(Constants.BLUETOOTH_DEVICE_COMMUNICATION_END_MSG, StringUtils.EMPTY_STRING);
                 evaluateDeviceValue(finalMsgCleared);
@@ -180,62 +183,47 @@ public class BluetoothTrackingManager {
     private void evaluateDeviceValue(final String deviceStatus) {
         if(TextUtils.isEmpty(deviceStatus)) {
             Timber.w("Empty device status message - nothing to process");
+            EventBus.getDefault().post(
+                    new BLEDataReceivedEvent(Constants.ULTRASOUND_VALUE_NOT_RECEIVED_ERROR,
+                                        Constants.BATTERY_VALUE_NOT_RECEIVED_ERROR));
             return;
         }
 
-        // TODO: REFACTOR
+        final String[] status = deviceStatus.split(Pattern.quote("||"));
+        if(status.length != 2) {
+            Timber.w("Bluetooth status is not in expected format: ultrasound_value||battery_level");
+            EventBus.getDefault().post(
+                    new BLEDataReceivedEvent(Constants.ULTRASOUND_VALUE_NOT_RECEIVED_ERROR,
+                                        Constants.BATTERY_VALUE_NOT_RECEIVED_ERROR));
+            return;
+        }
+
+        // status[0] - ultrasound distance
+        // status[1] - arduino powerbank battery level
+        final String ultrasoundStatus = status[0];
+        final String arduinoBatteryStatus = status[1];
+        int ultrasoundValue = Constants.ULTRASOUND_VALUE_UNKWOWN;
+        int arduinoBatteryValue = Constants.BATTERY_VALUE_UNKWOWN;
 
         try {
-            final String[] status = deviceStatus.split(Pattern.quote("||"));
-            if(status.length != 2) {
-                Timber.w("Bluetooth status is not in expected format: ultrasound_value||battery_level");
-                final int newTruckStatus = Constants.TRUCK_STATUS_ERROR_VALUE;
-                mTruckStatusPreference.set(newTruckStatus);
-                EventBus.getDefault().post(new TruckLoadedStateChangeEvent(newTruckStatus));
-            }
-
-            final int lastTruckLoadedState = mTruckLoadedStatePreference.get();
-            int newTruckStatus = mTruckStatusPreference.get();
-            int newTruckLoadedState = lastTruckLoadedState;
-
-            // status[0] - ultrasound distance
-            // status[1] - arduino powerbank battery level
-            final String ultrasoundStatus = status[0];
-            int ultrasoundValue = -1;
             if(!ultrasoundStatus.equalsIgnoreCase("fail")) {
                 ultrasoundValue = Integer.parseInt(status[0]);
-                mUltrasoundValuePreference.set(ultrasoundValue);
             } else {
-                // ERROR
-                newTruckStatus = Constants.TRUCK_STATUS_ERROR_VALUE;
-                mUltrasoundValuePreference.set(-1);
-            }
-            final int batteryValue = Integer.parseInt(status[1]);
-            mBluetoothDeviceBatteryLevelPreference.set(batteryValue);
-
-            if (ultrasoundValue >= Constants.ULTRASOUND_LOADED_UNLOADED_THRESHOLD_VALUE) {
-                // UNLOADED
-                newTruckLoadedState = Constants.TRUCK_STATUS_UNLOADED;
-                newTruckStatus = Constants.TRUCK_STATUS_UNLOADED;
-            } else if (ultrasoundValue != -1) {
-                // LOADED
-                newTruckLoadedState = Constants.TRUCK_STATUS_LOADED;
-                newTruckStatus = Constants.TRUCK_STATUS_LOADED;
-            }
-
-            mTruckStatusPreference.set(newTruckStatus);
-
-            if(lastTruckLoadedState != newTruckLoadedState) {
-                mTruckLoadedStatePreference.set(newTruckLoadedState);
-                EventBus.getDefault().post(new TruckLoadedStateChangeEvent(newTruckLoadedState));
+                ultrasoundValue = Constants.ULTRASOUND_VALUE_FAIL;
             }
         } catch(NumberFormatException ex) {
             Timber.w("Bluetooth ultrasound value is not a number");
-            // N/A
-            final int newTruckStatus = Constants.TRUCK_STATUS_ERROR_VALUE;
-            mTruckStatusPreference.set(newTruckStatus);
-            EventBus.getDefault().post(new TruckLoadedStateChangeEvent(newTruckStatus));
+            ultrasoundValue = Constants.ULTRASOUND_VALUE_PARSE_ERROR;
         }
+
+        try {
+            arduinoBatteryValue = Integer.parseInt(arduinoBatteryStatus);
+        } catch(NumberFormatException ex) {
+            Timber.w("Arduino battery level value is not a number");
+            arduinoBatteryValue = Constants.BATTERY_VALUE_PARSE_ERROR;
+        }
+
+        EventBus.getDefault().post(new BLEDataReceivedEvent(ultrasoundValue, arduinoBatteryValue));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

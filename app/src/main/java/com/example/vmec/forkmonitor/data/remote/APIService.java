@@ -17,6 +17,7 @@ public interface APIService {
                         @Field("accuracy") double accuracy,
                         @Field("status") int status,
                         @Field("ardDist") int ultrasoundDistance,
-                        @Field("ardBat") int arduinoBatteryLevel);
+                        @Field("ardBat") int arduinoBatteryLevel,
+                        @Field("additionalParam") String additionalParam);
 
 }

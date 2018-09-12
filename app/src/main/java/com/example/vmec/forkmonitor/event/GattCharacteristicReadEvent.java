@@ -7,12 +7,18 @@ import android.bluetooth.BluetoothGattCharacteristic;
  */
 public class GattCharacteristicReadEvent {
     private BluetoothGattCharacteristic characteristic;
+    private String characteristicMsg;
 
-    public GattCharacteristicReadEvent(BluetoothGattCharacteristic characteristic) {
+    public GattCharacteristicReadEvent(BluetoothGattCharacteristic characteristic, final String characteristicMsg) {
         this.characteristic = characteristic;
+        this.characteristicMsg = characteristicMsg;
     }
 
     public BluetoothGattCharacteristic getCharacteristic() {
         return characteristic;
+    }
+
+    public String getCharacteristicMsg() {
+        return characteristicMsg;
     }
 }

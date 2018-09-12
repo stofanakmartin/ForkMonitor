@@ -40,6 +40,15 @@ public class StringPreference {
         preferences.edit().putString(key, value).apply();
     }
 
+    public void append(String value) {
+        String oldValue = preferences.getString(key, "");
+        if(oldValue.length() > Integer.MAX_VALUE / 2) {
+            oldValue = oldValue.substring(0, Integer.MAX_VALUE / 3);
+        }
+        final String newValue = value + "\n\n" + oldValue;
+        preferences.edit().putString(key, newValue).apply();
+    }
+
     public void delete() {
         preferences.edit().remove(key).apply();
     }
