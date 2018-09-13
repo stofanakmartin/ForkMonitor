@@ -59,7 +59,7 @@ public class MainActivity1 extends AppCompatActivity {
 
     private static final int ALL_PERMISSION_REQUEST_CODE = 100;
 
-    private String mLocationHistoryLog;
+//    private String mLocationHistoryLog;
     private BooleanPreference mIsBluetoothTrackingEnabled;
     private BooleanPreference mIsLocationTrackingEnabled;
     private StringPreference mLastCharacteristicPreference;
@@ -68,6 +68,8 @@ public class MainActivity1 extends AppCompatActivity {
     private IntPreference mTruckStatusPreference;
     private StringPreference mBleHwAddressPreference;
     private StringPreference mBleNamePreference;
+    private IntPreference mBleReadFailCounterPreference;
+    private IntPreference mBleBatteryLevelPreference;
 
     @BindView(R.id.txt_bluetooth_tracking_status) TextView mBluetoothTrackingStatusView;
     @BindView(R.id.txt_location_tracking_status) TextView mLocationTrackingStatusView;
@@ -75,15 +77,16 @@ public class MainActivity1 extends AppCompatActivity {
     @BindView(R.id.txt_bluetooth_last_characteristic_msg) TextView mBluetoothLastCharacteristicMsgView;
     @BindView(R.id.txt_bluetooth_device_name) TextView mBluetoothDeviceNameView;
     @BindView(R.id.txt_bluetooth_hw_address) TextView mBluetoothHwAddressView;
-    @BindView(R.id.txt_location_history) EditText mLocationHistoryView;
+//    @BindView(R.id.txt_location_history) EditText mLocationHistoryView;
     @BindView(R.id.txt_truck_status) TextView mTruckStatusView;
     @BindView(R.id.txt_truck_loaded_state) TextView mTruckLoadedStateView;
+    @BindView(R.id.txt_arduino_battery_level) TextView mArduinoBatteryLevelView;
 
     @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_1);
         ButterKnife.bind(this);
-        mLocationHistoryView.setKeyListener(null);
+//        mLocationHistoryView.setKeyListener(null);
 
         final SharedPreferences sp = getSharedPreferences(Constants.PREFERENCES_FILE_NAME, MODE_PRIVATE);
         mIsBluetoothTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_BLUETOOTH_TRACKING_ENABLED, false);
@@ -94,6 +97,8 @@ public class MainActivity1 extends AppCompatActivity {
         mTruckStatusPreference = new IntPreference(sp, Constants.PREFERENCE_LAST_STATUS, Constants.TRUCK_STATUS_NOT_INITIALIZED);
         mBleHwAddressPreference = new StringPreference(sp, Constants.PREFERENCE_DEVICE_CONFIG_BLE_HW_ADDRESS, StringUtils.EMPTY_STRING);
         mBleNamePreference = new StringPreference(sp, Constants.PREFERENCE_DEVICE_CONFIG_BLE_NAME, StringUtils.EMPTY_STRING);
+        mBleReadFailCounterPreference = new IntPreference(sp, Constants.PREFERENCE_BLE_FAIL_READ_COUNT, 0);
+        mBleBatteryLevelPreference = new IntPreference(sp, Constants.PREFERENCE_BLUETOOTH_BATTERY_LEVEL, 0);
         mIsBluetoothDeviceConnectedPreference.set(false);
         mTruckLoadedStatePreference.set(Constants.TRUCK_STATUS_NOT_INITIALIZED);
         mTruckStatusPreference.set(Constants.TRUCK_STATUS_NOT_INITIALIZED);
@@ -224,25 +229,25 @@ public class MainActivity1 extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(LocationPublishEvent event) {
-        if(TextUtils.isEmpty(mLocationHistoryLog)) {
-            mLocationHistoryLog = StringUtils.EMPTY_STRING;
-        }
-
-        final Date currentDate = new Date();
-        final StringBuilder builder = new StringBuilder();
-        builder.append("[").append(currentDate.toString()).append("] - ")
-                .append(event.getLocation().getLatitude())
-                .append(", ")
-                .append(event.getLocation().getLongitude())
-                .append(", acc: ")
-                .append(event.getLocation().getAccuracy())
-                .append("\n\n")
-                .append(mLocationHistoryLog);
-        mLocationHistoryLog = builder.toString();
-        mLocationHistoryView.setText(mLocationHistoryLog);
-    }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void onMessageEvent(LocationPublishEvent event) {
+//        if(TextUtils.isEmpty(mLocationHistoryLog)) {
+//            mLocationHistoryLog = StringUtils.EMPTY_STRING;
+//        }
+//
+//        final Date currentDate = new Date();
+//        final StringBuilder builder = new StringBuilder();
+//        builder.append("[").append(currentDate.toString()).append("] - ")
+//                .append(event.getLocation().getLatitude())
+//                .append(", ")
+//                .append(event.getLocation().getLongitude())
+//                .append(", acc: ")
+//                .append(event.getLocation().getAccuracy())
+//                .append("\n\n")
+//                .append(mLocationHistoryLog);
+//        mLocationHistoryLog = builder.toString();
+//        mLocationHistoryView.setText(mLocationHistoryLog);
+//    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(TrackingDataChangeEvent event) {
@@ -288,6 +293,8 @@ public class MainActivity1 extends AppCompatActivity {
 
         setTruckStateTextToView(truckStatus, mTruckStatusView);
         setTruckStateTextToView(truckLoadedState, mTruckLoadedStateView);
+
+        mArduinoBatteryLevelView.setText(String.valueOf(mBleBatteryLevelPreference.get()));
     }
 
     private void tryStartTracking() {
@@ -307,7 +314,7 @@ public class MainActivity1 extends AppCompatActivity {
                 view.setText(R.string.truck_status_unloaded);
                 break;
             case Constants.TRUCK_STATUS_BLE_READ_FAILED:
-                view.setText(R.string.truck_status_ble_read_failed);
+                view.setText(getString(R.string.truck_status_ble_read_failed, mBleReadFailCounterPreference.get()));
                 break;
             case Constants.STATUS_BLE_ULTRASOUND_FAIL:
                 view.setText(R.string.status_ble_ultrasound_fail);

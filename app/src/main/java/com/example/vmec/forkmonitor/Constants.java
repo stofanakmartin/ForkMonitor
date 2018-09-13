@@ -30,13 +30,16 @@ public class Constants {
     public static final String PREFERENCE_IS_BLUETOOTH_TRACKING_ENABLED = "is_bluetooth_tracking_enabled";
     public static final String PREFERENCE_IS_BLUETOOTH_DEVICE_CONNECTED = "is_bluetooth_device_connected";
     public static final String PREFERENCE_IS_LOCATION_TRACKING_ENABLED = "is_location_tracking_enabled";
-    public static final String PREFERENCE_BLUETOOTH_DEVICE_NAME = "bluetooth_device_name";
     public static final String PREFERENCE_BLUETOOTH_BATTERY_LEVEL = "bluetooth_device_name";
     public static final String PREFERENCE_ULTRASOUND_VALUE = "ultrasound_value";
     public static final String PREFERENCE_BLE_COMMUNICATION_HISTORY = "ble_communication_history";
     public static final String PREFERENCE_LOCATION_HISTORY = "location_history";
     public static final String PREFERENCE_SEND_DATA_SUCCESS_COUNTER = "send_data_success_counter";
     public static final String PREFERENCE_SEND_DATA_ERROR_COUNTER = "send_data_error_counter";
+    public static final String PREFERENCE_BLE_FAIL_READ_COUNT = "bluetooth_fail_read_counter";
+    public static final String PREFERENCE_BLE_SUCCESS_READ_TOTAL_COUNT = "bluetooth_success_read_total_counter";
+    public static final String PREFERENCE_BLE_FAIL_READ_TOTAL_COUNT = "bluetooth_fail_read_total_counter";
+    public static final String PREFERENCE_BLE_ULTRASOUND_FAIL_TOTAL_COUNT = "bluetooth_ultrasound_total_counter";
 
     public static final int LOCATION_ACCURACY_TOLERANCE = 20;
     public static final int ULTRASOUND_LOADED_UNLOADED_THRESHOLD_VALUE = 100;
@@ -60,6 +63,7 @@ public class Constants {
     public static final int TRUCK_STATUS_LOADED = 1;
     public static final int TRUCK_STATUS_UNLOADED = 2;
     public static final int TRUCK_STATUS_BLE_READ_FAILED = 3;
+    public static final int TRUCK_STATUS_UNKNOWN = 4;
 
     public static final int STATUS_BLE_ULTRASOUND_FAIL = 13;
     public static final int STATUS_BLUETOOTH_DEVICE_NOT_MATCH = 14;

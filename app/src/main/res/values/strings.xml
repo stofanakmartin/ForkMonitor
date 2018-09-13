@@ -10,7 +10,7 @@
     <string name="truck_status_loaded">Loaded</string>
     <string name="truck_status_unloaded">Unloaded</string>
     <string name="truck_status_unknown">Unknown</string>
-    <string name="truck_status_ble_read_failed">Failed to read BLE multiple times</string>
+    <string name="truck_status_ble_read_failed">Failed to read BLE %1$d times</string>
     <string name="status_ble_ultrasound_fail">Failed to measure ultrasound</string>
     <string name="status_bluetooth_name_not_match">Bluetooth name not match</string>
     <string name="status_bluetooth_config_failed">Bluetooth config not found</string>
@@ -28,5 +28,10 @@
     <string name="notification_info_desc_battery_level_full">Please disconnect your phone from charger</string>
     <string name="notification_info_title_arduino_battery_level_low">Low battery level - Arduino</string>
     <string name="notification_info_desc_arduino_battery_level_low">Please connect arduino powerbank to charger</string>
+
+    <string name="network">Network</string>
+    <string name="location">Location</string>
+    <string name="bluetooth">Bluetooth</string>
+    <string name="arduino_battery_level">Arduino battery</string>
 
 </resources>

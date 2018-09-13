@@ -43,8 +43,11 @@ public class TrackingManager {
     private StringPreference mLastCharacteristicMsgPreference;
     private IntPreference mUltrasoundValuePreference;
     private IntPreference mArduinoBatteryLevelPreference;
+    private IntPreference mBleReadFailCounterPreference;
+    private IntPreference mBleReadSuccessTotalCounterPreference;
+    private IntPreference mBleReadFailTotalCounterPreference;
+    private IntPreference mBleUltrasoundFailCounterPreference;
     private DataReportHelper mDataReportHelper;
-
     private BatteryTrackingHelper mPhoneBatteryStateTracker;
     private int mBleReadFailedCounter = 0;
 
@@ -66,8 +69,15 @@ public class TrackingManager {
         mIsBluetoothTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_BLUETOOTH_TRACKING_ENABLED, false);
         mArduinoBatteryLevelPreference = new IntPreference(sp, Constants.PREFERENCE_BLUETOOTH_BATTERY_LEVEL, -1);
         mUltrasoundValuePreference = new IntPreference(sp, Constants.PREFERENCE_ULTRASOUND_VALUE, -1);
+        mBleReadFailCounterPreference = new IntPreference(sp, Constants.PREFERENCE_BLE_FAIL_READ_COUNT, 0);
+        mBleReadSuccessTotalCounterPreference = new IntPreference(sp, Constants.PREFERENCE_BLE_SUCCESS_READ_TOTAL_COUNT, 0);
+        mBleReadFailTotalCounterPreference = new IntPreference(sp, Constants.PREFERENCE_BLE_FAIL_READ_TOTAL_COUNT, 0);
+        mBleUltrasoundFailCounterPreference = new IntPreference(sp, Constants.PREFERENCE_BLE_ULTRASOUND_FAIL_TOTAL_COUNT, 0);
         mIsLocationTrackingEnabled.set(false);
         mIsBluetoothTrackingEnabled.set(false);
+        mBleReadSuccessTotalCounterPreference.set(0);
+        mBleReadFailTotalCounterPreference.set(0);
+        mBleUltrasoundFailCounterPreference.set(0);
     }
 
     public void startTracking(final Context context) {
@@ -113,8 +123,9 @@ public class TrackingManager {
             newStatus = Constants.TRUCK_STATUS_LOADED;
         } else {
             // Fail status
-            newTruckLoadedState = Constants.TRUCK_STATUS_BLE_READ_FAILED;
+            newTruckLoadedState = Constants.TRUCK_STATUS_UNKNOWN;
             newStatus = Constants.STATUS_BLE_ULTRASOUND_FAIL;
+            mBleUltrasoundFailCounterPreference.set(mBleUltrasoundFailCounterPreference.get() + 1);
         }
 
         mStatusPreference.set(newStatus);
@@ -125,12 +136,9 @@ public class TrackingManager {
     }
 
     private void onTruckLoadedStateChange(final int newTruckLoadedState, final int dataReportStatus) {
-        if(newTruckLoadedState != Constants.TRUCK_STATUS_BLE_READ_FAILED) {
+        if(newTruckLoadedState != Constants.TRUCK_STATUS_UNKNOWN) {
             final Location lastLocation = mLocationHelper.getLastLocation();
             if(lastLocation != null) {
-                // TODO: TEMPORARY docasne sa posiela na server status = 2 - zmena bluetooth
-//            sendPost(android.os.Build.SERIAL, lastLocation.getLatitude(), lastLocation.getLongitude(), 30, lastLocation.getAccuracy(), event.getTruckLoadedState());
-
                 mDataReportHelper.sendPost(android.os.Build.SERIAL, lastLocation.getLatitude(), lastLocation.getLongitude(),
                         mPhoneBatteryStateTracker.getLastBatteryLevel(), lastLocation.getAccuracy(),
                         dataReportStatus, mUltrasoundValuePreference.get(),
@@ -146,10 +154,6 @@ public class TrackingManager {
         final int locationPolygonStatus = mLocationPolygonHelper.checkLocationStatus(location);
 
         if(locationPolygonStatus == 0) {
-            final int truckStatus = mStatusPreference.get();
-            // TODO: TEMPORARY docasne sa posiela na server status = 1 - zmena location
-//            sendPost(android.os.Build.SERIAL, location.getLatitude(), location.getLongitude(), 30, location.getAccuracy(), mLastCharacteristicMsgPreference.get());
-
             mDataReportHelper.sendPost(android.os.Build.SERIAL, location.getLatitude(), location.getLongitude(),
                     mPhoneBatteryStateTracker.getLastBatteryLevel(), location.getAccuracy(),
                     1,
@@ -162,6 +166,8 @@ public class TrackingManager {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(BLEDataReceivedEvent event) {
         mBleReadFailedCounter = 0;
+        mBleReadFailCounterPreference.set(0);
+        mBleReadSuccessTotalCounterPreference.set(mBleReadSuccessTotalCounterPreference.get() + 1);
         evaluateReceivedBluetoothData(event);
         EventBus.getDefault().post(new TrackingDataChangeEvent());
     }
@@ -169,19 +175,14 @@ public class TrackingManager {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(BLEFailedToReadStatusEvent event) {
         mBleReadFailedCounter++;
+        mBleReadFailCounterPreference.set(mBleReadFailedCounter);
+        mBleReadFailTotalCounterPreference.set(mBleReadFailTotalCounterPreference.get() + 1);
         if(mBleReadFailedCounter == Constants.BLUETOOTH_READ_FAILURE_COUNT_LIMIT) {
             mUltrasoundValuePreference.set(Constants.ULTRASOUND_VALUE_UNKWOWN);
             mArduinoBatteryLevelPreference.set(Constants.BATTERY_VALUE_UNKWOWN);
             mTruckLoadedStatePreference.set(Constants.TRUCK_STATUS_BLE_READ_FAILED);
             mStatusPreference.set(Constants.TRUCK_STATUS_BLE_READ_FAILED);
-
-            final Location lastLocation = mLocationHelper.getLastLocation();
-            if(lastLocation != null) {
-                mDataReportHelper.sendPost(android.os.Build.SERIAL, lastLocation.getLatitude(), lastLocation.getLongitude(),
-                        mPhoneBatteryStateTracker.getLastBatteryLevel(), lastLocation.getAccuracy(),
-                        Constants.TRUCK_STATUS_BLE_READ_FAILED, mUltrasoundValuePreference.get(),
-                        mArduinoBatteryLevelPreference.get());
-            }
+            onTruckLoadedStateChange(Constants.TRUCK_STATUS_BLE_READ_FAILED, Constants.REPORT_STATUS_BLUETOOTH_READ_FAIL);
         }
         Timber.d("BLE - failed to read status %d times in row", mBleReadFailedCounter);
     }

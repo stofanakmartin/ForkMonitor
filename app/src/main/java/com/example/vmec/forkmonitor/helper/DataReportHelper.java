@@ -26,11 +26,19 @@ public class DataReportHelper {
     private APIService mAPIService;
     private IntPreference mSendDataSuccessCounterPreference;
     private IntPreference mSendDataErrorCounterPreference;
+    private IntPreference mBleReadSuccessTotalCounterPreference;
+    private IntPreference mBleReadFailTotalCounterPreference;
+    private IntPreference mBleUltrasoundFailCounterPreference;
 
     public DataReportHelper(final Context context) {
         final SharedPreferences sp = context.getSharedPreferences(Constants.PREFERENCES_FILE_NAME, MODE_PRIVATE);
         mSendDataSuccessCounterPreference = new IntPreference(sp, Constants.PREFERENCE_SEND_DATA_SUCCESS_COUNTER, 0);
         mSendDataErrorCounterPreference = new IntPreference(sp, Constants.PREFERENCE_SEND_DATA_ERROR_COUNTER, 0);
+        mBleReadSuccessTotalCounterPreference = new IntPreference(sp, Constants.PREFERENCE_BLE_SUCCESS_READ_TOTAL_COUNT, 0);
+        mBleReadFailTotalCounterPreference = new IntPreference(sp, Constants.PREFERENCE_BLE_FAIL_READ_TOTAL_COUNT, 0);
+        mBleUltrasoundFailCounterPreference = new IntPreference(sp, Constants.PREFERENCE_BLE_ULTRASOUND_FAIL_TOTAL_COUNT, 0);
+        mSendDataSuccessCounterPreference.set(0);
+        mSendDataErrorCounterPreference.set(0);
         mAPIService = ApiUtils.getAPIService();
     }
 
@@ -38,9 +46,12 @@ public class DataReportHelper {
                          int status, int ultrasoundDistance, int arduinoBatteryLevel) {
         Timber.d("Send status request to server");
 
-        final String additionalParam = String.format(Locale.US, "s:%d||e:%d",
+        final String additionalParam = String.format(Locale.US, "sendData-s:%d||e:%d||ble-s:%d||f:%d||e:%d",
                 mSendDataSuccessCounterPreference.get(),
-                mSendDataErrorCounterPreference.get());
+                mSendDataErrorCounterPreference.get(),
+                mBleReadSuccessTotalCounterPreference.get(),
+                mBleUltrasoundFailCounterPreference.get(),
+                mBleReadFailTotalCounterPreference.get());
 
         mAPIService.savePost(name, lat, lng,battery, accuracy, status, ultrasoundDistance, arduinoBatteryLevel, additionalParam).enqueue(new Callback<Post>() {
             @Override
@@ -49,9 +60,6 @@ public class DataReportHelper {
                 if(response.isSuccessful()) {
                     final int successCounter = mSendDataSuccessCounterPreference.get() + 1;
                     mSendDataSuccessCounterPreference.set(successCounter);
-//                    counterS +=1;
-                    //Log.d("rest", "success");
-
                 }
             }
 
@@ -60,10 +68,6 @@ public class DataReportHelper {
                 Timber.d("Send post FAILURE response");
                 final int errorCounter = mSendDataErrorCounterPreference.get() + 1;
                 mSendDataErrorCounterPreference.set(errorCounter);
-                //Log.e("rest", "Unable to submit post to API.");
-//                counterF +=1;
-                //Log.d("rest", "fail");
-
             }
         });
     }

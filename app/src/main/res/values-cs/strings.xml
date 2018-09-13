@@ -7,7 +7,7 @@
     <string name="truck_status_loaded">Naloženo</string>
     <string name="truck_status_unloaded">Vyloženo</string>
     <string name="truck_status_unknown">Neznámý</string>
-    <string name="truck_status_ble_read_failed">Neuspesne citanie bluetooth viac krat za sebou</string>
+    <string name="truck_status_ble_read_failed">Neuspesne citanie bluetooth %1$d krat za sebou</string>
     <string name="status_ble_ultrasound_fail">Neuspesne meranie ultrazvuku</string>
     <string name="status_bluetooth_name_not_match">Názov bluetooth zariadenia sa nezhoduje</string>
     <string name="status_bluetooth_config_failed">Bluetooth konfigurace zlyhala</string>
@@ -25,4 +25,6 @@
     <string name="notification_info_desc_battery_level_full">Prosím, odpojte telefon od nabíječky</string>
     <string name="notification_info_title_arduino_battery_level_low">Nízká úroveň nabití baterie - Arduino</string>
     <string name="notification_info_desc_arduino_battery_level_low">Připojte powerbanku arduina k nabíječce</string>
+
+    <string name="arduino_battery_level">Arduino batéria</string>
 </resources>
