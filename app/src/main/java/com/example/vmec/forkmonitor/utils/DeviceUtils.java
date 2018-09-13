@@ -3,6 +3,9 @@ package com.example.vmec.forkmonitor.utils;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.PowerManager;
 
@@ -37,5 +40,34 @@ public class DeviceUtils {
         }
 
         return "";
+    }
+
+    /**
+     * Checking for all possible internet providers
+     **/
+    public static boolean isConnectedToNetwork(final Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (DeviceUtils.isMinimumApiVersion(Build.VERSION_CODES.LOLLIPOP)) {
+            final Network[] networks = connectivityManager.getAllNetworks();
+            for(Network mNetwork : networks) {
+                final NetworkInfo networkInfo = connectivityManager.getNetworkInfo(mNetwork);
+                if (networkInfo != null && networkInfo.getState().equals(NetworkInfo.State.CONNECTED)) {
+                    return true;
+                }
+            }
+        } else {
+            if(connectivityManager != null) {
+                //noinspection deprecation
+                final NetworkInfo[] info = connectivityManager.getAllNetworkInfo();
+                if(info != null) {
+                    for(NetworkInfo anInfo : info) {
+                        if(anInfo.getState() == NetworkInfo.State.CONNECTED) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

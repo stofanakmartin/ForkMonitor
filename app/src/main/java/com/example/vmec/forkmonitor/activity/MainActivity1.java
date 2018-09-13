@@ -18,6 +18,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.vmec.forkmonitor.Constants;
@@ -31,7 +32,9 @@ import com.example.vmec.forkmonitor.preference.BooleanPreference;
 import com.example.vmec.forkmonitor.preference.IntPreference;
 import com.example.vmec.forkmonitor.preference.StringPreference;
 import com.example.vmec.forkmonitor.service.TrackingService;
+import com.example.vmec.forkmonitor.utils.BluetoothUtils;
 import com.example.vmec.forkmonitor.utils.DeviceUtils;
+import com.example.vmec.forkmonitor.utils.LocationUtils;
 import com.example.vmec.forkmonitor.utils.PermissionUtils;
 import com.example.vmec.forkmonitor.utils.StringUtils;
 
@@ -77,10 +80,12 @@ public class MainActivity1 extends AppCompatActivity {
     @BindView(R.id.txt_bluetooth_last_characteristic_msg) TextView mBluetoothLastCharacteristicMsgView;
     @BindView(R.id.txt_bluetooth_device_name) TextView mBluetoothDeviceNameView;
     @BindView(R.id.txt_bluetooth_hw_address) TextView mBluetoothHwAddressView;
-//    @BindView(R.id.txt_location_history) EditText mLocationHistoryView;
     @BindView(R.id.txt_truck_status) TextView mTruckStatusView;
     @BindView(R.id.txt_truck_loaded_state) TextView mTruckLoadedStateView;
     @BindView(R.id.txt_arduino_battery_level) TextView mArduinoBatteryLevelView;
+    @BindView(R.id.view_bluetooth_status) LinearLayout mBluetoothStatusView;
+    @BindView(R.id.view_gps_status) LinearLayout mGpsStatusView;
+    @BindView(R.id.view_network_status) LinearLayout mNetworkStatusView;
 
     @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -295,6 +300,24 @@ public class MainActivity1 extends AppCompatActivity {
         setTruckStateTextToView(truckLoadedState, mTruckLoadedStateView);
 
         mArduinoBatteryLevelView.setText(String.valueOf(mBleBatteryLevelPreference.get()));
+
+        if(BluetoothUtils.isBluetoothOn()) {
+            mBluetoothStatusView.setBackgroundColor(getResources().getColor(R.color.status_ok));
+        } else {
+            mBluetoothStatusView.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
+        }
+
+        if(LocationUtils.isGpsLocationEnabled(this)) {
+            mGpsStatusView.setBackgroundColor(getResources().getColor(R.color.status_ok));
+        } else {
+            mGpsStatusView.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
+        }
+
+        if(DeviceUtils.isConnectedToNetwork(this)) {
+            mNetworkStatusView.setBackgroundColor(getResources().getColor(R.color.status_ok));
+        } else {
+            mNetworkStatusView.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
+        }
     }
 
     private void tryStartTracking() {
