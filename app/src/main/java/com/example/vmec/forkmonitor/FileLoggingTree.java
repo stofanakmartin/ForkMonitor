@@ -1,10 +1,19 @@
 package com.example.vmec.forkmonitor;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+
+import com.example.vmec.forkmonitor.utils.PermissionUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
@@ -17,6 +26,8 @@ import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
 import ch.qos.logback.core.util.StatusPrinter;
 import timber.log.Timber;
 
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 /**
  * Created by Stofanak on 13/09/2018.
  */
@@ -25,8 +36,30 @@ public class FileLoggingTree extends Timber.DebugTree {
     private static final String LOG_PREFIX = "forkmonitor-log";
 
     public FileLoggingTree(Context context) {
-        final String logDirectory = context.getFilesDir() + "/logs";
+        checkPermissions(context);
+    }
+
+    private void init(final Context context) {
+        File logsFolder = new File(Environment.getExternalStorageDirectory() + "/ForkMonitor/logs");
+        boolean isPresent = true;
+        if (!logsFolder.exists()) {
+            isPresent = logsFolder.mkdirs();
+        }
+        if (!isPresent) {
+            //TODO: Show ui error
+            Timber.e("Failed to write text.txt");
+        }
+
+        final String logDirectory = logsFolder.getAbsolutePath();
         configureLogger(logDirectory);
+    }
+
+    private void checkPermissions(final Context context) {
+        if(!PermissionUtils.hasPermissions(context, WRITE_EXTERNAL_STORAGE)){
+            Timber.e("Missing permission to write external storage");
+        } else {
+            init(context);
+        }
     }
 
     @Override protected void log(int priority, String tag, String message, Throwable t) {
@@ -64,12 +97,12 @@ public class FileLoggingTree extends Timber.DebugTree {
 
         SizeAndTimeBasedFNATP<ILoggingEvent> fileNamingPolicy = new SizeAndTimeBasedFNATP<>();
         fileNamingPolicy.setContext(loggerContext);
-        fileNamingPolicy.setMaxFileSize("3MB");
+        fileNamingPolicy.setMaxFileSize("5MB");
 
         TimeBasedRollingPolicy<ILoggingEvent> rollingPolicy = new TimeBasedRollingPolicy<>();
         rollingPolicy.setContext(loggerContext);
         rollingPolicy.setFileNamePattern(logDirectory + "/" + LOG_PREFIX + ".%d{yyyy-MM-dd}.%i.html");
-        rollingPolicy.setMaxHistory(14);
+        rollingPolicy.setMaxHistory(10);
         rollingPolicy.setTimeBasedFileNamingAndTriggeringPolicy(fileNamingPolicy);
         rollingPolicy.setParent(rollingFileAppender);  // parent and context required!
         rollingPolicy.start();

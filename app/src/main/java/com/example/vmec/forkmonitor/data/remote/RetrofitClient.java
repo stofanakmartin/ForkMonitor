@@ -1,5 +1,7 @@
 package com.example.vmec.forkmonitor.data.remote;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 //import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -42,6 +44,9 @@ public static Retrofit getClient(String baseUrl){
     interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
     OkHttpClient client = new OkHttpClient.Builder()
             .addInterceptor(interceptor)
+            .readTimeout(5, TimeUnit.SECONDS)
+            .connectTimeout(5, TimeUnit.SECONDS)
+            .writeTimeout(5, TimeUnit.SECONDS)
             .build();
 
 

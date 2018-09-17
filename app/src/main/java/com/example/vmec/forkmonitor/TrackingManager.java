@@ -62,9 +62,9 @@ public class TrackingManager {
 
         mDataReportHelper = new DataReportHelper(context);
         mLocationPolygonHelper = new LocationPolygonHelper(context);
-        mTruckLoadedStatePreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_LOADED_STATE, Constants.TRUCK_STATUS_NOT_INITIALIZED);
+        mTruckLoadedStatePreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_LOADED_STATE, Constants.TRUCK_STATUS_UNKNOWN);
         mLastCharacteristicMsgPreference = new StringPreference(sp, Constants.PREFERENCE_LAST_CHARACTERISTIC_MSG, StringUtils.EMPTY_STRING);
-        mStatusPreference = new IntPreference(sp, Constants.PREFERENCE_LAST_STATUS, Constants.TRUCK_STATUS_NOT_INITIALIZED);
+        mStatusPreference = new IntPreference(sp, Constants.PREFERENCE_LAST_STATUS, Constants.TRUCK_STATUS_UNKNOWN);
         mIsLocationTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_LOCATION_TRACKING_ENABLED, false);
         mIsBluetoothTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_BLUETOOTH_TRACKING_ENABLED, false);
         mArduinoBatteryLevelPreference = new IntPreference(sp, Constants.PREFERENCE_BLUETOOTH_BATTERY_LEVEL, -1);
@@ -136,6 +136,7 @@ public class TrackingManager {
     }
 
     private void onTruckLoadedStateChange(final int newTruckLoadedState, final int dataReportStatus) {
+        mTruckLoadedStatePreference.set(newTruckLoadedState);
         if(newTruckLoadedState != Constants.TRUCK_STATUS_UNKNOWN) {
             final Location lastLocation = mLocationHelper.getLastLocation();
             if(lastLocation != null) {
@@ -145,7 +146,6 @@ public class TrackingManager {
                         mArduinoBatteryLevelPreference.get());
             }
         }
-        mTruckLoadedStatePreference.set(newTruckLoadedState);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -68,8 +68,8 @@ public class LocationHelper {
 
     private LocationRequest createLocationRequest() {
         final LocationRequest locationRequest = LocationRequest.create();
-        locationRequest.setInterval(10000);
-        locationRequest.setFastestInterval(5000);
+        locationRequest.setInterval(Constants.LOCATION_INTERVAL);
+        locationRequest.setFastestInterval(Constants.LOCATION_FASTEST_INTERVAL);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         return locationRequest;
     }

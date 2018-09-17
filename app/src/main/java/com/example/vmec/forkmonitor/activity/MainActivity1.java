@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,16 +15,20 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.vmec.forkmonitor.Constants;
 import com.example.vmec.forkmonitor.DeviceConfigManager;
 import com.example.vmec.forkmonitor.DrawActivity;
+import com.example.vmec.forkmonitor.FileLoggingTree;
 import com.example.vmec.forkmonitor.R;
 import com.example.vmec.forkmonitor.event.BLEConfigStatus;
 import com.example.vmec.forkmonitor.event.LocationPublishEvent;
@@ -32,6 +37,7 @@ import com.example.vmec.forkmonitor.preference.BooleanPreference;
 import com.example.vmec.forkmonitor.preference.IntPreference;
 import com.example.vmec.forkmonitor.preference.StringPreference;
 import com.example.vmec.forkmonitor.service.TrackingService;
+import com.example.vmec.forkmonitor.utils.ArduinoUtils;
 import com.example.vmec.forkmonitor.utils.BluetoothUtils;
 import com.example.vmec.forkmonitor.utils.DeviceUtils;
 import com.example.vmec.forkmonitor.utils.LocationUtils;
@@ -43,6 +49,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Date;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,7 +64,8 @@ import static android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATI
 public class MainActivity1 extends AppCompatActivity {
 
     private static final String[] REQUIRED_PERMISSIONS = {
-            Manifest.permission.ACCESS_FINE_LOCATION
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
     private static final int ALL_PERMISSION_REQUEST_CODE = 100;
@@ -73,6 +81,7 @@ public class MainActivity1 extends AppCompatActivity {
     private StringPreference mBleNamePreference;
     private IntPreference mBleReadFailCounterPreference;
     private IntPreference mBleBatteryLevelPreference;
+    private IntPreference mUltrasoundValuePreference;
 
     @BindView(R.id.txt_bluetooth_tracking_status) TextView mBluetoothTrackingStatusView;
     @BindView(R.id.txt_location_tracking_status) TextView mLocationTrackingStatusView;
@@ -86,6 +95,9 @@ public class MainActivity1 extends AppCompatActivity {
     @BindView(R.id.view_bluetooth_status) LinearLayout mBluetoothStatusView;
     @BindView(R.id.view_gps_status) LinearLayout mGpsStatusView;
     @BindView(R.id.view_network_status) LinearLayout mNetworkStatusView;
+    @BindView(R.id.img_arduino_battery_status) ImageView mArduinoBatteryStatusView;
+    @BindView(R.id.txt_ultrasound_value) TextView mUltrasoundValueView;
+    @BindView(R.id.img_ultrasound_status) ImageView mUltrasoundStatusView;
 
     @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,15 +110,16 @@ public class MainActivity1 extends AppCompatActivity {
         mIsLocationTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_LOCATION_TRACKING_ENABLED, false);
         mLastCharacteristicPreference = new StringPreference(sp, Constants.PREFERENCE_LAST_CHARACTERISTIC_MSG, StringUtils.EMPTY_STRING);
         mIsBluetoothDeviceConnectedPreference = new BooleanPreference(sp, Constants.PREFERENCE_IS_BLUETOOTH_DEVICE_CONNECTED, false);
-        mTruckLoadedStatePreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_LOADED_STATE, Constants.TRUCK_STATUS_NOT_INITIALIZED);
-        mTruckStatusPreference = new IntPreference(sp, Constants.PREFERENCE_LAST_STATUS, Constants.TRUCK_STATUS_NOT_INITIALIZED);
+        mTruckLoadedStatePreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_LOADED_STATE, Constants.TRUCK_STATUS_UNKNOWN);
+        mTruckStatusPreference = new IntPreference(sp, Constants.PREFERENCE_LAST_STATUS, Constants.TRUCK_STATUS_UNKNOWN);
         mBleHwAddressPreference = new StringPreference(sp, Constants.PREFERENCE_DEVICE_CONFIG_BLE_HW_ADDRESS, StringUtils.EMPTY_STRING);
         mBleNamePreference = new StringPreference(sp, Constants.PREFERENCE_DEVICE_CONFIG_BLE_NAME, StringUtils.EMPTY_STRING);
         mBleReadFailCounterPreference = new IntPreference(sp, Constants.PREFERENCE_BLE_FAIL_READ_COUNT, 0);
         mBleBatteryLevelPreference = new IntPreference(sp, Constants.PREFERENCE_BLUETOOTH_BATTERY_LEVEL, 0);
+        mUltrasoundValuePreference = new IntPreference(sp, Constants.PREFERENCE_ULTRASOUND_VALUE, 0);
         mIsBluetoothDeviceConnectedPreference.set(false);
-        mTruckLoadedStatePreference.set(Constants.TRUCK_STATUS_NOT_INITIALIZED);
-        mTruckStatusPreference.set(Constants.TRUCK_STATUS_NOT_INITIALIZED);
+        mTruckLoadedStatePreference.set(Constants.TRUCK_STATUS_UNKNOWN);
+        mTruckStatusPreference.set(Constants.TRUCK_STATUS_UNKNOWN);
         mLastCharacteristicPreference.set(StringUtils.EMPTY_STRING);
 
         final DeviceConfigManager dcm = new DeviceConfigManager(this);
@@ -147,6 +160,7 @@ public class MainActivity1 extends AppCompatActivity {
         if(!PermissionUtils.hasPermissions(this, REQUIRED_PERMISSIONS)){
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, ALL_PERMISSION_REQUEST_CODE);
         } else {
+            initFileLogging();
             tryStartTracking();
         }
     }
@@ -161,17 +175,26 @@ public class MainActivity1 extends AppCompatActivity {
         setTitle(String.format("%s: %s", appName, mBleNamePreference.get()));
     }
 
+    private void initFileLogging() {
+        Timber.plant(new FileLoggingTree(this));
+    }
+
     @Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
         switch (requestCode) {
             case ALL_PERMISSION_REQUEST_CODE: {
                 Timber.d("Number of permissions %d", grantResults.length);
                 // If request is cancelled, the result arrays are empty.
-                //TODO: HARDCODED pls refactor
-                if (grantResults.length == REQUIRED_PERMISSIONS.length
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                boolean allPermsGranted = true;
+                for(int result : grantResults) {
+                    if(result == -1) {
+                        allPermsGranted = false;
+                    }
+                }
+                if (grantResults.length == REQUIRED_PERMISSIONS.length && allPermsGranted) {
                     Timber.d("ALL permission granted");
 
+                    initFileLogging();
                     startTrackingService();
 
                 } else {
@@ -234,26 +257,6 @@ public class MainActivity1 extends AppCompatActivity {
         startActivity(intent);
     }
 
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void onMessageEvent(LocationPublishEvent event) {
-//        if(TextUtils.isEmpty(mLocationHistoryLog)) {
-//            mLocationHistoryLog = StringUtils.EMPTY_STRING;
-//        }
-//
-//        final Date currentDate = new Date();
-//        final StringBuilder builder = new StringBuilder();
-//        builder.append("[").append(currentDate.toString()).append("] - ")
-//                .append(event.getLocation().getLatitude())
-//                .append(", ")
-//                .append(event.getLocation().getLongitude())
-//                .append(", acc: ")
-//                .append(event.getLocation().getAccuracy())
-//                .append("\n\n")
-//                .append(mLocationHistoryLog);
-//        mLocationHistoryLog = builder.toString();
-//        mLocationHistoryView.setText(mLocationHistoryLog);
-//    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(TrackingDataChangeEvent event) {
         updateUI();
@@ -299,7 +302,8 @@ public class MainActivity1 extends AppCompatActivity {
         setTruckStateTextToView(truckStatus, mTruckStatusView);
         setTruckStateTextToView(truckLoadedState, mTruckLoadedStateView);
 
-        mArduinoBatteryLevelView.setText(String.valueOf(mBleBatteryLevelPreference.get()));
+        updateBatteryUI();
+        updateUltrasoundUI();
 
         if(BluetoothUtils.isBluetoothOn()) {
             mBluetoothStatusView.setBackgroundColor(getResources().getColor(R.color.status_ok));
@@ -350,6 +354,45 @@ public class MainActivity1 extends AppCompatActivity {
                 break;
             default:
                 view.setText(R.string.truck_status_unknown);
+        }
+    }
+
+    private void updateBatteryUI() {
+        final int batteryValue = mBleBatteryLevelPreference.get();
+        final int ultrasoundBatteryPercentage = ArduinoUtils.getBatteryPercentage(batteryValue, Constants.ARDUINO_MAX_BATTERY_LEVEL_VALUE, Constants.ARDUINO_LOW_BATTERY_LEVEL_VALUE);
+        mArduinoBatteryLevelView.setText(String.format(Locale.US, "%d%%", ultrasoundBatteryPercentage));
+
+        Drawable statusDrawable;
+
+        if (ultrasoundBatteryPercentage <= Constants.BATTERY_LOW_LEVEL_VALUE) {
+            statusDrawable = getResources().getDrawable(R.drawable.ic_baseline_error_outline);
+            DrawableCompat.setTint(statusDrawable, ContextCompat.getColor(this, R.color.status_not_ok));
+            mArduinoBatteryStatusView.setImageDrawable(statusDrawable);
+        } else {
+            statusDrawable = getResources().getDrawable(R.drawable.ic_baseline_check);
+            DrawableCompat.setTint(statusDrawable, ContextCompat.getColor(this, R.color.status_ok));
+            mArduinoBatteryStatusView.setImageDrawable(statusDrawable);
+        }
+    }
+
+    private void updateUltrasoundUI() {
+        final int ultrasoundValue = mUltrasoundValuePreference.get();
+        Drawable statusDrawable;
+        if (ultrasoundValue <= 0) {
+
+            if(ultrasoundValue == Constants.ULTRASOUND_VALUE_FAIL) {
+                mUltrasoundValueView.setText("fail");
+            } else {
+                mUltrasoundValueView.setText(String.format(Locale.US, "%d", mUltrasoundValuePreference.get()));
+            }
+            statusDrawable = getResources().getDrawable(R.drawable.ic_baseline_error_outline);
+            DrawableCompat.setTint(statusDrawable, ContextCompat.getColor(this, R.color.status_not_ok));
+            mUltrasoundStatusView.setImageDrawable(statusDrawable);
+        } else {
+            mUltrasoundValueView.setText(String.format(Locale.US, "%d cm", ultrasoundValue));
+            statusDrawable = getResources().getDrawable(R.drawable.ic_baseline_check);
+            DrawableCompat.setTint(statusDrawable, ContextCompat.getColor(this, R.color.status_ok));
+            mUltrasoundStatusView.setImageDrawable(statusDrawable);
         }
     }
 }

@@ -41,11 +41,18 @@ public class Constants {
     public static final String PREFERENCE_BLE_FAIL_READ_TOTAL_COUNT = "bluetooth_fail_read_total_counter";
     public static final String PREFERENCE_BLE_ULTRASOUND_FAIL_TOTAL_COUNT = "bluetooth_ultrasound_total_counter";
 
+    public static final int SEND_REQUEST_RETRY_INTERVAL = 7000;
+    public static final int SEND_REQUEST_RETRY_ATTEMPTS = 5;
+    public static final int LOCATION_INTERVAL = 3000;
+    public static final int LOCATION_FASTEST_INTERVAL = 3000;
+
+    public static final int BATTERY_LOW_LEVEL_VALUE = 20;
     public static final int LOCATION_ACCURACY_TOLERANCE = 20;
     public static final int ULTRASOUND_LOADED_UNLOADED_THRESHOLD_VALUE = 100;
     public static final int PHONE_LOW_BATTERY_LEVEL_VALUE = 20;
     public static final int PHONE_FULL_BATTERY_LEVEL_VALUE = 90;
     public static final int ARDUINO_LOW_BATTERY_LEVEL_VALUE = 3300;
+    public static final int ARDUINO_MAX_BATTERY_LEVEL_VALUE = 4200;
 
     public static final int ULTRASOUND_VALUE_UNKWOWN = -1;
     public static final int ULTRASOUND_VALUE_FAIL = -2;
@@ -59,7 +66,6 @@ public class Constants {
     public static final int REPORT_STATUS_BLUETOOTH_LOADED_STATE_CHANGE = 2;
     public static final int REPORT_STATUS_BLUETOOTH_READ_FAIL = 3;
 
-    public static final int TRUCK_STATUS_NOT_INITIALIZED = -1;
     public static final int TRUCK_STATUS_LOADED = 1;
     public static final int TRUCK_STATUS_UNLOADED = 2;
     public static final int TRUCK_STATUS_BLE_READ_FAILED = 3;

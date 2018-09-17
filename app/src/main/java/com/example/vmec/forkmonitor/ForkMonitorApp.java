@@ -20,7 +20,7 @@ public class ForkMonitorApp extends Application {
         } else {
 //            Timber.plant(new CrashReportingTree());
         }
-        Timber.plant(new FileLoggingTree(this));
+//        Timber.plant(new FileLoggingTree(this));
     }
 
     /**

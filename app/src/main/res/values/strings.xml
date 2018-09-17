@@ -32,6 +32,7 @@
     <string name="network">Network</string>
     <string name="location">Location</string>
     <string name="bluetooth">Bluetooth</string>
-    <string name="arduino_battery_level">Arduino battery</string>
+    <string name="arduino_battery_level">Ultrasound battery</string>
+    <string name="ultrasound_distance">Ultrasound distance</string>
 
 </resources>

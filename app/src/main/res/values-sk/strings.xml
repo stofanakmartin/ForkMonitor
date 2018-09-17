@@ -26,5 +26,5 @@
     <string name="notification_info_title_arduino_battery_level_low">Nízka úroveň nabitia batérie - Arduino</string>
     <string name="notification_info_desc_arduino_battery_level_low">Pripojte powerbanku arduina k nabíjačke</string>
 
-    <string name="arduino_battery_level">Arduino batéria</string>
+    <string name="arduino_battery_level">Batéria ultrazvuku</string>
 </resources>
