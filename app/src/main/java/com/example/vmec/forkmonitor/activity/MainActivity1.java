@@ -117,7 +117,6 @@ public class MainActivity1 extends AppCompatActivity {
         mBleReadFailCounterPreference = new IntPreference(sp, Constants.PREFERENCE_BLE_FAIL_READ_COUNT, 0);
         mBleBatteryLevelPreference = new IntPreference(sp, Constants.PREFERENCE_BLUETOOTH_BATTERY_LEVEL, 0);
         mUltrasoundValuePreference = new IntPreference(sp, Constants.PREFERENCE_ULTRASOUND_VALUE, 0);
-        mIsBluetoothDeviceConnectedPreference.set(false);
         mTruckLoadedStatePreference.set(Constants.TRUCK_STATUS_UNKNOWN);
         mTruckStatusPreference.set(Constants.TRUCK_STATUS_UNKNOWN);
         mLastCharacteristicPreference.set(StringUtils.EMPTY_STRING);
