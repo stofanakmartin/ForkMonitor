@@ -18,6 +18,7 @@
     <string name="ble_hw_address">Bluetooth hw adresa</string>
     <string name="ble_device_name">Bluetooth názov zariadenia</string>
     <string name="error">Chyba</string>
+    <string name="battery_value_unknown">Neznámý</string>
 
     <string name="notification_info_title_battery_level_low">Nízká úroveň nabití baterie - telefon</string>
     <string name="notification_info_desc_battery_level_low">Připojte telefon k nabíječce</string>

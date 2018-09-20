@@ -78,6 +78,10 @@ public class BluetoothHelper2 {
             clearRequestTimeoutAction();
             if (newState == BluetoothProfile.STATE_CONNECTED) {
                 mConnectionState = STATE_CONNECTED;
+                if(mBluetoothGatt == null) {
+                    Timber.d("BLE - assign BluetoothGatt from callback");
+                    mBluetoothGatt = gatt;
+                }
                 Timber.i("BLE - Connected");
                 EventBus.getDefault().post(new GattConnectedEvent());
                 discoverServices();
@@ -245,10 +249,11 @@ public class BluetoothHelper2 {
         Timber.d("BLE - close connection.");
         clearRequestTimeoutAction();
         postCloseConnectionTimeoutAction();
-        mBluetoothGatt.close();
+        mBluetoothGatt.disconnect();
     }
 
     private void onConnectionClosed() {
+        mBluetoothGatt.close();
         mBluetoothGatt = null;
         mConnectionState = STATE_DISCONNECTED;
         EventBus.getDefault().post(new GattDisconnectedEvent());
@@ -301,9 +306,9 @@ public class BluetoothHelper2 {
      */
     public void setCharacteristicNotification(BluetoothGattCharacteristic characteristic,
                                               boolean enabled) {
-        Timber.d("Register characteristic for notifications");
+        Timber.d("BLE - Register characteristic for notifications");
         if (mBluetoothAdapter == null || mBluetoothGatt == null) {
-            Timber.w("BluetoothAdapter not initialized");
+            Timber.w("BLE - BluetoothAdapter not initialized");
             return;
         }
         postRequestTimeoutAction();
@@ -322,9 +327,9 @@ public class BluetoothHelper2 {
      * @param value value to write to characteristic
      */
     public void writeToCharacteristic(BluetoothGattCharacteristic characteristic, final String value) {
-        Timber.d("Write value to characteristic: %s", value);
+        Timber.d("BLE - Write value to characteristic: %s", value);
         if (mBluetoothAdapter == null || mBluetoothGatt == null) {
-            Timber.w("writeToCharacteristic - BluetoothAdapter not initialized");
+            Timber.w("BLE - writeToCharacteristic - BluetoothAdapter not initialized");
             return;
         }
 
@@ -332,7 +337,7 @@ public class BluetoothHelper2 {
         characteristic.setValue(value);
         final boolean writeResult = mBluetoothGatt.writeCharacteristic(characteristic);
 
-        Timber.d("Characteristic write request - value: '%s' - result: %s", value, String.valueOf(writeResult));
+        Timber.d("BLE - Characteristic write request - value: '%s' - result: %s", value, String.valueOf(writeResult));
     }
 
     public void requestConnectionDisconnectAfterTimeout() {

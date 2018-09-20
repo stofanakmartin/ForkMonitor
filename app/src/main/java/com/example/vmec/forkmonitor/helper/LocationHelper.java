@@ -82,13 +82,18 @@ public class LocationHelper {
                     Timber.d("Location callback - result null");
                     return;
                 }
-                final List<Location> locations = locationResult.getLocations();
-                Timber.d("LocationCallback number of location results: %d", locations.size());
-                for (Location location : locations) {
-                    mLastLocation = location;
-                    EventBus.getDefault().post(new LocationPublishEvent(location));
-                    Timber.d("LocationCallback callback - result: %s", location.toString());
-                }
+                final Location location = locationResult.getLastLocation();
+                mLastLocation = location;
+                EventBus.getDefault().post(new LocationPublishEvent(location));
+                Timber.d("LocationCallback callback - result: %s", location.toString());
+
+//                final List<Location> locations = locationResult.getLocations();
+//                Timber.d("LocationCallback number of location results: %d", locations.size());
+//                for (Location location : locations) {
+//                    mLastLocation = location;
+//                    EventBus.getDefault().post(new LocationPublishEvent(location));
+//                    Timber.d("LocationCallback callback - result: %s", location.toString());
+//                }
             };
         };
     }

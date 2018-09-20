@@ -359,8 +359,13 @@ public class MainActivity1 extends AppCompatActivity {
 
     private void updateBatteryUI() {
         final int batteryValue = mBleBatteryLevelPreference.get();
-        final int ultrasoundBatteryPercentage = ArduinoUtils.getBatteryPercentage(batteryValue, Constants.ARDUINO_MAX_BATTERY_LEVEL_VALUE, Constants.ARDUINO_LOW_BATTERY_LEVEL_VALUE);
-        mArduinoBatteryLevelView.setText(String.format(Locale.US, "%d%%", ultrasoundBatteryPercentage));
+        int ultrasoundBatteryPercentage = Constants.BATTERY_VALUE_UNKWOWN;
+        if(batteryValue == Constants.BATTERY_VALUE_UNKWOWN) {
+            mArduinoBatteryLevelView.setText(R.string.battery_value_unknown);
+        } else {
+            ultrasoundBatteryPercentage = ArduinoUtils.getBatteryPercentage(batteryValue, Constants.ARDUINO_MAX_BATTERY_LEVEL_VALUE, Constants.ARDUINO_LOW_BATTERY_LEVEL_VALUE);
+            mArduinoBatteryLevelView.setText(String.format(Locale.US, "%d%%", ultrasoundBatteryPercentage));
+        }
 
         Drawable statusDrawable;
 

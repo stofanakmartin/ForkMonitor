@@ -6,7 +6,7 @@
     <string name="bluetooth_status_disconnected">Odpojeny</string>
     <string name="truck_status_loaded">Naloženo</string>
     <string name="truck_status_unloaded">Vyloženo</string>
-    <string name="truck_status_unknown">Neznámý</string>
+    <string name="truck_status_unknown">Neznámy</string>
     <string name="truck_status_ble_read_failed">Neuspesne citanie ultrazvuku %1$d krat za sebou</string>
     <string name="status_ble_ultrasound_fail">Neuspesne meranie ultrazvuku</string>
     <string name="status_bluetooth_name_not_match">Názov bluetooth zariadenia sa nezhoduje</string>
@@ -18,6 +18,7 @@
     <string name="ble_hw_address">Bluetooth hw adresa</string>
     <string name="ble_device_name">Bluetooth názov zariadenia</string>
     <string name="error">Chyba</string>
+    <string name="battery_value_unknown">Neznámy</string>
 
     <string name="notification_info_title_battery_level_low">Nízka úroveň batérie v telefóne</string>
     <string name="notification_info_desc_battery_level_low">Pripojte telefón k nabíjačke</string>

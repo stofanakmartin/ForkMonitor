@@ -21,6 +21,7 @@
     <string name="ble_hw_address">Bluetooth hw adress</string>
     <string name="ble_device_name">Bluetooth device name</string>
     <string name="error">Error</string>
+    <string name="battery_value_unknown">Unknown</string>
 
     <string name="notification_info_title_battery_level_low">Low phone battery level</string>
     <string name="notification_info_desc_battery_level_low">Please connect your phone to charger</string>

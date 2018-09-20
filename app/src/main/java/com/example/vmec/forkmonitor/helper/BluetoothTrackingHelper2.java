@@ -27,6 +27,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.sql.Time;
 import java.util.regex.Pattern;
 
 import timber.log.Timber;
@@ -61,9 +62,9 @@ public class BluetoothTrackingHelper2 {
             Timber.d("Tracking interval fired - read bluetooth status");
             final int connectionStatus = mBluetoothHelper.getConnectionState();
             mIsBluetoothReadSuccessfully = false;
-            if(BluetoothHelper.STATE_DISCONNECTED == connectionStatus) {
+            if(BluetoothHelper2.STATE_DISCONNECTED == connectionStatus) {
                 mBluetoothHelper.connect(mContext, mBleHwAddressPreference.get());
-            } else if (BluetoothHelper.STATE_CONNECTED == connectionStatus) {
+            } else if (BluetoothHelper2.STATE_CONNECTED == connectionStatus) {
                 Timber.d("Read bluetooth device status");
                 mBluetoothHelper.writeToCharacteristic(mDeviceStatusCharacteristic, Constants.BLUETOOTH_DEVICE_COMMUNICATION_START_MSG);
             }
@@ -117,6 +118,7 @@ public class BluetoothTrackingHelper2 {
     }
 
     private void setNextCharacteristicReadingAction() {
+        Timber.d("Set next BLE reading action in %d ms", Constants.BLUETOOTH_CHARACTERISTIC_READ_INTERVAL_MS);
         mHandler.postDelayed(mBluetoothReadCharacteristicRunnable, Constants.BLUETOOTH_CHARACTERISTIC_READ_INTERVAL_MS);
     }
 

@@ -26,8 +26,6 @@ import static android.content.Context.MODE_PRIVATE;
  */
 public class DataReportHelper {
 
-    public static final int DEFAULT_RETRIES = 3;
-
     private APIService mAPIService;
     private IntPreference mSendDataSuccessCounterPreference;
     private IntPreference mSendDataErrorCounterPreference;
