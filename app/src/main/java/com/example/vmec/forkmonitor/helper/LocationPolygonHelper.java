@@ -123,12 +123,12 @@ public class LocationPolygonHelper {
         double resultY = deltaLatitude * 40008000 / 360;
         double resultDist = Math.sqrt((resultX * resultX) + (resultY * resultY));
 
-        Timber.d("latLngToXYPoint X: %f Y: %f", resultX, resultY);
+//        Timber.d("latLngToXYPoint X: %f Y: %f", resultX, resultY);
 
         double mapX = (resultX * (SCREEN_X / MAP_X));
         double mapY = (SCREEN_Y - resultY * (SCREEN_Y / MAP_Y));
 
-        Timber.d("latLngToXYPoint MAP X: %f Y: %f", mapX, mapY);
+//        Timber.d("latLngToXYPoint MAP X: %f Y: %f", mapX, mapY);
 
         return new Point(mapX,mapY);
     }

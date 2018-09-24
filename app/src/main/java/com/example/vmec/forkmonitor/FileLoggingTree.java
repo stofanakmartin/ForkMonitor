@@ -1,11 +1,7 @@
 package com.example.vmec.forkmonitor;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 import com.example.vmec.forkmonitor.utils.PermissionUtils;
@@ -14,12 +10,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.nio.charset.Charset;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.classic.html.HTMLLayout;
+import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.encoder.LayoutWrappingEncoder;
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP;
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
@@ -93,7 +89,7 @@ public class FileLoggingTree extends Timber.DebugTree {
         RollingFileAppender<ILoggingEvent> rollingFileAppender = new RollingFileAppender<>();
         rollingFileAppender.setContext(loggerContext);
         rollingFileAppender.setAppend(true);
-        rollingFileAppender.setFile(logDirectory + "/" + LOG_PREFIX + "-latest.html");
+        rollingFileAppender.setFile(logDirectory + "/" + LOG_PREFIX + "-latest.txt");
 
         SizeAndTimeBasedFNATP<ILoggingEvent> fileNamingPolicy = new SizeAndTimeBasedFNATP<>();
         fileNamingPolicy.setContext(loggerContext);
@@ -101,28 +97,28 @@ public class FileLoggingTree extends Timber.DebugTree {
 
         TimeBasedRollingPolicy<ILoggingEvent> rollingPolicy = new TimeBasedRollingPolicy<>();
         rollingPolicy.setContext(loggerContext);
-        rollingPolicy.setFileNamePattern(logDirectory + "/" + LOG_PREFIX + ".%d{yyyy-MM-dd}.%i.html");
-        rollingPolicy.setMaxHistory(10);
+        rollingPolicy.setFileNamePattern(logDirectory + "/" + LOG_PREFIX + ".%d{yyyy-MM-dd}.%i.txt");
+        rollingPolicy.setMaxHistory(30);
         rollingPolicy.setTimeBasedFileNamingAndTriggeringPolicy(fileNamingPolicy);
         rollingPolicy.setParent(rollingFileAppender);  // parent and context required!
         rollingPolicy.start();
 
-        HTMLLayout htmlLayout = new HTMLLayout();
-        htmlLayout.setContext(loggerContext);
-        htmlLayout.setPattern("%d{HH:mm:ss.SSS}%level%thread%msg");
-        htmlLayout.start();
+//        HTMLLayout htmlLayout = new LayoutBase<>();
+//        htmlLayout.setContext(loggerContext);
+//        htmlLayout.setPattern("%d{HH:mm:ss.SSS}%level%thread%msg");
+//        htmlLayout.start();
 
-        LayoutWrappingEncoder<ILoggingEvent> encoder = new LayoutWrappingEncoder<>();
-        encoder.setContext(loggerContext);
-        encoder.setLayout(htmlLayout);
-        encoder.start();
+//        LayoutWrappingEncoder<ILoggingEvent> encoder = new LayoutWrappingEncoder<>();
+//        encoder.setContext(loggerContext);
+//        encoder.setLayout(htmlLayout);
+//        encoder.start();
 
         // Alternative text encoder - very clean pattern, takes up less space
-//        PatternLayoutEncoder encoder = new PatternLayoutEncoder();
-//        encoder.setContext(loggerContext);
-//        encoder.setCharset(Charset.forName("UTF-8"));
-//        encoder.setPattern("%date %level [%thread] %msg%n");
-//        encoder.start();
+        PatternLayoutEncoder encoder = new PatternLayoutEncoder();
+        encoder.setContext(loggerContext);
+        encoder.setCharset(Charset.forName("UTF-8"));
+        encoder.setPattern("%date %level [%thread] %msg%n");
+        encoder.start();
 
         rollingFileAppender.setRollingPolicy(rollingPolicy);
         rollingFileAppender.setEncoder(encoder);
