@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -20,7 +19,6 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,7 +29,6 @@ import com.example.vmec.forkmonitor.DrawActivity;
 import com.example.vmec.forkmonitor.FileLoggingTree;
 import com.example.vmec.forkmonitor.R;
 import com.example.vmec.forkmonitor.event.BLEConfigStatus;
-import com.example.vmec.forkmonitor.event.LocationPublishEvent;
 import com.example.vmec.forkmonitor.event.TrackingDataChangeEvent;
 import com.example.vmec.forkmonitor.preference.BooleanPreference;
 import com.example.vmec.forkmonitor.preference.IntPreference;
@@ -48,7 +45,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.Date;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -175,7 +171,17 @@ public class MainActivity1 extends AppCompatActivity {
     }
 
     private void initFileLogging() {
-        Timber.plant(new FileLoggingTree(this));
+        boolean hasFileLoggingTree = false;
+        for (Timber.Tree tree: Timber.forest()) {
+            if (tree instanceof FileLoggingTree) {
+                hasFileLoggingTree = true;
+                break;
+            }
+        }
+
+        if (!hasFileLoggingTree) {
+            Timber.plant(new FileLoggingTree(this));
+        }
     }
 
     @Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
