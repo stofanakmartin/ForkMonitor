@@ -3,6 +3,7 @@ package com.example.vmec.forkmonitor;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
+import android.os.Handler;
 
 import com.example.vmec.forkmonitor.event.ArduinoBatteryChangeEvent;
 import com.example.vmec.forkmonitor.event.BLEDataReceivedEvent;
@@ -50,6 +51,15 @@ public class TrackingManager {
     private DataReportHelper mDataReportHelper;
     private BatteryTrackingHelper mPhoneBatteryStateTracker;
     private int mBleReadFailedCounter = 0;
+    private int mBleNoChangeCounter = 0;
+    private Handler mHandler;
+
+    private Runnable mSendNoDataChangeRunnable = new Runnable() {
+        @Override public void run() {
+            Timber.d("Send no data change request status");
+            sendDataReport(Constants.REPORT_STATUS_BLUETOOTH_NO_CHANGE);
+        }
+    };
 
 
     public TrackingManager(final Context context) {
@@ -78,6 +88,7 @@ public class TrackingManager {
         mBleReadSuccessTotalCounterPreference.set(0);
         mBleReadFailTotalCounterPreference.set(0);
         mBleUltrasoundFailCounterPreference.set(0);
+        mHandler = new Handler();
     }
 
     public void startTracking(final Context context) {
@@ -87,6 +98,7 @@ public class TrackingManager {
         mPhoneBatteryStateTracker.startTracking(context);
         EventBus.getDefault().register(this);
         EventBus.getDefault().post(new TrackingDataChangeEvent());
+        postNoDataTimeoutAction();
     }
 
     public void stopTracking(final Context context) {
@@ -96,6 +108,7 @@ public class TrackingManager {
         mPhoneBatteryStateTracker.stopTracking(context);
         EventBus.getDefault().unregister(this);
         EventBus.getDefault().post(new TrackingDataChangeEvent());
+        clearNoDataTimeoutAction();
     }
 
     private void evaluateArduinoBattery(final int arduinoBatteryLevel) {
@@ -131,21 +144,40 @@ public class TrackingManager {
         mStatusPreference.set(newStatus);
 
         if(lastTruckLoadedState != newTruckLoadedState) {
+            mBleNoChangeCounter = 0;
             onTruckLoadedStateChange(newTruckLoadedState, Constants.REPORT_STATUS_BLUETOOTH_LOADED_STATE_CHANGE);
+        } else {
+            mBleNoChangeCounter++;
         }
     }
 
     private void onTruckLoadedStateChange(final int newTruckLoadedState, final int dataReportStatus) {
         mTruckLoadedStatePreference.set(newTruckLoadedState);
         if(newTruckLoadedState != Constants.TRUCK_STATUS_UNKNOWN) {
-            final Location lastLocation = mLocationHelper.getLastLocation();
-            if(lastLocation != null) {
-                mDataReportHelper.sendPost(android.os.Build.SERIAL, lastLocation.getLatitude(), lastLocation.getLongitude(),
-                        mPhoneBatteryStateTracker.getLastBatteryLevel(), lastLocation.getAccuracy(),
-                        dataReportStatus, mUltrasoundValuePreference.get(),
-                        mArduinoBatteryLevelPreference.get());
-            }
+            sendDataReport(dataReportStatus);
         }
+    }
+
+    private void sendDataReport(final int dataReportStatus) {
+        final Location lastLocation = mLocationHelper.getLastLocation();
+        if(lastLocation != null) {
+            clearNoDataTimeoutAction();
+            mDataReportHelper.sendPost(android.os.Build.SERIAL, lastLocation.getLatitude(), lastLocation.getLongitude(),
+                    mPhoneBatteryStateTracker.getLastBatteryLevel(), lastLocation.getAccuracy(),
+                    dataReportStatus, mUltrasoundValuePreference.get(),
+                    mArduinoBatteryLevelPreference.get(), mBleNoChangeCounter);
+            postNoDataTimeoutAction();
+        } else {
+            Timber.w("Cannot send data report - no location");
+        }
+    }
+
+    private void clearNoDataTimeoutAction() {
+        mHandler.removeCallbacks(mSendNoDataChangeRunnable);
+    }
+
+    private void postNoDataTimeoutAction() {
+        mHandler.postDelayed(mSendNoDataChangeRunnable, Constants.SEND_DATA_NO_CHANGE_INTERVAL);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -154,11 +186,14 @@ public class TrackingManager {
         final int locationPolygonStatus = mLocationPolygonHelper.checkLocationStatus(location);
 
         if(locationPolygonStatus == 0) {
+            clearNoDataTimeoutAction();
             mDataReportHelper.sendPost(android.os.Build.SERIAL, location.getLatitude(), location.getLongitude(),
                     mPhoneBatteryStateTracker.getLastBatteryLevel(), location.getAccuracy(),
-                    1,
+                    Constants.REPORT_STATUS_LOCATION_POLYGON_CHANGE,
                     mUltrasoundValuePreference.get(),
-                    mArduinoBatteryLevelPreference.get());
+                    mArduinoBatteryLevelPreference.get(),
+                    mBleNoChangeCounter);
+            postNoDataTimeoutAction();
         }
         EventBus.getDefault().post(new TrackingDataChangeEvent());
     }
@@ -174,6 +209,7 @@ public class TrackingManager {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(BLEFailedToReadStatusEvent event) {
+        mBleNoChangeCounter++;
         mBleReadFailedCounter++;
         mBleReadFailCounterPreference.set(mBleReadFailedCounter);
         mBleReadFailTotalCounterPreference.set(mBleReadFailTotalCounterPreference.get() + 1);

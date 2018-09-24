@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Locale;
 
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
 
@@ -50,15 +49,16 @@ public class DataReportHelper {
     }
 
     public void sendPost(String name, double lat,double lng, double battery, double accuracy,
-                         int status, int ultrasoundDistance, int arduinoBatteryLevel) {
+                         int status, int ultrasoundDistance, int arduinoBatteryLevel, int bleNoChangeCounter) {
         Timber.d("Send status request to server");
 
-        final String additionalParam = String.format(Locale.US, "sendData-s:%d||e:%d||ble-s:%d||f:%d||e:%d",
+        final String additionalParam = String.format(Locale.US, "sendData-s:%d||e:%d||ble-s:%d||f:%d||e:%d||noChange:%d",
                 mSendDataSuccessCounterPreference.get(),
                 mSendDataErrorCounterPreference.get(),
                 mBleReadSuccessTotalCounterPreference.get(),
                 mBleUltrasoundFailCounterPreference.get(),
-                mBleReadFailTotalCounterPreference.get());
+                mBleReadFailTotalCounterPreference.get(),
+                bleNoChangeCounter);
 
         final String statusWithTruckState = String.format(Locale.US, "%d%d", status, mTruckLoadedStatePreference.get());
 

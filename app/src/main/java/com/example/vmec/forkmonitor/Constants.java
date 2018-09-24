@@ -45,6 +45,7 @@ public class Constants {
     public static final int SEND_REQUEST_RETRY_ATTEMPTS = 5;
     public static final int LOCATION_INTERVAL = 3000;
     public static final int LOCATION_FASTEST_INTERVAL = 3000;
+    public static final int SEND_DATA_NO_CHANGE_INTERVAL = 120 * SECOND_MS;
 
     public static final int BATTERY_LOW_LEVEL_VALUE = 20;
     public static final int LOCATION_ACCURACY_TOLERANCE = 20;
@@ -65,6 +66,7 @@ public class Constants {
     public static final int REPORT_STATUS_LOCATION_POLYGON_CHANGE = 1;
     public static final int REPORT_STATUS_BLUETOOTH_LOADED_STATE_CHANGE = 2;
     public static final int REPORT_STATUS_BLUETOOTH_READ_FAIL = 3;
+    public static final int REPORT_STATUS_BLUETOOTH_NO_CHANGE = 4;
 
     public static final int TRUCK_STATUS_LOADED = 1;
     public static final int TRUCK_STATUS_UNLOADED = 2;
