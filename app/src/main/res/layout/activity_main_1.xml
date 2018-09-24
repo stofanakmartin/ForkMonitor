@@ -7,24 +7,28 @@
     >
 
     <TextView
-        android:id="@+id/txt_label_bluetooth_connection_status"
+        android:id="@+id/txt_ultrasound_connection_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Bluetooth connection status"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintBottom_toTopOf="@+id/txt_ultrasound_value"
+        app:layout_constraintEnd_toStartOf="@+id/img_ultrasound_connection_status"
+        tools:text="@string/bluetooth_status_connected"
         />
 
-    <TextView
-        android:id="@+id/txt_bluetooth_connection_status"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_bluetooth_tracking_status"
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView8"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/textView8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView8"
+        app:srcCompat="@drawable/ic_baseline_bluetooth_connected"
         />
 
     <TextView
@@ -46,7 +50,7 @@
         android:layout_marginTop="8dp"
         android:text="Bluetooth last characteristic"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_label_bluetooth_connection_status"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
         />
 
     <TextView
@@ -67,7 +71,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_bluetooth_connection_status"
+        app:layout_constraintTop_toBottomOf="@+id/txt_bluetooth_tracking_status"
         />
 
     <TextView
@@ -241,8 +245,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:padding="8dp"
             android:orientation="vertical"
+            android:padding="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/view_network_status"
             app:layout_constraintHorizontal_weight="1"
@@ -267,10 +271,10 @@
             android:id="@+id/view_network_status"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="8dp"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
+            android:padding="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="1"
@@ -293,12 +297,14 @@
 
     <ImageView
         android:id="@+id/imageView5"
-        android:layout_width="29dp"
-        android:layout_height="29dp"
-        android:layout_marginBottom="16dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout10"
+        android:adjustViewBounds="false"
+        app:layout_constraintBottom_toBottomOf="@+id/textView7"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView7"
         app:srcCompat="@drawable/ic_baseline_battery_90"
         />
 
@@ -318,7 +324,19 @@
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/ultrasound_connection_status"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintBottom_toTopOf="@+id/textView6"
+        app:layout_constraintStart_toEndOf="@+id/imageView3"
+        />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:text="@string/ultrasound_distance"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -340,12 +358,13 @@
 
     <ImageView
         android:id="@+id/img_arduino_battery_status"
-        android:layout_width="29dp"
-        android:layout_height="29dp"
-        android:layout_marginBottom="16dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout10"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_arduino_battery_level"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txt_arduino_battery_level"
         app:srcCompat="@drawable/ic_baseline_check"
         tools:src="@drawable/ic_baseline_check"
         tools:tint="@color/status_ok"
@@ -353,12 +372,14 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="29dp"
-        android:layout_height="29dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView5"
+        app:layout_constraintBottom_toBottomOf="@+id/textView6"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView6"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_baseline_code"
         />
 
@@ -366,7 +387,7 @@
         android:id="@+id/txt_ultrasound_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toTopOf="@+id/txt_arduino_battery_level"
@@ -376,12 +397,26 @@
 
     <ImageView
         android:id="@+id/img_ultrasound_status"
-        android:layout_width="29dp"
-        android:layout_height="29dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/img_arduino_battery_status"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_ultrasound_value"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txt_ultrasound_value"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/ic_baseline_check"
+        />
+
+    <ImageView
+        android:id="@+id/img_ultrasound_connection_status"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_ultrasound_connection_status"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txt_ultrasound_connection_status"
         app:srcCompat="@drawable/ic_baseline_check"
         />
 

@@ -5,8 +5,8 @@
 
     <string name="main_btn_tracking_enable">Enable tracking</string>
     <string name="main_btn_tracking_disable">Disable tracking</string>
-    <string name="bluetooth_status_connected">Connected</string>
-    <string name="bluetooth_status_disconnected">Disconnected</string>
+    <string name="bluetooth_status_connected">connected</string>
+    <string name="bluetooth_status_disconnected">disconnected</string>
     <string name="truck_status_loaded">Loaded</string>
     <string name="truck_status_unloaded">Unloaded</string>
     <string name="truck_status_unknown">Unknown</string>
@@ -35,5 +35,6 @@
     <string name="bluetooth">Bluetooth</string>
     <string name="arduino_battery_level">Ultrasound battery</string>
     <string name="ultrasound_distance">Ultrasound distance</string>
+    <string name="ultrasound_connection_status">Ultrasound connection</string>
 
 </resources>

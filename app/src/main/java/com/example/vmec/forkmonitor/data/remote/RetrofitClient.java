@@ -3,10 +3,12 @@ package com.example.vmec.forkmonitor.data.remote;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
-//import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import timber.log.Timber;
+
+//import okhttp3.logging.HttpLoggingInterceptor;
 
 public class RetrofitClient {
     /*
@@ -40,10 +42,15 @@ public class RetrofitClient {
 */
 public static Retrofit getClient(String baseUrl){
 
-    HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-    interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+    HttpLoggingInterceptor logging = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+        @Override public void log(String message) {
+            Timber.tag("OkHttp").d(message);
+        }
+    });
+    logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
     OkHttpClient client = new OkHttpClient.Builder()
-            .addInterceptor(interceptor)
+            .addInterceptor(logging)
             .readTimeout(5, TimeUnit.SECONDS)
             .connectTimeout(5, TimeUnit.SECONDS)
             .writeTimeout(5, TimeUnit.SECONDS)

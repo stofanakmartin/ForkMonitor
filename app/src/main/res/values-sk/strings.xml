@@ -2,8 +2,8 @@
 <resources>
     <string name="main_btn_tracking_enable">Zapnout sledovani</string>
     <string name="main_btn_tracking_disable">Vypnout sledovani</string>
-    <string name="bluetooth_status_connected">Pripojeny</string>
-    <string name="bluetooth_status_disconnected">Odpojeny</string>
+    <string name="bluetooth_status_connected">pripojeny</string>
+    <string name="bluetooth_status_disconnected">odpojeny</string>
     <string name="truck_status_loaded">Naloženo</string>
     <string name="truck_status_unloaded">Vyloženo</string>
     <string name="truck_status_unknown">Neznámy</string>
@@ -29,4 +29,5 @@
 
     <string name="arduino_battery_level">Batéria ultrazvuku</string>
     <string name="ultrasound_distance">Ultrazvuk vzdialenosť</string>
+    <string name="ultrasound_connection_status">Ultrazvuk pripojenie</string>
 </resources>

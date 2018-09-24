@@ -81,7 +81,8 @@ public class MainActivity1 extends AppCompatActivity {
 
     @BindView(R.id.txt_bluetooth_tracking_status) TextView mBluetoothTrackingStatusView;
     @BindView(R.id.txt_location_tracking_status) TextView mLocationTrackingStatusView;
-    @BindView(R.id.txt_bluetooth_connection_status) TextView mBluetoothConnectionStatus;
+    @BindView(R.id.txt_ultrasound_connection_status) TextView mUltrasoundConnectionStatus;
+    @BindView(R.id.img_ultrasound_connection_status) ImageView mUltrasoundConnectionStatusIcon;
     @BindView(R.id.txt_bluetooth_last_characteristic_msg) TextView mBluetoothLastCharacteristicMsgView;
     @BindView(R.id.txt_bluetooth_device_name) TextView mBluetoothDeviceNameView;
     @BindView(R.id.txt_bluetooth_hw_address) TextView mBluetoothHwAddressView;
@@ -283,12 +284,6 @@ public class MainActivity1 extends AppCompatActivity {
 
         mBluetoothLastCharacteristicMsgView.setText(lastCharacteristicMsg);
 
-        if(mIsBluetoothDeviceConnectedPreference.get()) {
-            mBluetoothConnectionStatus.setText(R.string.bluetooth_status_connected);
-        } else {
-            mBluetoothConnectionStatus.setText(R.string.bluetooth_status_disconnected);
-        }
-
         if(TextUtils.isEmpty(mBleNamePreference.get())) {
             mBluetoothDeviceNameView.setText(R.string.error);
         } else {
@@ -307,6 +302,7 @@ public class MainActivity1 extends AppCompatActivity {
         setTruckStateTextToView(truckStatus, mTruckStatusView);
         setTruckStateTextToView(truckLoadedState, mTruckLoadedStateView);
 
+        updateUltrasoundConnectionStatusUI();
         updateBatteryUI();
         updateUltrasoundUI();
 
@@ -362,6 +358,15 @@ public class MainActivity1 extends AppCompatActivity {
         }
     }
 
+    private void updateUltrasoundConnectionStatusUI() {
+        if(mIsBluetoothDeviceConnectedPreference.get()) {
+            mUltrasoundConnectionStatus.setText(R.string.bluetooth_status_connected);
+        } else {
+            mUltrasoundConnectionStatus.setText(R.string.bluetooth_status_disconnected);
+        }
+        setStatusIcon(mUltrasoundConnectionStatusIcon, mIsBluetoothDeviceConnectedPreference.get());
+    }
+
     private void updateBatteryUI() {
         final int batteryValue = mBleBatteryLevelPreference.get();
         int ultrasoundBatteryPercentage = Constants.BATTERY_VALUE_UNKWOWN;
@@ -403,6 +408,19 @@ public class MainActivity1 extends AppCompatActivity {
             statusDrawable = getResources().getDrawable(R.drawable.ic_baseline_check);
             DrawableCompat.setTint(statusDrawable, ContextCompat.getColor(this, R.color.status_ok));
             mUltrasoundStatusView.setImageDrawable(statusDrawable);
+        }
+    }
+
+    private void setStatusIcon(final ImageView view, final boolean isOk) {
+        Drawable statusDrawable;
+        if(isOk) {
+            statusDrawable = getResources().getDrawable(R.drawable.ic_baseline_check);
+            DrawableCompat.setTint(statusDrawable, ContextCompat.getColor(this, R.color.status_ok));
+            view.setImageDrawable(statusDrawable);
+        } else {
+            statusDrawable = getResources().getDrawable(R.drawable.ic_baseline_error_outline);
+            DrawableCompat.setTint(statusDrawable, ContextCompat.getColor(this, R.color.status_not_ok));
+            view.setImageDrawable(statusDrawable);
         }
     }
 }
