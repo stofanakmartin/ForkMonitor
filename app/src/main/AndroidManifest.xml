@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.example.vmec.forkmonitor"
+<manifest package="com.forkmonitor"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
@@ -25,7 +25,7 @@
 
 
     <application
-        android:name=".ForkMonitorApp"
+        android:name="com.forkmonitor.ForkMonitorApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -42,7 +42,7 @@
             android:value="@string/google_maps_key"/>
 
         <activity
-            android:name=".DrawActivity"
+            android:name="com.forkmonitor.DrawActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
@@ -54,7 +54,7 @@
         </activity>
 
         <activity
-            android:name=".activity.MainActivity1"
+            android:name="com.forkmonitor.activity.MainActivity1"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -64,22 +64,22 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".MainActivity"/>
+        <receiver android:name="com.forkmonitor.MainActivity"/>
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.forkmonitor.MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
-        <activity android:name=".MapJPGActivity"/>
-        <activity android:name=".MapActivity"/>
+        <activity android:name="com.forkmonitor.MapJPGActivity"/>
+        <activity android:name="com.forkmonitor.MapActivity"/>
 
         <service
-            android:name=".LocationMonitoringService"
+            android:name="com.forkmonitor.LocationMonitoringService"
             android:enabled="true"
             android:exported="true"/>
 
         <service
-            android:name=".service.TrackingService"
+            android:name="com.forkmonitor.service.TrackingService"
             android:enabled="true"
             />
 

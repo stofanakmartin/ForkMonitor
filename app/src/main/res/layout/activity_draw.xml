@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".DrawActivity">
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             tools:context="com.forkmonitor.DrawActivity"
+    >
     <Button
         android:id="@+id/enable_zoom"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:text="disable zoom"/>
 
-    <com.example.vmec.forkmonitor.DrawingView
+    <com.forkmonitor.DrawingView
         android:id="@+id/drawing_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/j5864_u3339"
         android:layout_below="@+id/enable_zoom" />
 
-    <com.example.vmec.forkmonitor.DrawableView
+    <com.forkmonitor.DrawableView
         android:id="@+id/drawble_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
