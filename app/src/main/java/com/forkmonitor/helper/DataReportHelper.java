@@ -78,7 +78,7 @@ public class DataReportHelper {
         }
 
 
-        final Call<Post> post = mAPIService.savePost(name, currentTimestamp, lat, lng,battery, accuracy, status,
+        final Call<Post> post = mAPIService.savePost(name, lat, lng,battery, accuracy, status,
                                                      ultrasoundDistance, arduinoBatteryLevel, additionalParam);
         post.enqueue(new RetryableCallback<Post>(post, Constants.SEND_REQUEST_RETRY_ATTEMPTS) {
             @Override public void onFinalResponse(Call<Post> call, Response<Post> response) {

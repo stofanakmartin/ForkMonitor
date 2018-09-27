@@ -12,7 +12,6 @@ public interface APIService {
     @POST("/fork/records/")
     @FormUrlEncoded
     Call<Post> savePost(@Field("name") String name,
-                        @Field("android_timestamp") String timestamp,
                         @Field("lat") double lat,
                         @Field("lng") double lng,
                         @Field("battery") double battery,
