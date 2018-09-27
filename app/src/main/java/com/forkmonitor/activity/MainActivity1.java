@@ -112,7 +112,7 @@ public class MainActivity1 extends AppCompatActivity {
         mBleHwAddressPreference = new StringPreference(sp, Constants.PREFERENCE_DEVICE_CONFIG_BLE_HW_ADDRESS, StringUtils.EMPTY_STRING);
         mBleNamePreference = new StringPreference(sp, Constants.PREFERENCE_DEVICE_CONFIG_BLE_NAME, StringUtils.EMPTY_STRING);
         mBleReadFailCounterPreference = new IntPreference(sp, Constants.PREFERENCE_BLE_FAIL_READ_COUNT, 0);
-        mBleBatteryLevelPreference = new IntPreference(sp, Constants.PREFERENCE_BLUETOOTH_BATTERY_LEVEL, 0);
+        mBleBatteryLevelPreference = new IntPreference(sp, Constants.PREFERENCE_BLUETOOTH_BATTERY_LEVEL, Constants.BATTERY_VALUE_UNKWOWN);
         mUltrasoundValuePreference = new IntPreference(sp, Constants.PREFERENCE_ULTRASOUND_VALUE, 0);
         mTruckLoadedStatePreference.set(Constants.TRUCK_STATUS_UNKNOWN);
         mTruckStatusPreference.set(Constants.TRUCK_STATUS_UNKNOWN);

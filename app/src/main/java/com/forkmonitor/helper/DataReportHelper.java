@@ -9,6 +9,8 @@ import com.forkmonitor.data.remote.APIService;
 import com.forkmonitor.data.remote.ApiUtils;
 import com.forkmonitor.data.remote.RetryableCallback;
 import com.forkmonitor.preference.IntPreference;
+import com.forkmonitor.utils.AppInfoUtils;
+import com.forkmonitor.utils.TimeUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -33,6 +35,7 @@ public class DataReportHelper {
     private IntPreference mBleUltrasoundFailCounterPreference;
     private IntPreference mTruckLoadedStatePreference;
     private List<Call<Post>> requestQueue;
+    private String mAppVersionName;
 
     public DataReportHelper(final Context context) {
         requestQueue = new LinkedList<>();
@@ -46,19 +49,23 @@ public class DataReportHelper {
         mSendDataSuccessCounterPreference.set(0);
         mSendDataErrorCounterPreference.set(0);
         mAPIService = ApiUtils.getAPIService();
+        mAppVersionName = AppInfoUtils.getAppVersionName(context);
     }
 
     public void sendPost(String name, double lat,double lng, double battery, double accuracy,
                          int status, int ultrasoundDistance, int arduinoBatteryLevel, int bleNoChangeCounter) {
         Timber.d("Send status request to server");
+        final String currentTimestamp = TimeUtils.getCurrentTimestampISO();
 
-        final String additionalParam = String.format(Locale.US, "sendData-s:%d||e:%d||ble-s:%d||f:%d||e:%d||noChange:%d",
+        final String additionalParam = String.format(Locale.US, "sendData-s:%d||e:%d||ble-s:%d||f:%d||e:%d||noChange:%d||timestamp:%s||appVer:%s",
                 mSendDataSuccessCounterPreference.get(),
                 mSendDataErrorCounterPreference.get(),
                 mBleReadSuccessTotalCounterPreference.get(),
                 mBleUltrasoundFailCounterPreference.get(),
                 mBleReadFailTotalCounterPreference.get(),
-                bleNoChangeCounter);
+                bleNoChangeCounter,
+                currentTimestamp,
+                mAppVersionName);
 
         final String statusWithTruckState = String.format(Locale.US, "%d%d", status, mTruckLoadedStatePreference.get());
 
@@ -71,7 +78,8 @@ public class DataReportHelper {
         }
 
 
-        final Call<Post> post = mAPIService.savePost(name, lat, lng,battery, accuracy, status, ultrasoundDistance, arduinoBatteryLevel, additionalParam);
+        final Call<Post> post = mAPIService.savePost(name, currentTimestamp, lat, lng,battery, accuracy, status,
+                                                     ultrasoundDistance, arduinoBatteryLevel, additionalParam);
         post.enqueue(new RetryableCallback<Post>(post, Constants.SEND_REQUEST_RETRY_ATTEMPTS) {
             @Override public void onFinalResponse(Call<Post> call, Response<Post> response) {
                 super.onFinalResponse(call, response);

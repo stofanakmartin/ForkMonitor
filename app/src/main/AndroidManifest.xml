@@ -66,6 +66,12 @@
 
         <receiver android:name="com.forkmonitor.MainActivity"/>
 
+        <receiver android:name=".receiver.OnUpgradeReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+            </intent-filter>
+        </receiver>
+
         <activity
             android:name="com.forkmonitor.MainActivity"
             android:configChanges="orientation"

@@ -41,7 +41,7 @@ public class Constants {
     public static final String PREFERENCE_BLE_FAIL_READ_TOTAL_COUNT = "bluetooth_fail_read_total_counter";
     public static final String PREFERENCE_BLE_ULTRASOUND_FAIL_TOTAL_COUNT = "bluetooth_ultrasound_total_counter";
 
-    public static final int SEND_REQUEST_RETRY_INTERVAL = 7000;
+    public static final int SEND_REQUEST_RETRY_INTERVAL = 8000;
     public static final int SEND_REQUEST_RETRY_ATTEMPTS = 5;
     public static final int LOCATION_INTERVAL = 3000;
     public static final int LOCATION_FASTEST_INTERVAL = 3000;
