@@ -374,6 +374,9 @@ public class MainActivity1 extends AppCompatActivity {
             mArduinoBatteryLevelView.setText(R.string.battery_value_unknown);
         } else {
             ultrasoundBatteryPercentage = ArduinoUtils.getBatteryPercentage(batteryValue, Constants.ARDUINO_MAX_BATTERY_LEVEL_VALUE, Constants.ARDUINO_LOW_BATTERY_LEVEL_VALUE);
+            if(ultrasoundBatteryPercentage > 100) {
+                ultrasoundBatteryPercentage = 100;
+            }
             mArduinoBatteryLevelView.setText(String.format(Locale.US, "%d%%", ultrasoundBatteryPercentage));
         }
 
