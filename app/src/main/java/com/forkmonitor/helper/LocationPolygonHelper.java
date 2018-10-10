@@ -2,7 +2,6 @@ package com.forkmonitor.helper;
 
 import android.content.Context;
 import android.location.Location;
-import android.util.Log;
 
 import com.forkmonitor.Constants;
 import com.forkmonitor.Point;
@@ -76,25 +75,25 @@ public class LocationPolygonHelper {
 
                     coords.add(allCoords.substring(last,index));
 
-                    Log.i("xml","index "+ index +" --coords " + allCoords.substring(last,index));
+                    //Log.i("xml","index "+ index +" --coords " + allCoords.substring(last,index));
                     last=index;
                 }
                 coords.add(allCoords.substring(last,allCoords.length()));
-                Log.i("xml","index "+ allCoords.length() +" --coords " + allCoords.substring(last,allCoords.length()));
-                Log.i("xml","**********************");
+                //Log.i("xml","index "+ allCoords.length() +" --coords " + allCoords.substring(last,allCoords.length()));
+                //Log.i("xml","**********************");
 
 
                 List<Point> polygon = new ArrayList<>();
                 for (String coord :coords){
                     int index = coord.indexOf(",");
                     double lng = Double.parseDouble(coord.substring(0,index));
-                    Log.i("xml","Lng " + lng);
+                    //Log.i("xml","Lng " + lng);
 
                     int index1 = coord.indexOf(",",index+1);
                     double lat = Double.parseDouble(coord.substring(index+1,index1));
-                    Log.i("xml","Lat " + lat);
+                    //Log.i("xml","Lat " + lat);
 
-                    Log.i("xml","---------------------------");
+                    //Log.i("xml","---------------------------");
 
                     polygon.add(latLngToXYPoint(CORNER_LAT, CORNER_LNG,lat,lng));
                 }
