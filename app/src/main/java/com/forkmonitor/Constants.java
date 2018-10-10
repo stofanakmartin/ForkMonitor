@@ -71,8 +71,9 @@ public class Constants {
     public static final int TRUCK_STATUS_LOADED = 1;
     public static final int TRUCK_STATUS_UNLOADED = 2;
     public static final int TRUCK_STATUS_BLE_READ_FAILED = 3;
-    public static final int TRUCK_STATUS_UNKNOWN = 4;
+//    public static final int TRUCK_STATUS_UNKNOWN = 4;
 
+    public static final int STATUS_NOT_INITIALIZED = -1;
     public static final int STATUS_BLE_ULTRASOUND_FAIL = 13;
     public static final int STATUS_BLUETOOTH_DEVICE_NOT_MATCH = 14;
     public static final int STATUS_BLUETOOTH_CONFIG_FAILED = 15;

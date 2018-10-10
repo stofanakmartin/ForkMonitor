@@ -72,9 +72,9 @@ public class TrackingManager {
 
         mDataReportHelper = new DataReportHelper(context);
         mLocationPolygonHelper = new LocationPolygonHelper(context);
-        mTruckLoadedStatePreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_LOADED_STATE, Constants.TRUCK_STATUS_UNKNOWN);
+        mTruckLoadedStatePreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_LOADED_STATE, Constants.TRUCK_STATUS_BLE_READ_FAILED);
         mLastCharacteristicMsgPreference = new StringPreference(sp, Constants.PREFERENCE_LAST_CHARACTERISTIC_MSG, StringUtils.EMPTY_STRING);
-        mStatusPreference = new IntPreference(sp, Constants.PREFERENCE_LAST_STATUS, Constants.TRUCK_STATUS_UNKNOWN);
+        mStatusPreference = new IntPreference(sp, Constants.PREFERENCE_LAST_STATUS, Constants.STATUS_NOT_INITIALIZED);
         mIsLocationTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_LOCATION_TRACKING_ENABLED, false);
         mIsBluetoothTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_BLUETOOTH_TRACKING_ENABLED, false);
         mArduinoBatteryLevelPreference = new IntPreference(sp, Constants.PREFERENCE_BLUETOOTH_BATTERY_LEVEL, Constants.BATTERY_VALUE_UNKWOWN);
@@ -88,7 +88,12 @@ public class TrackingManager {
         mBleReadSuccessTotalCounterPreference.set(0);
         mBleReadFailTotalCounterPreference.set(0);
         mBleUltrasoundFailCounterPreference.set(0);
+        mStatusPreference.set(Constants.STATUS_NOT_INITIALIZED);
+        mTruckLoadedStatePreference.set(Constants.TRUCK_STATUS_BLE_READ_FAILED);
         mHandler = new Handler();
+
+        final DeviceConfigManager dcm = new DeviceConfigManager(context);
+        dcm.initBluetoothConfiguration(context);
     }
 
     public void startTracking(final Context context) {
@@ -119,7 +124,8 @@ public class TrackingManager {
         final int ultrasoundValue = event.getUltrasoundValue();
         final int arduinoBatteryLevel = event.getArduinoBatteryLevel();
         final int lastTruckLoadedState = mTruckLoadedStatePreference.get();
-        int newStatus = mStatusPreference.get();
+        int oldStatus = mStatusPreference.get();
+        int newStatus = oldStatus;
         int newTruckLoadedState = lastTruckLoadedState;
 
         mUltrasoundValuePreference.set(ultrasoundValue);
@@ -136,14 +142,14 @@ public class TrackingManager {
             newStatus = Constants.TRUCK_STATUS_LOADED;
         } else {
             // Fail status
-            newTruckLoadedState = Constants.TRUCK_STATUS_UNKNOWN;
             newStatus = Constants.STATUS_BLE_ULTRASOUND_FAIL;
             mBleUltrasoundFailCounterPreference.set(mBleUltrasoundFailCounterPreference.get() + 1);
         }
 
         mStatusPreference.set(newStatus);
 
-        if(lastTruckLoadedState != newTruckLoadedState) {
+        if(lastTruckLoadedState != newTruckLoadedState
+            || (oldStatus != newStatus && oldStatus == Constants.STATUS_BLE_ULTRASOUND_FAIL)) {
             mBleNoChangeCounter = 0;
             onTruckLoadedStateChange(newTruckLoadedState, Constants.REPORT_STATUS_BLUETOOTH_LOADED_STATE_CHANGE);
         } else {
@@ -153,9 +159,10 @@ public class TrackingManager {
 
     private void onTruckLoadedStateChange(final int newTruckLoadedState, final int dataReportStatus) {
         mTruckLoadedStatePreference.set(newTruckLoadedState);
-        if(newTruckLoadedState != Constants.TRUCK_STATUS_UNKNOWN) {
-            sendDataReport(dataReportStatus);
-        }
+        sendDataReport(dataReportStatus);
+//        if(newTruckLoadedState != Constants.TRUCK_STATUS_UNKNOWN) {
+//            sendDataReport(dataReportStatus);
+//        }
     }
 
     private void sendDataReport(final int dataReportStatus) {

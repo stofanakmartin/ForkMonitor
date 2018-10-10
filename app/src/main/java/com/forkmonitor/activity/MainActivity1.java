@@ -24,7 +24,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.forkmonitor.Constants;
-import com.forkmonitor.DeviceConfigManager;
 import com.forkmonitor.DrawActivity;
 import com.forkmonitor.FileLoggingTree;
 import com.forkmonitor.R;
@@ -72,7 +71,7 @@ public class MainActivity1 extends AppCompatActivity {
     private StringPreference mLastCharacteristicPreference;
     private BooleanPreference mIsBluetoothDeviceConnectedPreference;
     private IntPreference mTruckLoadedStatePreference;
-    private IntPreference mTruckStatusPreference;
+    private IntPreference mStatusPreference;
     private StringPreference mBleHwAddressPreference;
     private StringPreference mBleNamePreference;
     private IntPreference mBleReadFailCounterPreference;
@@ -107,19 +106,16 @@ public class MainActivity1 extends AppCompatActivity {
         mIsLocationTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_LOCATION_TRACKING_ENABLED, false);
         mLastCharacteristicPreference = new StringPreference(sp, Constants.PREFERENCE_LAST_CHARACTERISTIC_MSG, StringUtils.EMPTY_STRING);
         mIsBluetoothDeviceConnectedPreference = new BooleanPreference(sp, Constants.PREFERENCE_IS_BLUETOOTH_DEVICE_CONNECTED, false);
-        mTruckLoadedStatePreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_LOADED_STATE, Constants.TRUCK_STATUS_UNKNOWN);
-        mTruckStatusPreference = new IntPreference(sp, Constants.PREFERENCE_LAST_STATUS, Constants.TRUCK_STATUS_UNKNOWN);
+        mTruckLoadedStatePreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_LOADED_STATE, Constants.TRUCK_STATUS_BLE_READ_FAILED);
+        mStatusPreference = new IntPreference(sp, Constants.PREFERENCE_LAST_STATUS, Constants.STATUS_NOT_INITIALIZED);
         mBleHwAddressPreference = new StringPreference(sp, Constants.PREFERENCE_DEVICE_CONFIG_BLE_HW_ADDRESS, StringUtils.EMPTY_STRING);
         mBleNamePreference = new StringPreference(sp, Constants.PREFERENCE_DEVICE_CONFIG_BLE_NAME, StringUtils.EMPTY_STRING);
         mBleReadFailCounterPreference = new IntPreference(sp, Constants.PREFERENCE_BLE_FAIL_READ_COUNT, 0);
         mBleBatteryLevelPreference = new IntPreference(sp, Constants.PREFERENCE_BLUETOOTH_BATTERY_LEVEL, Constants.BATTERY_VALUE_UNKWOWN);
         mUltrasoundValuePreference = new IntPreference(sp, Constants.PREFERENCE_ULTRASOUND_VALUE, 0);
-        mTruckLoadedStatePreference.set(Constants.TRUCK_STATUS_UNKNOWN);
-        mTruckStatusPreference.set(Constants.TRUCK_STATUS_UNKNOWN);
+//        mTruckLoadedStatePreference.set(Constants.TRUCK_STATUS_UNKNOWN);
+//        mStatusPreference.set(Constants.TRUCK_STATUS_UNKNOWN);
         mLastCharacteristicPreference.set(StringUtils.EMPTY_STRING);
-
-        final DeviceConfigManager dcm = new DeviceConfigManager(this);
-        dcm.initBluetoothConfiguration(this);
 
         setActivityTitle();
 
@@ -297,7 +293,7 @@ public class MainActivity1 extends AppCompatActivity {
         }
 
         final int truckLoadedState = mTruckLoadedStatePreference.get();
-        final int truckStatus = mTruckStatusPreference.get();
+        final int truckStatus = mStatusPreference.get();
 
         setTruckStateTextToView(truckStatus, mTruckStatusView);
         setTruckStateTextToView(truckLoadedState, mTruckLoadedStateView);

@@ -1,8 +1,14 @@
-[{
-  "serial": "GBV7T17091173",
-  "bleHwAddress": "00:15:85:14:9C:09",
-  "bleName": "BLE01"
-},
+[
+  {
+    "serial": "GBV7T17091762",
+    "bleHwAddress": "00:15:85:14:9C:09",
+    "bleName": "BLE00"
+  },
+  {
+    "serial": "GBV7T17091173",
+    "bleHwAddress": "00:15:85:14:9C:09",
+    "bleName": "BLE01"
+  },
   {
     "serial": "GBV7T17091296",
     "bleHwAddress": "00:15:85:14:9C:09",
@@ -64,8 +70,8 @@
     "bleName": "BLE13"
   },
   {
-    "serial": "GBV7T17091762",
-    "bleHwAddress": "20:C3:8F:EF:53:30",
+    "serial": "GBV7T17091753",
+    "bleHwAddress": "00:15:85:14:9C:09",
     "bleName": "BLE14"
   },
   {
@@ -79,8 +85,19 @@
     "bleName": "BLE16"
   },
   {
-    "serial": "GBV7T17091753",
+    "serial": "GBV7T17091177",
     "bleHwAddress": "00:15:85:14:9C:09",
     "bleName": "BLE17"
   }
+//OLD BLE14 and BLE17
+//  {
+//    "serial": "GBV7T17091762",
+//    "bleHwAddress": "20:C3:8F:EF:53:30",
+//    "bleName": "BLE14"
+//  },
+//  {
+//    "serial": "GBV7T17091753",
+//    "bleHwAddress": "00:15:85:14:9C:09",
+//    "bleName": "BLE17"
+//  }
 ]

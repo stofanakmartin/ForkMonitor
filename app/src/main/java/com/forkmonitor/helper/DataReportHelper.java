@@ -45,7 +45,7 @@ public class DataReportHelper {
         mBleReadSuccessTotalCounterPreference = new IntPreference(sp, Constants.PREFERENCE_BLE_SUCCESS_READ_TOTAL_COUNT, 0);
         mBleReadFailTotalCounterPreference = new IntPreference(sp, Constants.PREFERENCE_BLE_FAIL_READ_TOTAL_COUNT, 0);
         mBleUltrasoundFailCounterPreference = new IntPreference(sp, Constants.PREFERENCE_BLE_ULTRASOUND_FAIL_TOTAL_COUNT, 0);
-        mTruckLoadedStatePreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_LOADED_STATE, Constants.TRUCK_STATUS_UNKNOWN);
+        mTruckLoadedStatePreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_LOADED_STATE, Constants.TRUCK_STATUS_BLE_READ_FAILED);
         mSendDataSuccessCounterPreference.set(0);
         mSendDataErrorCounterPreference.set(0);
         mAPIService = ApiUtils.getAPIService();

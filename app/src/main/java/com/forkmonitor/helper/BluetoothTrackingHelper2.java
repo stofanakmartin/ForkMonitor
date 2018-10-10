@@ -45,10 +45,7 @@ public class BluetoothTrackingHelper2 {
     private StringPreference mLastCharacteristicMsgPreference;
     private BooleanPreference mIsBluetoothTrackingEnabled;
     private BooleanPreference mIsBluetoothDeviceConnectedPreference;
-//    private IntPreference mTruckLoadedStatePreference;
-    private IntPreference mTruckStatusPreference;
-//    private IntPreference mBluetoothDeviceBatteryLevelPreference;
-//    private IntPreference mUltrasoundValuePreference;
+    private IntPreference mStatusPreference;
     private StringPreference mBleNamePreference;
     private StringPreference mBleHwAddressPreference;
     private String mTmpCharacteristicMsgBuffer = StringUtils.EMPTY_STRING;
@@ -79,11 +76,8 @@ public class BluetoothTrackingHelper2 {
         final SharedPreferences sp = context.getSharedPreferences(Constants.PREFERENCES_FILE_NAME, MODE_PRIVATE);
         mLastCharacteristicMsgPreference = new StringPreference(sp, Constants.PREFERENCE_LAST_CHARACTERISTIC_MSG, StringUtils.EMPTY_STRING);
         mIsBluetoothTrackingEnabled = new BooleanPreference(sp, Constants.PREFERENCE_IS_BLUETOOTH_TRACKING_ENABLED, false);
-//        mTruckLoadedStatePreference = new IntPreference(sp, Constants.PREFERENCE_LAST_TRUCK_LOADED_STATE, Constants.TRUCK_STATUS_NOT_INITIALIZED);
-        mTruckStatusPreference = new IntPreference(sp, Constants.PREFERENCE_LAST_STATUS, Constants.TRUCK_STATUS_UNKNOWN);
+        mStatusPreference = new IntPreference(sp, Constants.PREFERENCE_LAST_STATUS, Constants.STATUS_NOT_INITIALIZED);
         mIsBluetoothDeviceConnectedPreference = new BooleanPreference(sp, Constants.PREFERENCE_IS_BLUETOOTH_DEVICE_CONNECTED, false);
-//        mBluetoothDeviceBatteryLevelPreference = new IntPreference(sp, Constants.PREFERENCE_BLUETOOTH_BATTERY_LEVEL, 0);
-//        mUltrasoundValuePreference = new IntPreference(sp, Constants.PREFERENCE_ULTRASOUND_VALUE, -1);
         mBleHwAddressPreference = new StringPreference(sp, Constants.PREFERENCE_DEVICE_CONFIG_BLE_HW_ADDRESS, StringUtils.EMPTY_STRING);
         mBleNamePreference = new StringPreference(sp, Constants.PREFERENCE_DEVICE_CONFIG_BLE_NAME, StringUtils.EMPTY_STRING);
 
@@ -144,7 +138,7 @@ public class BluetoothTrackingHelper2 {
             } else {
                 Timber.e("Bluetooth characteristic does not support NOTIFICATION or WRITE feature");
                 mBluetoothHelper.closeConnection();
-                mTruckStatusPreference.set(Constants.STATUS_BLUETOOTH_DEVICE_NOT_MATCH);
+                mStatusPreference.set(Constants.STATUS_BLUETOOTH_DEVICE_NOT_MATCH);
             }
         }
         EventBus.getDefault().post(new TrackingDataChangeEvent());

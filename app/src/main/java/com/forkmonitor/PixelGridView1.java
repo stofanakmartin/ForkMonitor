@@ -317,7 +317,7 @@ public class PixelGridView1 extends AppCompatImageView {
 
 
         try {
-            InputStream is = getResources().openRawResource(R.raw.polygons5);
+            InputStream is = getResources().openRawResource(R.raw.polygons6);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(is);

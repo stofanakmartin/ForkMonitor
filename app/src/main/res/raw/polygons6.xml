@@ -1,0 +1,3280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2"
+	 xmlns:gx="http://www.google.com/kml/ext/2.2"
+	>
+<Document>
+	<name>polygons.kml</name>
+	<open>1</open>
+	<StyleMap id="m_ylw-pushpin00">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#s_ylw-pushpin1</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#s_ylw-pushpin_hl1</styleUrl>
+		</Pair>
+	</StyleMap>
+	<StyleMap id="m_ylw-pushpin01">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#s_ylw-pushpin0</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#s_ylw-pushpin_hl</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Style id="sn_ylw-pushpin">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ffffaa55</color>
+		</LineStyle>
+		<PolyStyle>
+			<color>a6ffffff</color>
+			<colorMode>random</colorMode>
+			<outline>0</outline>
+		</PolyStyle>
+	</Style>
+	<StyleMap id="m_ylw-pushpin0">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#s_ylw-pushpin</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#s_ylw-pushpin_hl0</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Style id="s_ylw-pushpin_hl">
+		<IconStyle>
+			<scale>1.3</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ffffaa55</color>
+		</LineStyle>
+		<PolyStyle>
+			<color>a6ffffff</color>
+			<colorMode>random</colorMode>
+			<outline>0</outline>
+		</PolyStyle>
+	</Style>
+	<Style id="s_ylw-pushpin_hl1">
+		<IconStyle>
+			<scale>1.3</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ffffaa55</color>
+		</LineStyle>
+		<PolyStyle>
+			<color>a6ffffff</color>
+			<colorMode>random</colorMode>
+			<outline>0</outline>
+		</PolyStyle>
+	</Style>
+	<Style id="s_ylw-pushpin_hl0">
+		<IconStyle>
+			<scale>1.3</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ffffaa55</color>
+		</LineStyle>
+		<PolyStyle>
+			<color>a6ffffff</color>
+			<colorMode>random</colorMode>
+			<outline>0</outline>
+		</PolyStyle>
+	</Style>
+	<Style id="s_ylw-pushpin0">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ffffaa55</color>
+		</LineStyle>
+		<PolyStyle>
+			<color>a6ffffff</color>
+			<colorMode>random</colorMode>
+			<outline>0</outline>
+		</PolyStyle>
+	</Style>
+	<Style id="s_ylw-pushpin1">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ffffaa55</color>
+		</LineStyle>
+		<PolyStyle>
+			<color>a6ffffff</color>
+			<colorMode>random</colorMode>
+			<outline>0</outline>
+		</PolyStyle>
+	</Style>
+	<Style id="sh_ylw-pushpin">
+		<IconStyle>
+			<scale>1.3</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ffffaa55</color>
+		</LineStyle>
+		<PolyStyle>
+			<color>a6ffffff</color>
+			<colorMode>random</colorMode>
+			<outline>0</outline>
+		</PolyStyle>
+	</Style>
+	<Style id="s_ylw-pushpin">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ffffaa55</color>
+		</LineStyle>
+		<PolyStyle>
+			<color>a6ffffff</color>
+			<colorMode>random</colorMode>
+			<outline>0</outline>
+		</PolyStyle>
+	</Style>
+	<StyleMap id="msn_ylw-pushpin">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#sn_ylw-pushpin</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#sh_ylw-pushpin</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Folder>
+		<name>polygons</name>
+		<open>1</open>
+		<Placemark>
+			<name>vstupZaBranou</name>
+			<styleUrl>#m_ylw-pushpin00</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50606202023391,49.17031125448334,0 17.50607361983059,49.17019687262554,0 17.50641090810866,49.17021655408216,0 17.50639456394553,49.17032175784119,0 17.50606202023391,49.17031125448334,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Vstup</name>
+			<styleUrl>#m_ylw-pushpin00</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50646608451392,49.17031958507979,0 17.50647097375368,49.17021805336154,0 17.50679928063536,49.17022790321837,0 17.50677196536173,49.17032893606599,0 17.50646608451392,49.17031958507979,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>v3</name>
+			<styleUrl>#m_ylw-pushpin00</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50443782338006,49.1732167184412,0 17.50443926954948,49.17311062500344,0 17.50484683060203,49.17311062130158,0 17.50484637482761,49.17322287014807,0 17.50443782338006,49.1732167184412,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>vstup2</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50586357837143,49.17029904766312,0 17.50589756577562,49.17008649985637,0 17.50606995115323,49.17010553725875,0 17.50605766556044,49.17031040470202,0 17.50586357837143,49.17029904766312,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>vstup3</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50585918969314,49.17029562657838,0 17.50557419153547,49.17028258461252,0 17.50560458382537,49.17008063309437,0 17.50587866316799,49.17008991991911,0 17.50585918969314,49.17029562657838,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>vstup4</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50558560004776,49.17008506521352,0 17.505570283746,49.17023878184316,0 17.50533013099765,49.17023273875868,0 17.50533931340365,49.17007773465689,0 17.50558560004776,49.17008506521352,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>krizovatka1</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50532654796162,49.17010166524834,0 17.50531702090162,49.17024143068771,0 17.50512989632563,49.17023204406458,0 17.50514252088323,49.17009238353832,0 17.50532654796162,49.17010166524834,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>evenue1</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50512274775763,49.1697150993472,0 17.50532762586391,49.16971595158942,0 17.50531892509926,49.16986488123899,0 17.50510817349799,49.16985976950087,0 17.50512274775763,49.1697150993472,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>krizovatka2</name>
+			<open>1</open>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50507997687038,49.17039903370664,0 17.50510062966361,49.17024365385595,0 17.50534162744634,49.17025262789042,0 17.50532426896171,49.17040564018647,0 17.50507997687038,49.17039903370664,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>street1</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50505008619292,49.16805897901103,0 17.50502977563251,49.16821300602407,0 17.50492128525011,49.16820836450832,0 17.50494830624701,49.16805673876217,0 17.50505008619292,49.16805897901103,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>predVratnicou</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50603253361168,49.16828234173825,0 17.50605133240029,49.16811734196065,0 17.50626744371883,49.16813316449802,0 17.50624595697373,49.16829075096219,0 17.50603253361168,49.16828234173825,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>evenue2</name>
+			<LookAt>
+				<longitude>17.50551409988194</longitude>
+				<latitude>49.16801108614405</latitude>
+				<altitude>0</altitude>
+				<heading>-0.0003802174336155148</heading>
+				<tilt>37.91940062871355</tilt>
+				<range>197.354106397552</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50529509051554,49.16785157939842,0 17.50545178222656,49.16785314506019,0 17.50543293520937,49.16802919859019,0 17.50543490669827,49.16805193389109,0 17.50540258851352,49.16807626977479,0 17.50528078981927,49.16805824439791,0 17.50529509051554,49.16785157939842,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>evenue3</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50478219732989,49.16762824656008,0 17.50488457203938,49.16763541222898,0 17.50487509142069,49.16774630867264,0 17.50477059115873,49.16774372796326,0 17.50478219732989,49.16762824656008,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>evenue4</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50458780250971,49.16969012438174,0 17.50468877822484,49.16969122101808,0 17.50467104496014,49.16988044510239,0 17.50455763751153,49.16987990093114,0 17.50458780250971,49.16969012438174,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>street3</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50494222064327,49.17021012818294,0 17.50494819413032,49.17008166343572,0 17.50513331033602,49.17009105627044,0 17.50511716399102,49.17021638558793,0 17.50494222064327,49.17021012818294,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.5050826105599,49.17040833031852,0 17.50532126490939,49.17041055632531,0 17.50529885870939,49.17056128605215,0 17.50506615777711,49.17055080444326,0 17.5050826105599,49.17040833031852,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50506640546412,49.17055518332433,0 17.50529968239745,49.17056708271699,0 17.50529520799138,49.17065655601106,0 17.50505962240051,49.17064368062713,0 17.50506640546412,49.17055518332433,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50529095609557,49.17066212600169,0 17.50528543158474,49.17079124076249,0 17.50504602952434,49.17077976496496,0 17.5050648768818,49.17065201483966,0 17.50529095609557,49.17066212600169,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<visibility>0</visibility>
+			<styleUrl>#msn_ylw-pushpin</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50518767975263,49.17099190286854,0 17.50516672328888,49.17123426786732,0 17.50507388746264,49.17123069427674,0 17.50509650321815,49.17099961761638,0 17.50518767975263,49.17099190286854,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50527152301127,49.17116708428515,0 17.50528146594992,49.1710383075756,0 17.50544804981552,49.17104970283789,0 17.50543123082814,49.17117963740859,0 17.50527152301127,49.17116708428515,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50545913772769,49.17105172290508,0 17.50565273016845,49.17105581640746,0 17.50565256531092,49.17117661640283,0 17.50549327750517,49.17116697218503,0 17.50543646081448,49.1711726775844,0 17.50545913772769,49.17105172290508,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.5056748831437,49.17106150099802,0 17.50590341257152,49.17106677652287,0 17.50589027306744,49.17118636012862,0 17.50566763797919,49.17117881659362,0 17.5056748831437,49.17106150099802,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50592290431982,49.17107277277253,0 17.50618099729821,49.1710807046233,0 17.5061540791194,49.17119019090858,0 17.50590924980158,49.17118671464287,0 17.50592290431982,49.17107277277253,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#msn_ylw-pushpin</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50603303580187,49.17118267221546,0 17.50615358762414,49.17119063642345,0 17.50613397138195,49.17137915404584,0 17.5060371687496,49.17137256053971,0 17.50605102048094,49.17120281579301,0 17.50605491154057,49.17120114058336,0 17.50603303580187,49.17118267221546,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50504210377012,49.17130527161908,0 17.50523529387264,49.17129277603456,0 17.5052308528539,49.17138613494081,0 17.50506632815398,49.17138348863853,0 17.50504210377012,49.17130527161908,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.5052225365188,49.17139771403122,0 17.5052076940585,49.17166353589376,0 17.50504983789138,49.17166151680324,0 17.50506484602888,49.17139331182904,0 17.5052225365188,49.17139771403122,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50502077962785,49.17194143757617,0 17.50520959166991,49.17194783597003,0 17.5051803783114,49.17225123548258,0 17.50497574205875,49.17224673963981,0 17.50502077962785,49.17194143757617,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.5049823118073,49.17224606024628,0 17.50506900690414,49.17225686931212,0 17.50511991588346,49.17226116368156,0 17.50509329434634,49.17233345217643,0 17.50509643620983,49.17239703259282,0 17.50500066627782,49.17239842320297,0 17.50493560773317,49.1723945853617,0 17.50493196095887,49.17228853078114,0 17.50496750903753,49.17227624608228,0 17.5049823118073,49.17224606024628,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50513793166802,49.17227665708622,0 17.50526562924661,49.17227800341316,0 17.50527525591615,49.17238361284719,0 17.50509653165218,49.17239347135035,0 17.50513793166802,49.17227665708622,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50508487262272,49.17240415296334,0 17.50523349714559,49.17239174128808,0 17.50522436398822,49.17253694463889,0 17.50506637975055,49.17253370688199,0 17.50508487262272,49.17240415296334,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50507080174282,49.17254144564107,0 17.50522564991562,49.17254286742993,0 17.5052344328114,49.17265168022235,0 17.50505856384113,49.17264572057516,0 17.50507080174282,49.17254144564107,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.5052686797005,49.17229602505442,0 17.5054524732936,49.17229328403752,0 17.50565644488744,49.1722765746397,0 17.50568067753427,49.17232664598904,0 17.50546371885808,49.17238867083603,0 17.50545948773151,49.17238476490133,0 17.5054550530632,49.17238345342565,0 17.50528506790165,49.17238532242151,0 17.5052686797005,49.17229602505442,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#msn_ylw-pushpin</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50565358993708,49.17227772331033,0 17.50588848448496,49.17215372451499,0 17.50609067483014,49.17216788389297,0 17.50610649199114,49.17223646508821,0 17.50592924750002,49.17223350570482,0 17.50568495666877,49.17232179460407,0 17.50565358993708,49.17227772331033,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#msn_ylw-pushpin</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50609719415582,49.17216467559139,0 17.5062909171324,49.17215761703355,0 17.50645852482333,49.17207276960029,0 17.50650813020119,49.17210203229273,0 17.50630006441311,49.17221650427773,0 17.50611664313727,49.17224103317494,0 17.50609719415582,49.17216467559139,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#msn_ylw-pushpin</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50596724889765,49.17216132444329,0 17.50597544865902,49.17203735265911,0 17.50632145344432,49.17205524993692,0 17.50630181625898,49.17215045326622,0 17.50612987025083,49.17216448205275,0 17.50596724889765,49.17216132444329,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50453658618113,49.17237229503533,0 17.50453288280603,49.17237036527509,0 17.50454754374805,49.17224372713095,0 17.50492452488925,49.1722647130139,0 17.50493441196017,49.17239725019445,0 17.50453658618113,49.17237229503533,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50451905348684,49.17236898376131,0 17.50424381384188,49.17236764716175,0 17.50426293257218,49.17225721943498,0 17.50447852532189,49.1722708770378,0 17.50453437111197,49.17229513046998,0 17.50451905348684,49.17236898376131,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50446042761342,49.17237476637141,0 17.50462989727291,49.17238328658967,0 17.50462825132809,49.1725489702344,0 17.50443826195257,49.17253068103064,0 17.50446042761342,49.17237476637141,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50442244861173,49.17252521771713,0 17.50424006384475,49.17252100623442,0 17.50425102842851,49.17237716472344,0 17.50445152216304,49.17237541309341,0 17.50442244861173,49.17252521771713,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50448008275641,49.17227117338614,0 17.50426292684276,49.17226430386872,0 17.50429826874097,49.17205410256273,0 17.50444071192672,49.1720489961806,0 17.50442567469786,49.17218028389647,0 17.50444408878223,49.17225696723672,0 17.50448008275641,49.17227117338614,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50423901640719,49.17174220064161,0 17.50430553017381,49.17173911827736,0 17.50432639230791,49.17183893627091,0 17.50423567158491,49.17181220470539,0 17.50423901640719,49.17174220064161,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50431517013012,49.17174250844078,0 17.50433009501381,49.17166201648271,0 17.50437918561407,49.17166109156806,0 17.50448514952546,49.17166076622754,0 17.50445589966962,49.17187460008189,0 17.5043618405143,49.17187613980669,0 17.50432499289366,49.1718407958569,0 17.50431517013012,49.17174250844078,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50433918601518,49.17165956133577,0 17.50434842582965,49.17152842754754,0 17.50450663649038,49.17152611265968,0 17.50448498990114,49.17165908123624,0 17.50433918601518,49.17165956133577,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50443416616195,49.17118936282107,0 17.50459177519015,49.17118048003752,0 17.50458247724428,49.17136617412659,0 17.50441795235673,49.17136237291425,0 17.50443416616195,49.17118936282107,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50419334998061,49.17135867590513,0 17.50420116662021,49.17128670616404,0 17.50436230638622,49.17129894156344,0 17.50442028423716,49.17127019441847,0 17.50440792715396,49.17136530991224,0 17.50419334998061,49.17135867590513,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50439134326118,49.17113638513753,0 17.50392564697335,49.17112026523477,0 17.50392034188126,49.17104831699948,0 17.50440800674334,49.17107312816622,0 17.50443875618613,49.17107276634227,0 17.50443737718653,49.17114427431113,0 17.50439134326118,49.17113638513753,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50441200239237,49.17078057557513,0 17.50458054094536,49.17078873322601,0 17.50454926885778,49.17100638735101,0 17.50445065439764,49.1710056482424,0 17.50445561609,49.17095653254376,0 17.50440540850871,49.17094681929251,0 17.50441200239237,49.17078057557513,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50443498849435,49.17061482839831,0 17.50464224678556,49.17061956773227,0 17.50462157715433,49.17078754919348,0 17.50441576608646,49.17077820186969,0 17.50443498849435,49.17061482839831,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50445962419783,49.17037620443546,0 17.50447616660839,49.17023445698136,0 17.50466887087327,49.17023767255913,0 17.50466268256403,49.17038463263165,0 17.50445962419783,49.17037620443546,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.5044328248336,49.17020927076555,0 17.50400901403742,49.17020222995491,0 17.50405042480941,49.17004928910095,0 17.5044410943122,49.17006094065938,0 17.5044328248336,49.17020927076555,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50460254032648,49.16950389222828,0 17.50477109419468,49.16950190521125,0 17.50475799134362,49.16968490973817,0 17.50458468584956,49.16968342043968,0 17.50460254032648,49.16950389222828,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50461825394546,49.16892245377579,0 17.50477809146359,49.16893292253518,0 17.50476440482019,49.16906091045648,0 17.50459787754953,49.16905753143055,0 17.50461825394546,49.16892245377579,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50464969343829,49.1687132616712,0 17.50484535235762,49.16872363860728,0 17.50477633372253,49.16876995102919,0 17.50476499491878,49.1689189575564,0 17.50461939216302,49.16891652356117,0 17.50464969343829,49.1687132616712,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50468233418724,49.16828241937321,0 17.50488760390766,49.16828864353751,0 17.50487720834962,49.16849050260363,0 17.50466087561744,49.16851257785869,0 17.50468233418724,49.16828241937321,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50486748911942,49.16787890087309,0 17.50484994269485,49.16805794489802,0 17.50472235655206,49.1680502479269,0 17.50473461324722,49.16788091631039,0 17.50486748911942,49.16787890087309,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50480935881068,49.16737031297296,0 17.50491186580079,49.16737363163134,0 17.50490125297236,49.16747628651748,0 17.50479995341981,49.16747178886435,0 17.50480935881068,49.16737031297296,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50534398513829,49.16740167981505,0 17.50545390782688,49.16739743383132,0 17.50545536655353,49.16757938029836,0 17.50531862757326,49.16757492848196,0 17.50534398513829,49.16740167981505,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50478776765963,49.16736488849159,0 17.50481886752553,49.16727359926317,0 17.5050723463822,49.16729525926008,0 17.50506964554438,49.16737869861583,0 17.50478776765963,49.16736488849159,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50515890771038,49.16931181265707,0 17.50537845238866,49.16931510230972,0 17.50535867744656,49.16945492976871,0 17.50514391238778,49.1694514072566,0 17.50515890771038,49.16931181265707,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50518536186325,49.16917508318854,0 17.50538315538197,49.16917698375927,0 17.50537917282723,49.16931059226064,0 17.50515954199451,49.16930495725118,0 17.50518536186325,49.16917508318854,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50520479617849,49.16897574448533,0 17.50540866309645,49.16898198826698,0 17.50539878847741,49.1690770219111,0 17.50520097051782,49.16907618442838,0 17.50520479617849,49.16897574448533,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50523239022256,49.16862935541205,0 17.50544231893417,49.16862818448239,0 17.50543065722973,49.16877511540903,0 17.50521828516815,49.16877412398115,0 17.50523239022256,49.16862935541205,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50529601029309,49.16833232990135,0 17.50546934997622,49.1683280557961,0 17.50546023927528,49.16846296526119,0 17.50526041009164,49.16846492052455,0 17.50529601029309,49.16833232990135,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50635712541372,49.17033639219137,0 17.5065034677136,49.17033811696049,0 17.50649708546503,49.17051429134796,0 17.50635852587081,49.17050505556213,0 17.50635712541372,49.17033639219137,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50635337544452,49.17051387537702,0 17.50649925257132,49.17052155476844,0 17.50647708583738,49.17068940698506,0 17.50633797718937,49.17068962439607,0 17.50635337544452,49.17051387537702,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50633791314518,49.17069318357529,0 17.50647436560653,49.17069670563109,0 17.50644972276095,49.17090228526374,0 17.50631123837631,49.17089548965826,0 17.50633791314518,49.17069318357529,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50631152691386,49.17090423896376,0 17.5064481487326,49.17090556142888,0 17.50643382880336,49.17112175378302,0 17.50628634374525,49.17111175744444,0 17.50631152691386,49.17090423896376,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50608037283077,49.17019235369381,0 17.50609169318254,49.170100290297,0 17.50617255203368,49.17010419719197,0 17.50616356972776,49.1701972031585,0 17.50608037283077,49.17019235369381,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50609617625975,49.16990462319802,0 17.50619783376785,49.16990974254216,0 17.50617008141595,49.17009518400341,0 17.50608076729423,49.17008997796339,0 17.50609617625975,49.16990462319802,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50611205942376,49.16968865722676,0 17.50621504917408,49.16969304784664,0 17.5061942488985,49.16989985800005,0 17.50609348750767,49.16989720987083,0 17.50611205942376,49.16968865722676,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50588056197007,49.16978597955135,0 17.50592150123281,49.16933200568761,0 17.50613903612081,49.16933742950234,0 17.506080751927,49.16979200467543,0 17.50588056197007,49.16978597955135,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50614936394785,49.16941543542382,0 17.5062476774547,49.16941794091164,0 17.50621624999721,49.16968460338671,0 17.50611915946945,49.16968216921413,0 17.50614936394785,49.16941543542382,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50624801910755,49.16937925900326,0 17.50647993199162,49.16939680816386,0 17.50645151232233,49.16962333142721,0 17.50624520580492,49.16961695034463,0 17.50624801910755,49.16937925900326,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50624543942882,49.16937104574331,0 17.50626916970882,49.16917891941391,0 17.50650083994529,49.16918919786949,0 17.50647778856115,49.16938539518677,0 17.50624543942882,49.16937104574331,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50622562499676,49.16969724425999,0 17.50623777954881,49.16962619294764,0 17.50645131788178,49.16963380184385,0 17.50644228876111,49.16970906674546,0 17.50622562499676,49.16969724425999,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50614780651916,49.16940559128168,0 17.50614917856979,49.16916942846334,0 17.50625291397492,49.16917152166371,0 17.50623220862493,49.16941381421217,0 17.50614780651916,49.16940559128168,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50613047570174,49.16916188807394,0 17.50617518661309,49.16878876331551,0 17.50631776125994,49.16879223623386,0 17.50625671020045,49.16916763360296,0 17.50613047570174,49.16916188807394,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50619643313272,49.16851872918214,0 17.50634123574726,49.16852394455133,0 17.5063093493408,49.16878493617215,0 17.50617577514126,49.16877876281011,0 17.50619643313272,49.16851872918214,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50622237344891,49.16830134988768,0 17.50636848422785,49.16829696600961,0 17.50634115527239,49.16851549005033,0 17.50620725453463,49.16851171650961,0 17.50622237344891,49.16830134988768,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50626182701571,49.16829236159224,0 17.5062813884701,49.16812176221634,0 17.50637902134351,49.16812019661199,0 17.50636690989724,49.16829042393375,0 17.50626182701571,49.16829236159224,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50583845812332,49.16823152034771,0 17.50587056791183,49.16809551659289,0 17.50604182488639,49.16809663051178,0 17.50604016516901,49.16809975891998,0 17.50601531100802,49.16824586106379,0 17.50583845812332,49.16823152034771,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50548545528107,49.1683423675149,0 17.50551695286686,49.16826736117236,0 17.50551660263446,49.16823366693976,0 17.50582358230103,49.16824113494756,0 17.50598986061922,49.16825163410425,0 17.50597614079952,49.16836129602692,0 17.50548545528107,49.1683423675149,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50599925342787,49.16835458044614,0 17.50601999562765,49.16829289894704,0 17.50620584904477,49.16830453884933,0 17.5061974505666,49.16836613358412,0 17.50599925342787,49.16835458044614,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50587764321426,49.16807980334405,0 17.50589976199424,49.16790854668712,0 17.50599973219378,49.16790792395035,0 17.50602399164381,49.1679561028792,0 17.50602266264897,49.16808341919893,0 17.50587764321426,49.16807980334405,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50598618729022,49.16789685648739,0 17.50582404029379,49.16789224220847,0 17.50581852755928,49.16774275713142,0 17.50592251859778,49.16774881916938,0 17.50598618729022,49.16789685648739,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50563786119603,49.16788300140627,0 17.50565015489599,49.16773858583759,0 17.50580552980815,49.16774764349085,0 17.50581246063838,49.16788672934858,0 17.50563786119603,49.16788300140627,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50566153744697,49.16762798138267,0 17.50588186243089,49.16764001894426,0 17.50591659602225,49.16773799215494,0 17.50565190008457,49.16772578697526,0 17.50566153744697,49.16762798138267,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50567739223873,49.16748457976182,0 17.5058250985726,49.16749560924355,0 17.5058742801642,49.16763232031801,0 17.50566763105419,49.16761946745056,0 17.50567739223873,49.16748457976182,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50568548751136,49.16743425541083,0 17.50546426694086,49.16741974625263,0 17.50546160195233,49.16742120347273,0 17.50546983002172,49.16737894971951,0 17.50573957433874,49.16740838202032,0 17.5058148277576,49.16748049729547,0 17.50568647797591,49.1674722087825,0 17.50568548751136,49.16743425541083,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50490054028131,49.16758312954674,0 17.50492258074175,49.16737919533118,0 17.50503139835245,49.16738432088628,0 17.50500129984494,49.16758941401037,0 17.50490054028131,49.16758312954674,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50489333362875,49.16759496407956,0 17.50498784412119,49.16759853069639,0 17.50497537912679,49.16772480439445,0 17.50488939793059,49.16772302466035,0 17.50489333362875,49.16759496407956,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50479078952597,49.16877745243009,0 17.50493282706909,49.16877486436129,0 17.50491602364181,49.16896462139477,0 17.50478765557923,49.16895193032796,0 17.50479078952597,49.16877745243009,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50479013476736,49.16896255052771,0 17.50490964436705,49.16897058685328,0 17.50488545514385,49.16918494591912,0 17.50476228530956,49.169178256495,0 17.50479013476736,49.16896255052771,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50476742957883,49.16918561460389,0 17.50487893211619,49.16919244564051,0 17.50486154707984,49.169423132787,0 17.50475809702104,49.16942073981584,0 17.50476742957883,49.16918561460389,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50437064935144,49.16917014623239,0 17.50437911818001,49.1690624389767,0 17.50461552935967,49.16907107688702,0 17.50459810166736,49.16918892401339,0 17.50437064935144,49.16917014623239,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50416018311552,49.16916674584146,0 17.50417773025855,49.16900340756926,0 17.50437198579491,49.1690144903238,0 17.50435735831534,49.1691694243366,0 17.50416018311552,49.16916674584146,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50460081400707,49.16943321580042,0 17.50452242248344,49.16943289789216,0 17.50454282211096,49.16919949875582,0 17.50462445254096,49.16920316507,0 17.50460081400707,49.16943321580042,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50456083650988,49.16970423347847,0 17.50449506961233,49.16969818862506,0 17.50452341424099,49.1694424178943,0 17.50460003149184,49.16943868970301,0 17.50456083650988,49.16970423347847,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50454649454278,49.16989577018016,0 17.50445451614773,49.16989785482227,0 17.50449960714508,49.16970850416872,0 17.50456742693858,49.16971296842419,0 17.50454649454278,49.16989577018016,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50424277673248,49.16995468495843,0 17.50424205830011,49.16989944218481,0 17.50454694036538,49.16991196224844,0 17.50454563344509,49.16996542790928,0 17.50424277673248,49.16995468495843,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50404433466065,49.17004491654775,0 17.50406548049229,49.16994905420267,0 17.50420093653564,49.16995478064901,0 17.50418825064799,49.17005107608341,0 17.50404433466065,49.17004491654775,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50407144120945,49.1699428570344,0 17.50408037869475,49.16988255037871,0 17.50423575670358,49.16989663773094,0 17.50422592184595,49.16995206241366,0 17.50407144120945,49.1699428570344,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.5040978367047,49.16965099879666,0 17.50420334696347,49.1696505292847,0 17.50417588036568,49.16988128934155,0 17.50408078371752,49.16987290256463,0 17.5040978367047,49.16965099879666,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50556020853657,49.16858058292841,0 17.50545946018661,49.16857832289672,0 17.50548017455651,49.16835334525694,0 17.50558462320356,49.16835824456501,0 17.50556020853657,49.16858058292841,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50545693784142,49.16858497585676,0 17.50555895203017,49.16859363742545,0 17.50554337331879,49.16882522492835,0 17.50543012620445,49.16882069865412,0 17.50545693784142,49.16858497585676,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50543028931947,49.16883034769302,0 17.50553670317459,49.1688353597157,0 17.50550994056942,49.16907656353144,0 17.50541590355926,49.16907145682631,0 17.50543028931947,49.16883034769302,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50538715490403,49.16924655120289,0 17.50548718363155,49.16925120565809,0 17.50546659250384,49.1694840480073,0 17.50536776163877,49.16947463805148,0 17.50538715490403,49.16924655120289,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50537173182849,49.16948565268723,0 17.5054660796525,49.1694930869614,0 17.50544671284481,49.16974064170957,0 17.50534419899226,49.16973346803292,0 17.50537173182849,49.16948565268723,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50534676905954,49.16974777151007,0 17.50544562624416,49.16975081713578,0 17.50542976027034,49.16993953593025,0 17.50532243817357,49.16993370779896,0 17.50534676905954,49.16974777151007,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50532845260533,49.16994140449906,0 17.50542286808945,49.16994653175836,0 17.50541426633899,49.17006903368137,0 17.50531079140502,49.17006101015398,0 17.50532845260533,49.16994140449906,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50466039580135,49.17004389422359,0 17.50468088065314,49.16988846448069,0 17.50474553738507,49.16988740821621,0 17.50472729398124,49.17004595610386,0 17.50466039580135,49.17004389422359,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50468116737425,49.16988076285643,0 17.50470726816764,49.16970670101538,0 17.50482163536069,49.1697130994012,0 17.50479023157644,49.16988621557205,0 17.50468116737425,49.16988076285643,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50395122729617,49.17021925140283,0 17.5041884198571,49.17022971992107,0 17.50417064354814,49.17044561643698,0 17.5039222849443,49.17043435747115,0 17.50395122729617,49.17021925140283,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50392184898117,49.1704482272972,0 17.50413175952945,49.17045014250386,0 17.50408646285992,49.17073022405711,0 17.50389771153189,49.1707195876489,0 17.50392184898117,49.1704482272972,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.5038919797525,49.1707289477845,0 17.50409069896904,49.17074054959349,0 17.50402773722682,49.17103693237559,0 17.50387681412101,49.17103490484119,0 17.5038919797525,49.1707289477845,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50403754454786,49.17104717509297,0 17.50405569901001,49.17095551949998,0 17.50442114152965,49.1709837174819,0 17.50442095375372,49.17106880262514,0 17.50403754454786,49.17104717509297,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50402216506083,49.17144495907023,0 17.50403172125782,49.17137329223664,0 17.50413097919387,49.17137534097713,0 17.504102326027,49.17144847380916,0 17.50402216506083,49.17144495907023,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50401981389215,49.17136762636915,0 17.50403170882755,49.17127252071205,0 17.50419502706235,49.17127642431791,0 17.50417775811839,49.17136952277226,0 17.50401981389215,49.17136762636915,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50452198808604,49.17139179715723,0 17.50466860304775,49.17139525000781,0 17.50464193545184,49.17165336364339,0 17.50450007678067,49.17164729421678,0 17.50452198808604,49.17139179715723,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50449443912229,49.17165659193059,0 17.50463191818538,49.1716624146614,0 17.5046063562742,49.17188982126246,0 17.50447096552988,49.17187930852746,0 17.50449443912229,49.17165659193059,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50447884397645,49.17188648318217,0 17.50459550805547,49.17189401778462,0 17.50458519991827,49.17213959156104,0 17.50445051347311,49.17213488777407,0 17.50447884397645,49.17188648318217,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50399730525789,49.17166800420378,0 17.50407676721537,49.17166767387287,0 17.50407805340502,49.17173601581944,0 17.50399192111189,49.1717311626116,0 17.50399730525789,49.17166800420378,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50399904665003,49.17179983360989,0 17.50400881047561,49.17173692197533,0 17.50421928324169,49.17174685803897,0 17.5042196130095,49.17181129989874,0 17.50399904665003,49.17179983360989,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50383916558528,49.17179659409765,0 17.50384686656419,49.17176048939646,0 17.50398542855733,49.17176925847238,0 17.50397855849715,49.17181021768784,0 17.50383916558528,49.17179659409765,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50389545104241,49.17194976633729,0 17.50391319171826,49.17181518839222,0 17.50421468025759,49.17182640663549,0 17.50420011189788,49.17195924014931,0 17.50389545104241,49.17194976633729,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50494988921205,49.17139675647494,0 17.50504317660219,49.17139993534821,0 17.50501715046738,49.17164560599853,0 17.5049142675394,49.17164292496603,0 17.50494988921205,49.17139675647494,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50491619775535,49.17165237913786,0 17.50501579183929,49.17165591331046,0 17.50499300075617,49.17191318856089,0 17.50487948892925,49.17190679355072,0 17.50491619775535,49.17165237913786,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin01</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50490137100276,49.17192152551527,0 17.5050028138293,49.17192308702738,0 17.50496858226634,49.17224305955691,0 17.50486480072895,49.17223513600301,0 17.50490137100276,49.17192152551527,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50487526474337,49.1678810661796,0 17.50489020258631,49.16772666261928,0 17.50497141042296,49.16772907323421,0 17.50495622613893,49.16788043198922,0 17.50487526474337,49.1678810661796,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50479967512165,49.16747689842962,0 17.50489722261323,49.16747899620766,0 17.50488170901025,49.16762857267641,0 17.50478292321838,49.1676215051784,0 17.50479967512165,49.16747689842962,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50475775417867,49.16774754581234,0 17.50487535416814,49.16775087244476,0 17.50486290007162,49.16787474798688,0 17.50473797658663,49.16787630531956,0 17.50475775417867,49.16774754581234,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50453635157596,49.16799701023135,0 17.5045481540453,49.16785940003501,0 17.50471019777699,49.16786173491358,0 17.50472107049202,49.16786080341235,0 17.50472418877557,49.16786031909562,0 17.50471306603794,49.16800566990133,0 17.50453635157596,49.16799701023135,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50432253703271,49.16798863272538,0 17.50434091912443,49.16785110537837,0 17.50453704497188,49.16786186042842,0 17.50453781753385,49.16786186669904,0 17.50452527301311,49.16799525731536,0 17.50432253703271,49.16798863272538,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50433989341876,49.16784415343213,0 17.50435324448535,49.16771506950011,0 17.50454873727628,49.16771716746371,0 17.50453317929838,49.16785015323948,0 17.50433989341876,49.16784415343213,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50454216352814,49.16784911730025,0 17.50456081712986,49.1677198234175,0 17.50475599628544,49.16771731675271,0 17.50473429980814,49.16785511639247,0 17.50454216352814,49.16784911730025,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50435192872676,49.16770944757267,0 17.50436684783184,49.16762191214444,0 17.50456063719413,49.16762830911442,0 17.50454606626375,49.16771357157655,0 17.50435192872676,49.16770944757267,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50456050673687,49.16771573020747,0 17.50457550653395,49.16762987988446,0 17.50476758448252,49.16763968147258,0 17.50475855009894,49.16771274793452,0 17.50456050673687,49.16771573020747,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50487629519557,49.16788649440948,0 17.50495340610491,49.16788614412529,0 17.50494407361355,49.16805959460655,0 17.50485891634583,49.16805727395816,0 17.50487629519557,49.16788649440948,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50504147574231,49.16821417776557,0 17.50506679198168,49.16806384236304,0 17.5052210967937,49.16806604197448,0 17.50520377532964,49.16822143401533,0 17.50504147574231,49.16821417776557,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50521717465517,49.16821875618577,0 17.50523576975999,49.16806958925951,0 17.50533370783234,49.16806989326995,0 17.5053142511159,49.1682195434746,0 17.50521717465517,49.16821875618577,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50529357118363,49.16832850643877,0 17.50530217107102,49.16822167081808,0 17.50549974502649,49.16822717698832,0 17.50549129559142,49.16832526907691,0 17.50529357118363,49.16832850643877,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50532398666305,49.16821629198602,0 17.50534374292775,49.16807833810786,0 17.50549836590985,49.16808801621781,0 17.50549092450858,49.16822320146434,0 17.50532398666305,49.16821629198602,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.5054982937435,49.16822165046687,0 17.50551230252601,49.16805999730903,0 17.50561880192058,49.16806132821205,0 17.50561190733062,49.16823389597244,0 17.5054982937435,49.16822165046687,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50562770994002,49.16823185889088,0 17.50563960740373,49.16805218534026,0 17.5058003494824,49.16805766910927,0 17.5057910771701,49.16823751751554,0 17.50562770994002,49.16823185889088,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50524954925583,49.16847344842144,0 17.50525267735897,49.16847419397472,0 17.5054564527649,49.16847081224822,0 17.50544333012167,49.16862056335571,0 17.50523542755304,49.16862283143128,0 17.50524954925583,49.16847344842144,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.5052228095205,49.16877984132704,0 17.50522647385562,49.16878068478333,0 17.50542143457417,49.16878145219141,0 17.50540104295735,49.16897641938383,0 17.50520927308515,49.16897211736071,0 17.5052228095205,49.16877984132704,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50518868006686,49.16917198329606,0 17.50520420760666,49.16908055566051,0 17.50539549705014,49.16908299918404,0 17.50539535816576,49.16908482328162,0 17.50537996898195,49.16917232870489,0 17.50518868006686,49.16917198329606,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.5053932151393,49.16919662609837,0 17.50541380868237,49.16907958953923,0 17.50561034462229,49.16909105789545,0 17.50560943426964,49.16920076909275,0 17.5053932151393,49.16919662609837,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50561762575153,49.16919896725202,0 17.50562674154953,49.16909418567947,0 17.50579572036235,49.16910087939554,0 17.50579351997142,49.16910799515085,0 17.50579206205016,49.16920934864242,0 17.50561762575153,49.16919896725202,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.505808197771,49.16920779735255,0 17.50581020603709,49.16920786141016,0 17.50581331244792,49.1691014405301,0 17.50594233695194,49.16910947226769,0 17.50594234751935,49.16911208786789,0 17.50593975731044,49.16921750767331,0 17.505808197771,49.16920779735255,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50514444175339,49.16946103625611,0 17.50535249580132,49.16946098095558,0 17.50534188302926,49.16971237418865,0 17.50512021277333,49.16970790763368,0 17.50514444175339,49.16946103625611,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50511837067383,49.16986823614165,0 17.50531967098335,49.16987505784192,0 17.50529947905886,49.17009059697683,0 17.50510127472816,49.17008388030663,0 17.50511837067383,49.16986823614165,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50505046659991,49.17078323907582,0 17.50528161191708,49.17079662805054,0 17.50525888229481,49.17097832049687,0 17.50501691868101,49.17096184820148,0 17.50505046659991,49.17078323907582,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50618212072214,49.17118682735325,0 17.50618091351201,49.17118595415918,0 17.50620161975097,49.17108627669208,0 17.50628083029945,49.17111998086073,0 17.50642886637439,49.17113073432466,0 17.50643182376206,49.1711994506842,0 17.50618212072214,49.17118682735325,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.504994936263,49.17100560565502,0 17.50526217378112,49.17102505338114,0 17.50525058589129,49.1711761143176,0 17.50498693347975,49.171161384124,0 17.504994936263,49.17100560565502,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50481182014092,49.1713140916649,0 17.50482130658575,49.17116688702768,0 17.50498324729535,49.17117076363557,0 17.50496423812583,49.1713309410839,0 17.50481182014092,49.1713140916649,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50459245486675,49.17130249165682,0 17.50460870262755,49.17115002094639,0 17.5048023318996,49.1711710822948,0 17.50478613176395,49.17130572618739,0 17.50478590104506,49.1713082152514,0 17.50459245486675,49.17130249165682,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50500167281316,49.17117230568277,0 17.50526808814787,49.17118536182393,0 17.50526482451449,49.17128304989872,0 17.50498313561816,49.1712916724484,0 17.50500167281316,49.17117230568277,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50501989611912,49.17193535996945,0 17.50505137552121,49.17167507873261,0 17.50505722107695,49.1716752768299,0 17.50520936266596,49.17167854468265,0 17.50520277781947,49.17193853690922,0 17.50501989611912,49.17193535996945,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50506028423403,49.17265659543433,0 17.50506476144997,49.17265674715596,0 17.50530836157424,49.1726610652921,0 17.50531973213696,49.17283014065967,0 17.50501286445465,49.1728392621074,0 17.50501311083069,49.17283721138802,0 17.50506028423403,49.17265659543433,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50460633573219,49.17270753666073,0 17.50443472817534,49.17268325755295,0 17.50442864209434,49.1726830512801,0 17.50444368226263,49.17254766251195,0 17.5046180844113,49.17256051029182,0 17.50460633573219,49.17270753666073,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50440568481666,49.17269559933341,0 17.50422465579921,49.17269768569413,0 17.50423802961108,49.17253475565146,0 17.50443268576262,49.17253937634013,0 17.50440568481666,49.17269559933341,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50443625732689,49.1726978917447,0 17.50459261988603,49.17271471465666,0 17.50459201486514,49.17289060190365,0 17.50458910531831,49.1728894991722,0 17.50441304693996,49.17286950018806,0 17.50443625732689,49.1726978917447,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50422331105945,49.17270604608051,0 17.50441698819606,49.17269819768623,0 17.50440001802449,49.17286505826857,0 17.50420453643277,49.17285843269828,0 17.5042033361483,49.17285639331027,0 17.50422331105945,49.17270604608051,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50435727743684,49.17305599404301,0 17.5044000215631,49.17288458046299,0 17.50458493501327,49.17290528453276,0 17.50454963368871,49.17306903757561,0 17.50435727743684,49.17305599404301,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50421204904383,49.17287178036294,0 17.50438246076558,49.17287691307737,0 17.5043410507275,49.17305377266766,0 17.50419262768059,49.17303635003489,0 17.50421204904383,49.17287178036294,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50406431449671,49.17317720513343,0 17.50412671488041,49.17302645920004,0 17.50443124337583,49.17306797627288,0 17.50440358474966,49.1732174131927,0 17.50406431449671,49.17317720513343,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50407601647018,49.173186756259,0 17.50439430277454,49.17322880787177,0 17.50438913814975,49.17323652027288,0 17.50434563542698,49.17341050552427,0 17.50401958344885,49.1733623254446,0 17.50407601647018,49.173186756259,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50402229021864,49.17337359113322,0 17.50433019981016,49.17342272424672,0 17.50425673338899,49.17365727257173,0 17.50392866495481,49.17361722102302,0 17.50402229021864,49.17337359113322,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50438805845444,49.17331494134225,0 17.50470191883576,49.17334414224808,0 17.50459050933815,49.1735928840447,0 17.50430739003991,49.17355361960403,0 17.50438805845444,49.17331494134225,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50462332668205,49.17357572967809,0 17.50461536867484,49.17357589602381,0 17.50473359718544,49.1733496569525,0 17.50486170609462,49.17335341910223,0 17.50480968015419,49.17358367419396,0 17.50462332668205,49.17357572967809,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.5048941024811,49.17332547654682,0 17.50490182374013,49.17319345864352,0 17.50509449876968,49.17321970502683,0 17.50503078685818,49.17333730161153,0 17.5048941024811,49.17332547654682,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50490807601771,49.1731817289682,0 17.50491121797146,49.17303778200157,0 17.50515769986152,49.17303599787226,0 17.50515692807085,49.17303899097788,0 17.50508710265542,49.1732054453021,0 17.50490807601771,49.1731817289682,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50513054694846,49.17317195984965,0 17.50520065746354,49.17298537716237,0 17.50537640198775,49.17299334619689,0 17.50526279756454,49.17318642326273,0 17.50513054694846,49.17317195984965,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50430909111799,49.17355995598724,0 17.50431344540442,49.17356146408779,0 17.50459663554066,49.17360379029983,0 17.50457783287485,49.17374261198434,0 17.50427181038035,49.17371745851806,0 17.50430909111799,49.17355995598724,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50392043163425,49.17363540439835,0 17.50424854873869,49.17366610407026,0 17.50417128914369,49.17386089805928,0 17.5041684547635,49.17385954083954,0 17.50385804937495,49.17381616839034,0 17.50392043163425,49.17363540439835,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50402371101454,49.17324686311501,0 17.50365559887117,49.17318503279082,0 17.50373686628403,49.17297276171754,0 17.50408991820149,49.17303215180937,0 17.50402371101454,49.17324686311501,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50365145732027,49.1731975113033,0 17.50401523298418,49.17325314253889,0 17.50391359945249,49.1735028671478,0 17.5035661754461,49.17342733770216,0 17.50365145732027,49.1731975113033,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50356280983883,49.17343745476443,0 17.50389829723572,49.17351627039628,0 17.50389479026588,49.17352041714512,0 17.5037916522689,49.17377776429592,0 17.50346221147891,49.17372597461446,0 17.50356280983883,49.17343745476443,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50428782151587,49.17373601977613,0 17.50456161598259,49.1737488443148,0 17.50448838523634,49.17400738973349,0 17.50420014813085,49.17394467135781,0 17.50419839523223,49.17394299820527,0 17.50428782151587,49.17373601977613,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50345675841005,49.17374888948143,0 17.50377543830511,49.17379830042339,0 17.50377484465697,49.17380698559983,0 17.50362462989031,49.1741019749266,0 17.50336587904514,49.17409059322027,0 17.50345675841005,49.17374888948143,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50381661303383,49.17382909245323,0 17.50420214328669,49.17388297939798,0 17.50407646713551,49.17413298897642,0 17.50367296556151,49.17409345320452,0 17.50381661303383,49.17382909245323,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50418834324934,49.17396267200864,0 17.50446870645489,49.17402313494999,0 17.50428305617474,49.17419707049556,0 17.50426860672467,49.17420011707937,0 17.50408986901288,49.17416515901261,0 17.50418834324934,49.17396267200864,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50428945436014,49.17204098159852,0 17.50430729702291,49.17187946996089,0 17.50444358367897,49.1718838666601,0 17.50444057125628,49.17204229779524,0 17.50428945436014,49.17204098159852,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50443557971286,49.17116999165846,0 17.50445382863781,49.17101613293153,0 17.50462441347519,49.17101942380268,0 17.50459744116221,49.17116230889418,0 17.50443557971286,49.17116999165846,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50446685841653,49.17038517317528,0 17.50466044582118,49.17039309869536,0 17.50463977074403,49.17060941362987,0 17.504439267803,49.17060583292456,0 17.50446685841653,49.17038517317528,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50470712952454,49.17007277688462,0 17.50468751136165,49.17022241307868,0 17.50448455884849,49.17021164936113,0 17.50450327459311,49.17006196530743,0 17.50470712952454,49.17007277688462,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50470779706812,49.17020316606458,0 17.50472016675654,49.17007346830971,0 17.50493213084479,49.17008626879856,0 17.50492323541654,49.1702091213424,0 17.50470779706812,49.17020316606458,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.5045632981922,49.16989192545488,0 17.50467206727983,49.16989144081975,0 17.50465097012687,49.17005157421668,0 17.50453401064453,49.17004929106241,0 17.5045632981922,49.16989192545488,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50460769038981,49.16950072677476,0 17.5046348631455,49.16931996876183,0 17.50478367952194,49.16932317758215,0 17.50476502977719,49.16949497404538,0 17.50476531558715,49.16949264001008,0 17.50460769038981,49.16950072677476,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50461845498827,49.16918965795093,0 17.50463502075283,49.1690657339658,0 17.50475881017622,49.16906762473629,0 17.50474338365963,49.16919316008812,0 17.50461845498827,49.16918965795093,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50463638569139,49.16931491708937,0 17.50463657813593,49.16931336189079,0 17.50464823897426,49.16919982833931,0 17.50488809170374,49.16920083465053,0 17.50488771452819,49.16920393821987,0 17.50487155785657,49.1693172152504,0 17.50463638569139,49.16931491708937,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50465337275231,49.16870764297863,0 17.50467888593449,49.16852133806066,0 17.50468244355991,49.16852152674517,0 17.50487237258935,49.16851052888598,0 17.50483679110579,49.16871345457416,0 17.50465337275231,49.16870764297863,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50469141163329,49.16827289690048,0 17.50470496591237,49.16816545560112,0 17.50490505553668,49.16817512472848,0 17.50488722356934,49.16828041831078,0 17.50469141163329,49.16827289690048,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50469151370088,49.16815814456712,0 17.50471018627587,49.16805611658604,0 17.50493150433551,49.16806878537987,0 17.50491569399206,49.16817003418813,0 17.50469151370088,49.16815814456712,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50529842300228,49.16784790178854,0 17.50532618516063,49.16758373372487,0 17.50545303802301,49.1675876585247,0 17.50544280981494,49.16784208208985,0 17.50529842300228,49.16784790178854,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50509431581867,49.16737717636828,0 17.50509485084577,49.16729832214811,0 17.50534606340069,49.1673041696821,0 17.50532544506281,49.16739226451195,0 17.50509431581867,49.16737717636828,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50535239322599,49.16738331923415,0 17.50537930868589,49.1673134078273,0 17.50569612386458,49.16730500629144,0 17.505740244537,49.16739540828524,0 17.50547445444362,49.16737096166216,0 17.50535239322599,49.16738331923415,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50638470044972,49.17383152125417,0 17.50638484294921,49.17383027907034,0 17.50642825832876,49.17368500580491,0 17.50664524238434,49.17367565773913,0 17.50664861496096,49.17367957059339,0 17.50661009292885,49.17384881810903,0 17.50661023542291,49.17384757592451,0 17.50638470044972,49.17383152125417,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50635781542447,49.17403256841564,0 17.50635895542372,49.17402263096,0 17.50639120816522,49.17385807287862,0 17.5064188538005,49.17386692338205,0 17.50663118354365,49.17386484218847,0 17.50663075606394,49.17386856873554,0 17.50661783720945,49.1740478156919,0 17.50662002227808,49.17404542449031,0 17.50635781542447,49.17403256841564,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50660040589448,49.17423308742934,0 17.50634142803384,49.17422538630931,0 17.50636503566417,49.1740529091376,0 17.50661831236229,49.17406033069437,0 17.50660040589448,49.17423308742934,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50635140413381,49.17423836768304,0 17.50659313875309,49.17424647239548,0 17.50659228378058,49.1742539254836,0 17.50659694034557,49.17444652577819,0 17.50634651190389,49.17441426060348,0 17.50635140413381,49.17423836768304,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.5063299340225,49.17449214541436,0 17.5060513844943,49.17448848091315,0 17.5060279194599,49.17430994827887,0 17.50633658387327,49.17431758782994,0 17.5063299340225,49.17449214541436,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.5060202234896,49.17447695961171,0 17.50601803839064,49.17447935082102,0 17.50570471739851,49.17447897724375,0 17.50572975271455,49.17429407847473,0 17.50599053575307,49.17431935773243,0 17.50599447838268,49.17431830188627,0 17.5060202234896,49.17447695961171,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50568714196686,49.17446562359903,0 17.50546032170157,49.17446074664883,0 17.5054821750214,49.17428693444847,0 17.50569412630281,49.17430482306952,0 17.50570756924936,49.17430423310042,0 17.50568714196686,49.17446562359903,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50542331811671,49.17445018783567,0 17.50517849523408,49.17443568338599,0 17.50519084932639,49.17426140535945,0 17.50545647662857,49.17429441842253,0 17.50542331811671,49.17445018783567,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50542294079202,49.17427028874243,0 17.50509665438896,49.17423305156068,0 17.5050931393476,49.17423038083991,0 17.505024216871,49.17414830296956,0 17.50543272769059,49.17416833670656,0 17.50542294079202,49.17427028874243,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50540432218704,49.17414945533744,0 17.50503818277316,49.17412650282235,0 17.50501120405911,49.17404523281111,0 17.50543187413746,49.17407585625617,0 17.50540432218704,49.17414945533744,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50493202249009,49.17395265792665,0 17.50543334871796,49.17397974202035,0 17.50542626978856,49.17405809261047,0 17.50498180156134,49.17403504619242,0 17.50493202249009,49.17395265792665,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50491268992572,49.17393796890624,0 17.50494646821952,49.1737435057104,0 17.5051319118144,49.17374260706227,0 17.50514102713922,49.1739629080705,0 17.50491268992572,49.17393796890624,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50516088274398,49.17395638679918,0 17.50516905731536,49.1737519237683,0 17.50539801194913,49.17373816847069,0 17.50539554181823,49.1737430440076,0 17.5053946866723,49.1737504971054,0 17.50536917479636,49.1739728474493,0 17.50516088274398,49.17395638679918,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50541468433408,49.17379270022647,0 17.50541553947556,49.17378524714741,0 17.50540314409718,49.17364348305172,0 17.50570510658003,49.1736595400279,0 17.50569094962578,49.17381624117969,0 17.50541468433408,49.17379270022647,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50570220733615,49.17381804239275,0 17.5057220643497,49.17366162075967,0 17.50599196408754,49.17365736714618,0 17.50600664109209,49.17382922304988,0 17.50570220733615,49.17381804239275,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50602179458719,49.17366382655082,0 17.50639700442487,49.17369096828651,0 17.5063914943729,49.17370568816448,0 17.50637315934134,49.17383220453515,0 17.50602853909061,49.17382155261972,0 17.50602179458719,49.17366382655082,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.5063893221907,49.17365916276731,0 17.50642200188312,49.17344091137255,0 17.50666325756729,49.17343650097427,0 17.50663893919371,49.17366515575813,0 17.5063893221907,49.17365916276731,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50641920021478,49.17343202956448,0 17.50642575527515,49.17342485591612,0 17.50642043447155,49.17320474110142,0 17.50665845882648,49.17319517565797,0 17.50665489831525,49.17342609748993,0 17.50641920021478,49.17343202956448,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50642565947197,49.17319250559847,0 17.50643017197756,49.17318648100246,0 17.50646142603158,49.17293068467674,0 17.50668391696556,49.17295658342025,0 17.5066544686613,49.17317998999401,0 17.50665489613248,49.17317626344576,0 17.50642565947197,49.17319250559847,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50646384843198,49.17290956750154,0 17.5064884048472,49.17266218679625,0 17.50673445404522,49.17264926729352,0 17.50668681440043,49.17294798128565,0 17.50646384843198,49.17290956750154,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50649814213844,49.17264392674678,0 17.50651139309859,49.17237850344507,0 17.50678252108345,49.17239679365349,0 17.50672666391803,49.17263389533596,0 17.50649814213844,49.17264392674678,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Mnohouholník bez názvu</name>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							17.50628170701004,49.17247380036618,0 17.50628023452402,49.1724699806576,0 17.50627890453604,49.17246491876731,0 17.50632616633612,49.17228610662211,0 17.50651150958554,49.17230268949692,0 17.50649293833015,49.17249789840585,0 17.50628170701004,49.17247380036618,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+	</Folder>
+</Document>
+</kml>

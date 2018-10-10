@@ -30,13 +30,13 @@ public class DeviceConfigManager {
 
     private StringPreference mBleHwAddressPreference;
     private StringPreference mBleNamePreference;
-    private IntPreference mTruckStatusPreference;
+    private IntPreference mStatusPreference;
 
     public DeviceConfigManager(final Context context) {
         final SharedPreferences sp = context.getSharedPreferences(Constants.PREFERENCES_FILE_NAME, MODE_PRIVATE);
         mBleHwAddressPreference = new StringPreference(sp, Constants.PREFERENCE_DEVICE_CONFIG_BLE_HW_ADDRESS, StringUtils.EMPTY_STRING);
         mBleNamePreference = new StringPreference(sp, Constants.PREFERENCE_DEVICE_CONFIG_BLE_NAME, StringUtils.EMPTY_STRING);
-        mTruckStatusPreference = new IntPreference(sp, Constants.PREFERENCE_LAST_STATUS, Constants.TRUCK_STATUS_UNKNOWN);
+        mStatusPreference = new IntPreference(sp, Constants.PREFERENCE_LAST_STATUS, Constants.STATUS_NOT_INITIALIZED);
     }
 
     public void initBluetoothConfiguration(final Context context) {
@@ -57,7 +57,7 @@ public class DeviceConfigManager {
 
         BLEConfigStatus status;
         if(TextUtils.isEmpty(mBleNamePreference.get()) || TextUtils.isEmpty(mBleHwAddressPreference.get())) {
-            mTruckStatusPreference.set(Constants.STATUS_BLUETOOTH_CONFIG_FAILED);
+            mStatusPreference.set(Constants.STATUS_BLUETOOTH_CONFIG_FAILED);
             status = new BLEConfigStatus(false);
             Timber.e("Device configuration FAILED. Bluetooth configuration not complete");
         } else {
