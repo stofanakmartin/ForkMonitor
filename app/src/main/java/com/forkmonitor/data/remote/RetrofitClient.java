@@ -51,9 +51,9 @@ public static Retrofit getClient(String baseUrl){
 
     OkHttpClient client = new OkHttpClient.Builder()
             .addInterceptor(logging)
-            .readTimeout(5, TimeUnit.SECONDS)
-            .connectTimeout(5, TimeUnit.SECONDS)
-            .writeTimeout(5, TimeUnit.SECONDS)
+            .readTimeout(15, TimeUnit.SECONDS)
+            .connectTimeout(15, TimeUnit.SECONDS)
+            .writeTimeout(15, TimeUnit.SECONDS)
             .build();
 
 
