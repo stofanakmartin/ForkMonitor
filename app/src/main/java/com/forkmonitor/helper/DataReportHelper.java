@@ -52,12 +52,13 @@ public class DataReportHelper {
         mAppVersionName = AppInfoUtils.getAppVersionName(context);
     }
 
-    public void sendPost(String name, double lat,double lng, double battery, double accuracy,
-                         int status, int ultrasoundDistance, int arduinoBatteryLevel, int bleNoChangeCounter) {
+    public void sendPost(String name, double lat, double lng, double battery, double accuracy,
+                         int status, int ultrasoundDistance, int arduinoBatteryLevel, int bleNoChangeCounter,
+                         String detectedActivityType) {
         Timber.d("Send status request to server");
         final String currentTimestamp = TimeUtils.getCurrentTimestampISO();
 
-        final String additionalParam = String.format(Locale.US, "sendData-s:%d||e:%d||ble-s:%d||f:%d||e:%d||noChange:%d||timestamp:%s||appVer:%s",
+        final String additionalParam = String.format(Locale.US, "sendData-s:%d||e:%d||ble-s:%d||f:%d||e:%d||noChange:%d||timestamp:%s||appVer:%s||activity:%s",
                 mSendDataSuccessCounterPreference.get(),
                 mSendDataErrorCounterPreference.get(),
                 mBleReadSuccessTotalCounterPreference.get(),
@@ -65,7 +66,8 @@ public class DataReportHelper {
                 mBleReadFailTotalCounterPreference.get(),
                 bleNoChangeCounter,
                 currentTimestamp,
-                mAppVersionName);
+                mAppVersionName,
+                detectedActivityType);
 
         final String statusWithTruckState = String.format(Locale.US, "%d%d", status, mTruckLoadedStatePreference.get());
 

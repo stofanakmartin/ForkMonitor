@@ -6,7 +6,7 @@ public class ApiUtils {
 
     private ApiUtils() {}
 
-    public static final String BASE_URL = "https://meciak.site/";
+    public static final String BASE_URL = "http://178.128.204.187/";
 
     public static APIService getAPIService() {
 

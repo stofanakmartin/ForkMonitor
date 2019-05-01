@@ -65,20 +65,26 @@ public class PixelGridView1 extends AppCompatImageView {
 // BA SAMO
 //    private final double homeLat =  48.151970;//49.164961
 //    private final double homeLng =  17.109212;//17.503828
-    private final double CORNERLAT =  49.164962;//49.164961
-    private final double CORNERLNG =  17.503829;//17.503828
+//    private final double CORNERLAT =  49.164962;//49.164961
+//    private final double CORNERLNG =  17.503829;//17.503828
+    private final double CORNERLAT =  49.35733;//49.164961
+    private final double CORNERLNG =  17.36663;//17.503828
 
 
      // Napajedla Fatra
-    private double homeLat = 49.164962;
-    private double homeLng = 17.503829;
+//    private double homeLat = 49.164962;
+//    private double homeLng = 17.503829;
+    private double homeLat = 49.35733;
+    private double homeLng = 17.36663;
 
+//    private final double MAPX = 458.2235;
+//    private final double MAPY = 1080.9670;
+    private final double MAPX = 597.9;
+    private final double MAPY = 896.3;
 
-
-    private final double MAPX = 458.2235;
-    private final double MAPY = 1080.9670;
-
-    private final double SCREENX = 1896;//1106;
+//    private final double SCREENX = 1896;//1106;
+//    private final double SCREENY = 4500;//2625;
+    private final double SCREENX = 3000;//1106;
     private final double SCREENY = 4500;//2625;
 //GBV7T17091753
 
@@ -317,7 +323,7 @@ public class PixelGridView1 extends AppCompatImageView {
 
 
         try {
-            InputStream is = getResources().openRawResource(R.raw.polygons6);
+            InputStream is = getResources().openRawResource(R.raw.polygons7);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(is);
@@ -332,7 +338,7 @@ public class PixelGridView1 extends AppCompatImageView {
 
             for (int i=0; i<nList.getLength(); i++) {
 
-                String allCoords = nList.item(i).getTextContent().trim();
+                String allCoords = nList.item(i).getTextContent().trim().replace(" ", "").replace("\n", " ");
                 List<String> coords = new ArrayList<>();
                 int last = 0;
 
@@ -383,7 +389,7 @@ public class PixelGridView1 extends AppCompatImageView {
 
     public Point latLngToXYPoint(double relativeLat,double relativeLng,double pLat, double pLng)
     {
-        Point rotated = rotatePoint(pLat,pLng,relativeLat,relativeLng,-5.5);
+        Point rotated = rotatePoint(pLat,pLng,relativeLat,relativeLng,-0.0001);
         pLat = rotated.y;
         pLng = rotated.x;
 

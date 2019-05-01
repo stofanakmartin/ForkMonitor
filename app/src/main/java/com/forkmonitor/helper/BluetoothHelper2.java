@@ -12,6 +12,7 @@ import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
+import android.text.TextUtils;
 
 import com.forkmonitor.Constants;
 import com.forkmonitor.event.GattCharacteristicChangeEvent;
@@ -198,7 +199,7 @@ public class BluetoothHelper2 {
      *         callback.
      */
     public boolean connect(final Context context, final String address) {
-        if (mBluetoothAdapter == null || address == null) {
+        if (mBluetoothAdapter == null || address == null || TextUtils.isEmpty(address)) {
             Timber.w("BLE - BluetoothAdapter not initialized or unspecified address");
             return false;
         }

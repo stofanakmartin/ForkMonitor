@@ -67,20 +67,25 @@ public class PixelGridView extends AppCompatImageView {
     private double homeLat = 48.112178;///49.2575737;
     private double homeLng = 17.104829;//18.8745978;
 */
-    private final double CORNERLAT =  49.164962;//49.164961
-    private final double CORNERLNG =  17.503829;//17.503828
-
+//    private final double CORNERLAT =  49.164962;//49.164961
+//    private final double CORNERLNG =  17.503829;//17.503828
+    private final double CORNERLAT =  49.35733;//49.164961
+    private final double CORNERLNG =  17.36663;//17.503828
 
 
 
     //  Napajedla Fatra
-       private double homeLat = 49.164962;
-       private double homeLng = 17.503829;
+//       private double homeLat = 49.164962;
+//       private double homeLng = 17.503829;
+    private double homeLat = 49.35733;
+    private double homeLng = 17.36663;
 
 
 
-    private final double MAPX = 458.2235;
-    private final double MAPY = 1080.9670;
+//    private final double MAPX = 458.2235;
+//    private final double MAPY = 1080.9670;
+    private final double MAPX = 597.9;
+    private final double MAPY = 896.3;
 
     private final double SCREENX = 1896;//1106;
     private final double SCREENY = 4500;//2625;

@@ -2,6 +2,7 @@ package com.forkmonitor.helper;
 
 import android.content.Context;
 import android.location.Location;
+import android.util.Log;
 
 import com.forkmonitor.Constants;
 import com.forkmonitor.Point;
@@ -34,12 +35,20 @@ public class LocationPolygonHelper {
     private double homeLat = 49.164962;
     private double homeLng = 17.503829;
 
-    private static final double CORNER_LAT =  49.164962;//49.164961
-    private static final double CORNER_LNG =  17.503829;//17.503828
+//    private static final double CORNER_LAT =  49.164962;//49.164961
+//    private static final double CORNER_LNG =  17.503829;//17.503828
+    // UPDATED 29.4.2019
+    private static final double CORNER_LAT =  49.35733;//49.164961
+    private static final double CORNER_LNG =  17.36663;//17.503828
 //    48.1478244,17.0606898
-    private static final double MAP_X = 458.2235;
-    private static final double MAP_Y = 1080.9670;
-    private static final double SCREEN_X = 1896;//1106;
+//    private static final double MAP_X = 458.2235;
+//    private static final double MAP_Y = 1080.9670;
+    // UPDATED 29.4.2019
+    private static final double MAP_X = 597.9;
+    private static final double MAP_Y = 896.3;
+//    private static final double SCREEN_X = 1896;//1106;
+//    private static final double SCREEN_Y = 4500;//2625;
+    private static final double SCREEN_X = 3000;//1106;
     private static final double SCREEN_Y = 4500;//2625;
 
     private List<Polygon> mPolygons;
@@ -54,7 +63,7 @@ public class LocationPolygonHelper {
         Timber.d("Read polygons data");
         final List<Polygon> polygons = new LinkedList<>();
         try {
-            InputStream is = context.getResources().openRawResource(R.raw.polygons6);
+            InputStream is = context.getResources().openRawResource(R.raw.polygons7);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(is);
@@ -67,7 +76,7 @@ public class LocationPolygonHelper {
 
             for (int i=0; i<nList.getLength(); i++) {
 
-                String allCoords = nList.item(i).getTextContent().trim();
+                String allCoords = nList.item(i).getTextContent().trim().replace(" ", "").replace("\n", " ");
                 List<String> coords = new ArrayList<>();
                 int last = 0;
 
@@ -79,23 +88,25 @@ public class LocationPolygonHelper {
                     last=index;
                 }
                 coords.add(allCoords.substring(last,allCoords.length()));
-                //Log.i("xml","index "+ allCoords.length() +" --coords " + allCoords.substring(last,allCoords.length()));
-                //Log.i("xml","**********************");
+                Log.i("xml","index "+ allCoords.length() +" --coords " + allCoords.substring(last,allCoords.length()));
+                Log.i("xml","**********************");
 
 
                 List<Point> polygon = new ArrayList<>();
                 for (String coord :coords){
                     int index = coord.indexOf(",");
-                    double lng = Double.parseDouble(coord.substring(0,index));
-                    //Log.i("xml","Lng " + lng);
+                    final String lngString = coord.substring(0,index);
+                    double lng = Double.parseDouble(lngString);
+                    Log.i("xml", "Lng " + lng);
 
-                    int index1 = coord.indexOf(",",index+1);
-                    double lat = Double.parseDouble(coord.substring(index+1,index1));
-                    //Log.i("xml","Lat " + lat);
+                    int index1 = coord.indexOf(",", index + 1);
+                    double lat = Double.parseDouble(coord.substring(index + 1, index1));
+                    Log.i("xml", "Lat " + lat);
 
-                    //Log.i("xml","---------------------------");
+                    Log.i("xml", "---------------------------");
 
-                    polygon.add(latLngToXYPoint(CORNER_LAT, CORNER_LNG,lat,lng));
+                    polygon.add(latLngToXYPoint(CORNER_LAT, CORNER_LNG, lat, lng));
+
                 }
 
                 polygons.add(new Polygon("polygon",polygon));
@@ -112,7 +123,7 @@ public class LocationPolygonHelper {
 
     private Point latLngToXYPoint(double relativeLat,double relativeLng,double pLat, double pLng) {
 //        Point rotated = rotatePoint(pLat,pLng,relativeLat,relativeLng,-5.5);
-        Point rotated = rotatePoint(pLat,pLng,relativeLat,relativeLng,-0.1);
+        Point rotated = rotatePoint(pLat,pLng,relativeLat,relativeLng,-0.0001);
         pLat = rotated.y;
         pLng = rotated.x;
 
