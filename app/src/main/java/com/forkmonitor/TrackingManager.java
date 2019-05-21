@@ -10,6 +10,7 @@ import com.forkmonitor.event.BLEDataReceivedEvent;
 import com.forkmonitor.event.BLEFailedToReadStatusEvent;
 import com.forkmonitor.event.LocationPublishEvent;
 import com.forkmonitor.event.TrackingDataChangeEvent;
+import com.forkmonitor.helper.AccelerometerSensorHelper;
 import com.forkmonitor.helper.ActivityTrackingHelper;
 import com.forkmonitor.helper.BatteryTrackingHelper;
 import com.forkmonitor.helper.BluetoothTrackingHelper2;
@@ -52,6 +53,7 @@ public class TrackingManager {
     private DataReportHelper mDataReportHelper;
     private BatteryTrackingHelper mPhoneBatteryStateTracker;
     private ActivityTrackingHelper mActivityTracker;
+    private AccelerometerSensorHelper mAccelerometerSensorTracker;
     private int mBleReadFailedCounter = 0;
     private int mBleNoChangeCounter = 0;
     private Handler mHandler;
@@ -86,6 +88,7 @@ public class TrackingManager {
         mBleReadSuccessTotalCounterPreference = new IntPreference(sp, Constants.PREFERENCE_BLE_SUCCESS_READ_TOTAL_COUNT, 0);
         mBleReadFailTotalCounterPreference = new IntPreference(sp, Constants.PREFERENCE_BLE_FAIL_READ_TOTAL_COUNT, 0);
         mBleUltrasoundFailCounterPreference = new IntPreference(sp, Constants.PREFERENCE_BLE_ULTRASOUND_FAIL_TOTAL_COUNT, 0);
+        mAccelerometerSensorTracker = new AccelerometerSensorHelper(context);
         mIsLocationTrackingEnabled.set(false);
         mIsBluetoothTrackingEnabled.set(false);
         mBleReadSuccessTotalCounterPreference.set(0);
@@ -105,6 +108,7 @@ public class TrackingManager {
         mBluetoothTrackingHelper.startTracking(context);
         mPhoneBatteryStateTracker.startTracking(context);
         mActivityTracker.startTracking();
+        mAccelerometerSensorTracker.startTracking();
         EventBus.getDefault().register(this);
         EventBus.getDefault().post(new TrackingDataChangeEvent());
         postNoDataTimeoutAction();
@@ -116,6 +120,7 @@ public class TrackingManager {
         mBluetoothTrackingHelper.stopTracking();
         mPhoneBatteryStateTracker.stopTracking(context);
         mActivityTracker.stopTracking();
+        mAccelerometerSensorTracker.stopTracking();
         EventBus.getDefault().unregister(this);
         EventBus.getDefault().post(new TrackingDataChangeEvent());
         clearNoDataTimeoutAction();
@@ -178,7 +183,8 @@ public class TrackingManager {
                     mPhoneBatteryStateTracker.getLastBatteryLevel(), lastLocation.getAccuracy(),
                     dataReportStatus, mUltrasoundValuePreference.get(),
                     mArduinoBatteryLevelPreference.get(), mBleNoChangeCounter,
-                    mActivityTracker.getLastDetectedActivityType());
+                    mActivityTracker.getLastDetectedActivityType(),
+                    mAccelerometerSensorTracker.getAveragedMeasurement());
             postNoDataTimeoutAction();
         } else {
             Timber.w("Cannot send data report - no location");
@@ -206,7 +212,8 @@ public class TrackingManager {
                     mUltrasoundValuePreference.get(),
                     mArduinoBatteryLevelPreference.get(),
                     mBleNoChangeCounter,
-                    mActivityTracker.getLastDetectedActivityType());
+                    mActivityTracker.getLastDetectedActivityType(),
+                    mAccelerometerSensorTracker.getAveragedMeasurement());
             postNoDataTimeoutAction();
         }
         EventBus.getDefault().post(new TrackingDataChangeEvent());

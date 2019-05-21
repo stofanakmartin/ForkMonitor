@@ -84,11 +84,15 @@ public class PixelGridView1 extends AppCompatImageView {
 
 //    private final double SCREENX = 1896;//1106;
 //    private final double SCREENY = 4500;//2625;
-    private final double SCREENX = 3000;//1106;
-    private final double SCREENY = 4500;//2625;
-//GBV7T17091753
+//    private final double SCREENX = 3000;//1106;
+//    private final double SCREENY = 4500;//2625;
+    // myPhone Hammer Energy 3G
+//    private final double SCREENX = 2000;//1106;
+//    private final double SCREENY = 3000;//2625;
+    // Value assigned in constructor
+    private final double SCREENX;
+    private final double SCREENY;
 
-//GBV7T17091762
 
     private List<Polygon> mPolygons = new ArrayList<>();
 
@@ -105,6 +109,15 @@ public class PixelGridView1 extends AppCompatImageView {
 
     public PixelGridView1(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        // TODO: GET DEVICE NAME INSTEAD
+        if(android.os.Build.SERIAL.equalsIgnoreCase("L7HMZPQKBMSSRCZH")) {
+            SCREENX = 2000;
+            SCREENY = 3000;
+        } else {
+            SCREENX = 3000;
+            SCREENY = 4500;
+        }
 
         setupDrawing();
         this.canvasPaint = new Paint(Paint.DITHER_FLAG);
@@ -323,7 +336,7 @@ public class PixelGridView1 extends AppCompatImageView {
 
 
         try {
-            InputStream is = getResources().openRawResource(R.raw.polygons7);
+            InputStream is = getResources().openRawResource(R.raw.polygons8);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(is);

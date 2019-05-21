@@ -2,7 +2,7 @@
   {
     "serial": "GBV7T17091753",
     "bleHwAddress": "00:15:85:14:9C:09",
-    "bleName": "BLE00"
+    "bleName": "BLE20"
   },
   {
     "serial": "GBV7T17091173",
@@ -88,6 +88,11 @@
     "serial": "GBV7T17091177",
     "bleHwAddress": "00:15:85:14:9C:09",
     "bleName": "BLE17"
+  },
+  {
+    "serial": "L7HMZPQKBMSSRCZH",
+    "bleHwAddress": "98:7B:F3:57:5E:22",
+    "bleName": "BLE21"
   }
 //OLD BLE14 and BLE17
 //  {

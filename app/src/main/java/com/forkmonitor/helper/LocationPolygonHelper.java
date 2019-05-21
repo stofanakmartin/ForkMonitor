@@ -48,8 +48,18 @@ public class LocationPolygonHelper {
     private static final double MAP_Y = 896.3;
 //    private static final double SCREEN_X = 1896;//1106;
 //    private static final double SCREEN_Y = 4500;//2625;
-    private static final double SCREEN_X = 3000;//1106;
-    private static final double SCREEN_Y = 4500;//2625;
+
+    // Blackview
+//    private static final double SCREEN_X = 3000;//1106;
+//    private static final double SCREEN_Y = 4500;//2625;
+
+    // myPhone Hammer Energy 3G
+//    private double SCREEN_X = 2000;//1106;
+//    private double SCREEN_Y = 3000;//2625;
+
+    // Value assigned in constructor
+    private final double SCREEN_X;
+    private final double SCREEN_Y;
 
     private List<Polygon> mPolygons;
     private Polygon mLastPolygonPosition;
@@ -57,13 +67,22 @@ public class LocationPolygonHelper {
 
     public LocationPolygonHelper(final Context context) {
         mPolygons = readKMLPolygons(context);
+
+        // TODO: GET DEVICE NAME INSTEAD
+        if(android.os.Build.SERIAL.equalsIgnoreCase("L7HMZPQKBMSSRCZH")) {
+            SCREEN_X = 2000;
+            SCREEN_Y = 3000;
+        } else {
+            SCREEN_X = 3000;
+            SCREEN_Y = 4500;
+        }
     }
 
     private List<Polygon> readKMLPolygons(final Context context) {
         Timber.d("Read polygons data");
         final List<Polygon> polygons = new LinkedList<>();
         try {
-            InputStream is = context.getResources().openRawResource(R.raw.polygons7);
+            InputStream is = context.getResources().openRawResource(R.raw.polygons8);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(is);

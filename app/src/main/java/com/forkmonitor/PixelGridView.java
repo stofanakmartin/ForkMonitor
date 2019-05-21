@@ -87,8 +87,12 @@ public class PixelGridView extends AppCompatImageView {
     private final double MAPX = 597.9;
     private final double MAPY = 896.3;
 
-    private final double SCREENX = 1896;//1106;
-    private final double SCREENY = 4500;//2625;
+//    private final double SCREENX = 1896;//1106;
+//    private final double SCREENY = 4500;//2625;
+
+    // myPhone Hammer Energy 3G
+    private final double SCREENX = 2000;//1106;
+    private final double SCREENY = 3000;//2625;
 //GBV7T17091753
 
 //GBV7T17091762

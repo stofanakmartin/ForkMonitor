@@ -71,8 +71,12 @@ public class LocationMonitoringService extends Service implements LocationListen
     private final double MAPX = 458.2235;
     private final double MAPY = 1080.9670;
 
-    private final double SCREENX = 1896;//1106;
-    private final double SCREENY = 4500;//2625;
+//    private final double SCREENX = 1896;//1106;
+//    private final double SCREENY = 4500;//2625;
+
+    // myPhone Hammer Energy 3G
+    private final double SCREENX = 2000;//1106;
+    private final double SCREENY = 3000;//2625;
 
     private List<Polygon> mPolygons = new ArrayList<>();
     private Polygon mLastPolygonPosition;
@@ -358,7 +362,7 @@ public class LocationMonitoringService extends Service implements LocationListen
 
 
         try {
-            InputStream is = getResources().openRawResource(R.raw.polygons7);
+            InputStream is = getResources().openRawResource(R.raw.polygons8);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(is);
