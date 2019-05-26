@@ -32,8 +32,12 @@ public class LocationPolygonHelper {
 //    private final double homeLat =  48.151970;//49.164961
 //    private final double homeLng =  17.109212;//17.503828
     // Napajedla Fatra
-    private double homeLat = 49.164962;
-    private double homeLng = 17.503829;
+//    private double homeLat = 49.164962;
+//    private double homeLng = 17.503829;
+
+    // Updated
+    private double homeLat = 49.35733;
+    private double homeLng = 17.36663;
 
 //    private static final double CORNER_LAT =  49.164962;//49.164961
 //    private static final double CORNER_LNG =  17.503829;//17.503828

@@ -121,7 +121,8 @@ public class BluetoothTrackingHelper2 {
         if(characteristic.getUuid().toString().equals(Constants.BLUETOOTH_DEVICE_NAME_CHARACTERISTIC_UUID)) {
             final String deviceName = BluetoothUtils.getCharacteristicStringValue(characteristic);
 
-            if(deviceName.equals(mBleNamePreference.get())) {
+            final String deviceName5 = deviceName.substring(0,5);
+            if(deviceName5.equals(mBleNamePreference.get())) {
                 mBluetoothHelper.readCharacteristic(Constants.BLUETOOTH_FORK_MONITOR_SERVICE_UUID, Constants.BLUETOOTH_FORK_MONITOR_CHARACTERISTIC_UUID);
             } else {
 
