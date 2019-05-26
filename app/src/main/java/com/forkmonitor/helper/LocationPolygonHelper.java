@@ -70,8 +70,6 @@ public class LocationPolygonHelper {
     private int mSamePositionCounter = 0;
 
     public LocationPolygonHelper(final Context context) {
-        mPolygons = readKMLPolygons(context);
-
         // TODO: GET DEVICE NAME INSTEAD
         if(android.os.Build.SERIAL.equalsIgnoreCase("L7HMZPQKBMSSRCZH")) {
             SCREEN_X = 2000;
@@ -80,6 +78,7 @@ public class LocationPolygonHelper {
             SCREEN_X = 3000;
             SCREEN_Y = 4500;
         }
+        mPolygons = readKMLPolygons(context);
     }
 
     private List<Polygon> readKMLPolygons(final Context context) {
