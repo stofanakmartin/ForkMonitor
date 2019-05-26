@@ -13,7 +13,7 @@ import timber.log.Timber;
  */
 public class AccelerometerSensorHelper implements SensorEventListener {
 
-    private static int NUMBER_OF_MEASUREMENTS = 50;
+    private static int NUMBER_OF_MEASUREMENTS = 65;
 
     private SensorManager sensorManager;
     private Sensor accelerometerSensor;
@@ -50,12 +50,15 @@ public class AccelerometerSensorHelper implements SensorEventListener {
             return;
         }
 
-        //Timber.d("%f %f %f", event.values[0],event.values[1], event.values[2]);
+//        Timber.d("%f %f %f", event.values[0],event.values[1], event.values[2]);
 
         measurementBuffer[currentMeasureIndex][0] = event.values[0];
         measurementBuffer[currentMeasureIndex][1] = event.values[1];
         measurementBuffer[currentMeasureIndex][2] = event.values[2];
         currentMeasureIndex = (currentMeasureIndex + 1) % NUMBER_OF_MEASUREMENTS;
+//        if (currentMeasureIndex == 0) {
+//            Timber.d("%d accelerometer measurements complete", NUMBER_OF_MEASUREMENTS);
+//        }
     }
 
     private float[] calculateAverageFromBuffer() {
